@@ -3,12 +3,32 @@
     <ion-toolbar>
       <ion-item>
         <ion-avatar slot="start">
-          <img src='../assets/icon/favicon.png'>
+          <img src='../assets/icon/favicon.png' class='prac-baricon'>
         </ion-avatar>
       </ion-item>
     </ion-toolbar>
   </ion-header>
+  <ion-header *ngIf='!isLoggedIn'>
+    <ion-toolbar>
+        <ion-avatar slot="start">
+          <a routerLink='/'>
+            <img src='../assets/icon/favicon.png' class='prac-baricon'>
+          </a>
+        </ion-avatar>
+        <ion-buttons slot='end'>
+          <ion-button>
+          Log In
+        </ion-button>
+        <ion-text color="medium">
+          <h5 class="seperator"> | </h5>
+        </ion-text>
+        <ion-button>
+          Register
+        </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
   <ion-content>
   <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-content>
+</ion-content>
 </ion-app>

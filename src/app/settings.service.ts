@@ -7,10 +7,14 @@ export class SettingsService {
 
   constructor() { }
 
-  darkMode: boolean = false;
+  private darkMode: boolean = false;
 
   toggleDarkMode() {
     this.darkMode = !this.darkMode;
     document.body.classList.toggle('dark', this.darkMode);
+  }
+
+  isDarkMode() {
+    return this.darkMode;
   }
 }

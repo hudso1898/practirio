@@ -117,3 +117,17 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+.seperator {
+  margin: 0 10px;
+}
+.prac-baricon {
+  width: 80%;
+  height: 80%;
+  margin: 10% 0 10% 5%;
+}
+body {
+  transition: background-color 0.5s;
+}
+body.dark {
+  transition: background-color 0.5s;
+}

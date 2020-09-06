@@ -1,4 +1,10 @@
 <ion-content>
+  <div id='logo-container'>
+    <ion-image>
+      <img id='prac-logo' *ngIf='!settingsService.isDarkMode()' src='../../assets/practirio-light.png'>
+      <img id='prac-logo' *ngIf='settingsService.isDarkMode()' src='../../assets/practirio-dark.png'>
+    </ion-image>
+  </div>
 <ion-text>
   <h1 class="title">Make Musicians Smarter</h1>
 </ion-text>
