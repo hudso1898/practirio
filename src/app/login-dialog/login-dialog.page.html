@@ -1,29 +1,26 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button color="dark" (click)="closeModal()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form name=loginForm (ngSubmit)='loginSubmit()'>
+<ion-content padding>
+  <form name=loginForm [formGroup]='loginForm' (ngSubmit)='loginSubmit()'>
     <ion-item>
-      <ion-label>Username</ion-label>
-      <ion-input name=username required [(ngModel)]='username'>
+      <ion-label position="floating">Username / Email</ion-label>
+      <ion-input formControlName='username' name=username required>
       </ion-input>
     </ion-item>
     
     <ion-item>
-      <ion-label>Password</ion-label>
-      <ion-input type=password name=password required [(ngModel)]='password'></ion-input>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type=password name=password required formControlName='password'></ion-input>
     </ion-item>
+  <ion-button type=submit (click)='login()' expand=full [disabled]='!loginForm.valid'>Login</ion-button>
   </form>
-  
-  <ion-button type=submit (click)='login()' expand=full [disabled]='loginValid()'>Login</ion-button>
   <!-- <ion-item>
     <ion-label position="floating">Username or Email</ion-label>
     <ion-input [formControl]='username' type="text"></ion-input>

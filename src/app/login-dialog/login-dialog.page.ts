@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LoginService } from '../login.service';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-login-dialog',
@@ -10,10 +10,14 @@ import { FormControl } from '@angular/forms';
 })
 export class LoginDialogPage implements OnInit {
 
-  username = '';
-  password = '';
+  loginForm: FormGroup;
   constructor(private modalCtrl: ModalController,
-    private loginService: LoginService) {
+    private loginService: LoginService,
+    private formBuilder: FormBuilder) {
+      this.loginForm = formBuilder.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
+      })
      }
 
   ngOnInit() {
@@ -21,12 +25,6 @@ export class LoginDialogPage implements OnInit {
 
   closeModal() {
     this.modalCtrl.dismiss();
-  }
-
-  loginValid() {
-    console.log(this.username)
-    console.log(this.password)
-    return (this.username.length > 0 && this.password.length > 0);
   }
   loginSubmit() {
 
