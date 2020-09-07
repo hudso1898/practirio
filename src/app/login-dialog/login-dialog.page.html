@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="dark" (click)="closeModal()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form name=loginForm (ngSubmit)='loginSubmit()'>
+    <ion-item>
+      <ion-label>Username</ion-label>
+      <ion-input name=username required [(ngModel)]='username'>
+      </ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>Password</ion-label>
+      <ion-input type=password name=password required [(ngModel)]='password'></ion-input>
+    </ion-item>
+  </form>
+  
+  <ion-button type=submit (click)='login()' expand=full [disabled]='loginValid()'>Login</ion-button>
+  <!-- <ion-item>
+    <ion-label position="floating">Username or Email</ion-label>
+    <ion-input [formControl]='username' type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Password</ion-label>
+    <ion-input type="password" [value]='this.password' name="password"></ion-input>
+  </ion-item>
+    <ion-button class="centered" type="submit" [disabled]="!loginValid()">Log In</ion-button> -->
+</ion-content>
