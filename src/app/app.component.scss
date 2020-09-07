@@ -125,9 +125,6 @@ ion-item.selected {
   height: 80%;
   margin: 10% 0 10% 5%;
 }
-body {
-  transition: background-color 0.5s;
-}
-body.dark {
-  transition: background-color 0.5s;
+.circle-button {
+  --border-radius: 50px !important;
 }

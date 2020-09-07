@@ -15,6 +15,12 @@
             <img src='../assets/icon/favicon.png' class='prac-baricon'>
           </a>
         </ion-avatar>
+        <ion-buttons slot='start'>
+          <ion-button (click)='toggleTheme()' class="circle-button">
+            <ion-icon *ngIf='isDarkMode' name="moon-outline"></ion-icon>
+            <ion-icon *ngIf='!isDarkMode' name="sunny-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
         <ion-buttons slot='end'>
           <ion-button>
           Log In

@@ -5,16 +5,29 @@ import { Injectable } from '@angular/core';
 })
 export class SettingsService {
 
-  constructor() { }
-
-  private darkMode: boolean = false;
+  pracSettings;
+  constructor() {
+    if(localStorage.getItem('pracSettings') !== null) {
+      this.pracSettings = JSON.parse(localStorage.getItem('pracSettings'));
+    }
+    else {
+      this.pracSettings = {
+        darkMode: false
+      }
+      localStorage.setItem('pracSettings', JSON.stringify(this.pracSettings));
+    }
+    if(this.pracSettings.darkMode) {
+      document.body.classList.toggle('dark', this.pracSettings.darkMode);
+    }
+   }
 
   toggleDarkMode() {
-    this.darkMode = !this.darkMode;
-    document.body.classList.toggle('dark', this.darkMode);
+    this.pracSettings.darkMode = !this.pracSettings.darkMode;
+    document.body.classList.toggle('dark', this.pracSettings.darkMode);
+    localStorage.setItem('pracSettings', JSON.stringify(this.pracSettings));
   }
 
   isDarkMode() {
-    return this.darkMode;
+    return this.pracSettings.darkMode;
   }
 }

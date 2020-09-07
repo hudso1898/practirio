@@ -1,13 +1,9 @@
 <ion-content>
   <div id='logo-container'>
-    <ion-image>
-      <img id='prac-logo' *ngIf='!settingsService.isDarkMode()' src='../../assets/practirio-light.png'>
-      <img id='prac-logo' *ngIf='settingsService.isDarkMode()' src='../../assets/practirio-dark.png'>
-    </ion-image>
+      <img id='prac-logo-light' [class.hidden]='settingsService.isDarkMode()' src='../../assets/practirio-light.png'>
+      <img id='prac-logo-dark' [class.hidden]='!settingsService.isDarkMode()' src='../../assets/practirio-dark.png'>
   </div>
 <ion-text>
-  <h1 class="title">Make Musicians Smarter</h1>
+  <h2 class="title">Make Musicians <span id='adj'>{{currentAdj}}.</span></h2>
 </ion-text>
-<ion-button (click)="login()">login</ion-button>
-<ion-button (click)="theme()">theme</ion-button>
 </ion-content>

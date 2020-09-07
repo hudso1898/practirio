@@ -1,8 +1,9 @@
 .title {
     margin: auto;
     text-align: center;
+    padding: 0 10%;
 }
-#prac-logo {
+#prac-logo-light,#prac-logo-dark {
     width: 65vw;
     margin: auto;
 }
@@ -10,4 +11,7 @@
     margin: auto;
     width: max-content;
     height: max-content;
+}
+.hidden {
+    display: none;
 }

@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LoginService } from './login.service';
+import { SettingsService } from './settings.service';
 
 @Component({
   selector: 'app-root',
@@ -50,7 +51,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private settingsService: SettingsService
   ) {
     this.initializeApp();
   }
@@ -71,5 +73,12 @@ export class AppComponent implements OnInit {
 
   get isLoggedIn(): boolean {
     return this.loginService.loggedIn;
+  }
+
+  get isDarkMode(): boolean {
+    return this.settingsService.isDarkMode();
+  }
+  toggleTheme() {
+    this.settingsService.toggleDarkMode();
   }
 }
