@@ -26,8 +26,10 @@ export class LoginDialogPage implements OnInit {
   closeModal() {
     this.modalCtrl.dismiss();
   }
-  loginSubmit() {
-
+  login() {
+    this.loginService.login(this.loginForm.value['username'], this.loginForm.value['password']).subscribe(res => {
+      console.dir(res)
+    });
   }
 
 }

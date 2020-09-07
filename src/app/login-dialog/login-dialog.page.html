@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content padding>
-  <form name=loginForm [formGroup]='loginForm' (ngSubmit)='loginSubmit()'>
+  <form name=loginForm [formGroup]='loginForm' (ngSubmit)='login()'>
     <ion-item>
       <ion-label position="floating">Username / Email</ion-label>
       <ion-input formControlName='username' name=username required>
@@ -19,7 +19,7 @@
       <ion-label position="floating">Password</ion-label>
       <ion-input type=password name=password required formControlName='password'></ion-input>
     </ion-item>
-  <ion-button type=submit (click)='login()' expand=full [disabled]='!loginForm.valid'>Login</ion-button>
+  <ion-button type=submit expand=full [disabled]='!loginForm.valid'>Login</ion-button>
   </form>
   <!-- <ion-item>
     <ion-label position="floating">Username or Email</ion-label>

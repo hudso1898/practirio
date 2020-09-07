@@ -60,7 +60,7 @@ export class FrontpagePage implements OnInit {
   }
 
   login() {
-    this.loginService.loggedIn = !this.loginService.loggedIn;
+    
   }
   theme() {
     this.settingsService.toggleDarkMode();

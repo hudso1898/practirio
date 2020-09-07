@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     return await modal.present();
   }
   get isLoggedIn(): boolean {
-    return this.loginService.loggedIn;
+    return this.loginService.isLoggedIn();
   }
 
   get isDarkMode(): boolean {
