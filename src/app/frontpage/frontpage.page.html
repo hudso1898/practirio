@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content id='frontpage'>
   <div id='logo-container'>
       <img id='prac-logo-light' [class.hidden]='settingsService.isDarkMode()' src='../../assets/practirio-light.png'>
       <img id='prac-logo-dark' [class.hidden]='!settingsService.isDarkMode()' src='../../assets/practirio-dark.png'>
@@ -6,4 +6,43 @@
 <ion-text>
   <h2 class="title">Make Musicians <span id='adj'>{{currentAdj}}.</span></h2>
 </ion-text>
+<div class='bordered-flex'>
+  <div class='img-column' [class.invisible]='!this.hasPitchAppeared'>
+    <img id='treble-image-light' [class.hidden]='settingsService.isDarkMode()' src="../../assets/treble-light.png">
+    <img id='treble-image-dark' [class.hidden]='!settingsService.isDarkMode()' src="../../assets/treble-dark.png">
+  </div>
+<div id="prac-info">
+  <div class="quote">
+    <ion-text><i>"The difference between ordinary and extraordinary is <strong>practice</strong>."</i>
+      <span class="quote-author">-Vladimir Horowitz</span>
+    </ion-text>
+  </div>
+  <ion-card class="pitch" [class.invisible]='!this.hasPitchAppeared'>
+    <ion-card-header>
+    <ion-card-title>
+      Being a musician in the 21st century takes a lot of work.
+    </ion-card-title>
+    </ion-card-header>
+    <ion-card-content id='pitch-target'>
+      <ion-text color=dark>From private lessons to large-scale instruction, from solo performances
+        to symphony orchestras, and from the practice room to the concert hall, making music involves preparation, improvement, and the ability to grow as a person and performer.
+        It's also a lot to manage - musicians and their instructors need to organize their time while effectively tackling the great musical problems laid before them.<br><br>
+        Whether it's that one tricky measure, a new technique, or putting it all together as an ensemble, the work of a musician can be arduous. <ion-text color=primary><strong>Yet our music can move hearts,
+       open minds, impact communities, ignite discussions, and so much more.</strong></ion-text></ion-text><br><br>
+       <ion-text color=dark><ion-text [color]='(settingsService.isDarkMode()) ? "success" : "dark"'><strong><i>Practirio</i>'s mission is to help musicians be the effective practicers, learners, and performers they can be. </strong></ion-text>By managing our progress, 
+       connecting to our peers, and informing our practical and musical decisions, we become the next generation of professional music performers, educators, and artists.</ion-text>
+    </ion-card-content>
+   </ion-card>
+</div>
+<div class="img-column" [class.invisible]='!this.hasPitchAppeared'>
+  <img id='eigth-image-light' [class.hidden]='settingsService.isDarkMode()' src="../../assets/eigthnotes-light.png">
+  <img id='eigth-image-dark' [class.hidden]='!settingsService.isDarkMode()' src="../../assets/eigthnotes-dark.png">
+</div>
+</div>
+<ion-footer>
+  <ion-toolbar class="footer" color="light">
+    Made with love by a musician, for musicians.<br>
+    © 2020 Matt Hudson
+  </ion-toolbar>
+</ion-footer>
 </ion-content>
