@@ -134,7 +134,7 @@ export class FrontpagePage implements OnInit {
     }, {
       root: document.querySelector('#frontpage'),
       rootMargin: '0px',
-      threshold: 1
+      threshold: 0.5
     })
     imageObserver.observe(document.querySelector('#pitch-target'));
   }
