@@ -50,11 +50,15 @@ export class FrontpagePage implements OnInit {
     appearAnimation.play();
     const pitchAnimation = this.animationCtrl.create()
     .addElement(document.querySelector('.pitch'))
+    .duration(1000)
+    .iterations(1)
+    .fromTo('opacity', 0, 1);
+    const pitch1ImageAnimation = this.animationCtrl.create()
     .addElement(document.querySelector('#treble-image-light'))
     .addElement(document.querySelector('#treble-image-dark'))
     .addElement(document.querySelector('#eigth-image-light'))
     .addElement(document.querySelector('#eigth-image-dark'))
-    .duration(1000)
+    .duration(1500)
     .iterations(1)
     .fromTo('opacity', 0, 1);
 
@@ -64,7 +68,7 @@ export class FrontpagePage implements OnInit {
     .duration(3000)
     .easing('ease-in-out')
     .iterations(1)
-    .fromTo('transform', 'translateY(-125px)', 'translateY(-150px')
+    .fromTo('transform', 'translateY(-30vh)', 'translateY(-40vh')
     .onFinish(() => {
       trebleFloatDownAnimation.stop();
       trebleFloatDownAnimation.play();
@@ -75,7 +79,7 @@ export class FrontpagePage implements OnInit {
     .duration(3000)
     .easing('ease-in-out')
     .iterations(1)
-    .fromTo('transform', 'translateY(-150px)', 'translateY(-125px')
+    .fromTo('transform', 'translateY(-40vh)', 'translateY(-30vh')
     .onFinish(() => {
       trebleFloatUpAnimation.stop();
       trebleFloatUpAnimation.play();
@@ -87,7 +91,7 @@ export class FrontpagePage implements OnInit {
     .duration(4000)
     .easing('ease-in-out')
     .iterations(1)
-    .fromTo('transform', 'translateY(-125px)', 'translateY(-150px')
+    .fromTo('transform', 'translateY(-10vh)', 'translateY(-20vh')
     .onFinish(() => {
       eigthFloatDownAnimation.stop();
       eigthFloatDownAnimation.play();
@@ -98,7 +102,7 @@ export class FrontpagePage implements OnInit {
     .duration(4000)
     .easing('ease-in-out')
     .iterations(1)
-    .fromTo('transform', 'translateY(-150px)', 'translateY(-125px')
+    .fromTo('transform', 'translateY(-20vh)', 'translateY(-10vh')
     .onFinish(() => {
       eigthFloatUpAnimation.stop();
       eigthFloatUpAnimation.play();
@@ -124,6 +128,7 @@ export class FrontpagePage implements OnInit {
         if (entry.isIntersecting && !this.hasPitchAppeared) {
           this.hasPitchAppeared = true;
           pitchAnimation.play();
+          pitch1ImageAnimation.delay(200).play();
         }
       });
     }, {
