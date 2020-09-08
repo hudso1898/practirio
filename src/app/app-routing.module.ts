@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: () => import('./login-dialog/login-dialog.module').then( m => m.LoginDialogPageModule)
   },
   {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

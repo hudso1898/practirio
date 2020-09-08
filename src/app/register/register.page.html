@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create Practirio Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form name=registerForm [formGroup]='registerForm' (ngSubmit)='register()'>
+    <ion-item>
+      <ion-label position="floating">First Name</ion-label>
+      <ion-input formControlName='firstname' name='firstname' required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Last Name</ion-label>
+      <ion-input formControlName='lastname' name='firstname' required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input formControlName='email' name=email type="email" required>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input formControlName='username' name=username required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input formControlName='password' name=password type="password" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Confirm Password</ion-label>
+      <ion-input formControlName='passwordConfirm' name=passwordConfirm type="password" required></ion-input>
+    </ion-item>
+  <ion-button type=submit expand=full [disabled]='!registerForm.valid'>Login</ion-button>
+  </form>
+</ion-content>
