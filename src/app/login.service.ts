@@ -8,6 +8,8 @@ import { Storage } from '@ionic/storage';
 export class LoginService {
 
   private loggedIn: boolean = false;
+  private loggingIn: boolean = false;
+  private loginFail: boolean = false;
   user: User;
   usernames: Array<String> = [];
 
@@ -30,6 +32,8 @@ export class LoginService {
    }
 
    login(username, password) {
+     this.loggingIn = true;
+     this.loginFail = false;
      return this.http.post(this.apiUrl + 'users/login', {username: username, password: password});
    }
    setLoggedIn(result: User) {
@@ -65,5 +69,15 @@ export class LoginService {
 
    isLoggedIn(): boolean {
      return this.loggedIn;
+   }
+   isLoggingIn(): boolean {
+     return this.loggingIn;
+   }
+   failedLogin() {
+     this.loggingIn = false;
+     this.loginFail = true;
+   }
+   didLoginFail(): boolean {
+     return this.loginFail;
    }
 }

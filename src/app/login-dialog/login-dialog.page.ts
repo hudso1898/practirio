@@ -16,19 +16,33 @@ export class LoginDialogPage implements OnInit {
     private formBuilder: FormBuilder) {
       this.loginForm = formBuilder.group({
         username: ['', Validators.required],
-        password: ['', Validators.required]
+        password: ['', Validators.required],
+        staySignedIn: [false]
       })
      }
 
   ngOnInit() {
   }
 
+  get isLoggingIn(): boolean {
+    return this.loginService.isLoggingIn();
+  }
+  get didLoginFail(): boolean {
+    return this.loginService.didLoginFail();
+  }
   closeModal() {
     this.modalCtrl.dismiss();
   }
   login() {
-    this.loginService.login(this.loginForm.value['username'], this.loginForm.value['password']).subscribe(res => {
-      console.dir(res)
+    this.loginService.login(this.loginForm.value['username'], this.loginForm.value['password']).subscribe((res: {valid: boolean}) => {
+      if (res.valid) {
+        // login
+      }
+      else {
+        setTimeout(() => {
+          this.loginService.failedLogin();
+        }, 2000);
+      }
     });
   }
 
