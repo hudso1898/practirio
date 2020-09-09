@@ -34,7 +34,7 @@ export class LoginDialogPage implements OnInit {
     this.modalCtrl.dismiss();
   }
   login() {
-    this.loginService.login(this.loginForm.value['username'], this.loginForm.value['password']).subscribe((res: {valid: boolean}) => {
+    this.loginService.login(this.loginForm.value['username'], this.loginForm.value['password'], this.loginForm.value['staySignedIn']).subscribe((res: {valid: boolean}) => {
       if (res.valid) {
         // login
       }

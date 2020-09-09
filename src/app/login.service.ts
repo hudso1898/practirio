@@ -31,10 +31,10 @@ export class LoginService {
     });
    }
 
-   login(username, password) {
+   login(username, password, staySignedIn) {
      this.loggingIn = true;
      this.loginFail = false;
-     return this.http.post(this.apiUrl + 'users/login', {username: username, password: password});
+     return this.http.post(this.apiUrl + 'users/login', {username: username, password: password, staySignedIn: staySignedIn});
    }
    setLoggedIn(result: User) {
     this.loggedIn = true;
