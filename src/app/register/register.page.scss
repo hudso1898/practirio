@@ -1,0 +1,25 @@
+#back {
+    margin-top: 2vh;
+    margin-left: 2vw;
+}
+#back-button-text {
+    margin-left: 10px;
+}
+.form-field-group {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 15%;
+    align-items: center;
+    justify-content: center;
+}
+.form-field {
+    margin: 10px;
+    flex-basis: content;
+    min-width: 40%;
+}
+ion-item {
+    --background: none !important;
+}
+.left-margin {
+    margin-left: 10px;
+}
