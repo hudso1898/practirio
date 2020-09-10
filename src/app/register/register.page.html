@@ -11,18 +11,16 @@
   <form name=registerForm [formGroup]='registerForm' (ngSubmit)='register()'>
     <ion-item-group class="form-field-group">
     <ion-item class="form-field">
-      <ion-label position="stacked" *ngIf='(!this.registerForm.get("firstname").dirty && !this.registerForm.get("firstname").touched) || this.registerForm.get("firstname").valid'>First Name</ion-label>
-      <ion-label color="danger" position="stacked" *ngIf='(this.registerForm.get("firstname").touched || this.registerForm.get("firstname").dirty) && !this.registerForm.get("firstname").valid'>
-        <ion-icon name="alert-circle-outline" color="danger"></ion-icon><span class="left-margin">Please enter your first name.</span>
+      <ion-label position="stacked" [color]='((this.registerForm.get("firstname").touched || this.registerForm.get("firstname").dirty) && !this.registerForm.get("firstname").valid) ? "danger" : "dark"'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='(this.registerForm.get("firstname").touched || this.registerForm.get("firstname").dirty) && !this.registerForm.get("firstname").valid'></ion-icon><ion-text>First Name</ion-text>
       </ion-label>
-      <ion-input formControlName='firstname' name='firstname' required autocapitalize="on" [placeholder]='((this.registerForm.get("firstname").touched || this.registerForm.get("firstname").dirty) && !this.registerForm.get("firstname").valid ? "First Name" : undefined)'></ion-input>
+      <ion-input formControlName='firstname' name='firstname' required autocapitalize="on"></ion-input>
     </ion-item>
     <ion-item class="form-field">
-      <ion-label position="stacked" *ngIf='(!this.registerForm.get("lastname").dirty && !this.registerForm.get("lastname").touched) || this.registerForm.get("lastname").valid'>Last Name</ion-label>
-      <ion-label color="danger" position="stacked" *ngIf='(this.registerForm.get("lastname").touched || this.registerForm.get("lastname").dirty) && !this.registerForm.get("lastname").valid'>
-        <ion-icon name="alert-circle-outline" color="danger"></ion-icon><span class="left-margin">Please enter your last name.</span>
+      <ion-label position="stacked" [color]='((this.registerForm.get("lastname").touched || this.registerForm.get("lastname").dirty) && !this.registerForm.get("lastname").valid) ? "danger" : "dark"'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='(this.registerForm.get("lastname").touched || this.registerForm.get("lastname").dirty) && !this.registerForm.get("lastname").valid'></ion-icon><ion-text>Last Name</ion-text>
       </ion-label>
-      <ion-input formControlName='lastname' name='firstname' required autocapitalize="on" [placeholder]='((this.registerForm.get("lastname").touched || this.registerForm.get("lastname").dirty) && !this.registerForm.get("lastname").valid ? "Last Name" : undefined)'></ion-input>
+      <ion-input formControlName='lastname' name='lastname' required autocapitalize="on"></ion-input>
     </ion-item>
     <ion-item class="form-field">
       <ion-label position="stacked">Email</ion-label>
