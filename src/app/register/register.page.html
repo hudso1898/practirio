@@ -11,35 +11,63 @@
   <form name=registerForm [formGroup]='registerForm' (ngSubmit)='register()'>
     <ion-item-group class="form-field-group">
     <ion-item class="form-field">
-      <ion-label position="stacked" [color]='((this.registerForm.get("firstname").touched || this.registerForm.get("firstname").dirty) && !this.registerForm.get("firstname").valid) ? "danger" : "dark"'>
-        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='(this.registerForm.get("firstname").touched || this.registerForm.get("firstname").dirty) && !this.registerForm.get("firstname").valid'></ion-icon><ion-text>First Name</ion-text>
+      <ion-label position="stacked" [color]='getLabelColor("firstname")'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("firstname")'></ion-icon><ion-text>First Name</ion-text>
       </ion-label>
       <ion-input formControlName='firstname' name='firstname' required autocapitalize="on"></ion-input>
     </ion-item>
     <ion-item class="form-field">
-      <ion-label position="stacked" [color]='((this.registerForm.get("lastname").touched || this.registerForm.get("lastname").dirty) && !this.registerForm.get("lastname").valid) ? "danger" : "dark"'>
-        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='(this.registerForm.get("lastname").touched || this.registerForm.get("lastname").dirty) && !this.registerForm.get("lastname").valid'></ion-icon><ion-text>Last Name</ion-text>
+      <ion-label position="stacked" [color]='getLabelColor("lastname")'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("lastname")'></ion-icon><ion-text>Last Name</ion-text>
       </ion-label>
       <ion-input formControlName='lastname' name='lastname' required autocapitalize="on"></ion-input>
     </ion-item>
     <ion-item class="form-field">
-      <ion-label position="stacked">Email</ion-label>
+      <ion-label position="stacked" [color]='getLabelColor("email")'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("email")'></ion-icon><ion-text>Email</ion-text>
+      </ion-label>
       <ion-input formControlName='email' name=email type="email" required inputmode="email">
       </ion-input>
     </ion-item>
     <ion-item class="form-field">
-      <ion-label position="stacked">Username</ion-label>
+      <ion-label position="stacked" [color]='getLabelColor("username")'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("username")'></ion-icon><ion-text>Username</ion-text>
+      </ion-label>
       <ion-input formControlName='username' name=username required debounce="1000"></ion-input>
     </ion-item>
     <ion-item class="form-field">
-      <ion-label position="stacked">Password</ion-label>
+      <ion-label position="stacked" [color]='getLabelColor("password")'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("password")'></ion-icon><ion-text>Password</ion-text>
+      </ion-label>
       <ion-input formControlName='password' name=password type="password" required></ion-input>
     </ion-item>
     <ion-item class="form-field">
-      <ion-label position="stacked">Confirm Password</ion-label>
+      <ion-label position="stacked" [color]='getLabelColor("passwordConfirm")'>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("passwordConfirm")'></ion-icon><ion-text>Confirm Password</ion-text>
+      </ion-label>
       <ion-input formControlName='passwordConfirm' name=passwordConfirm type="password" required></ion-input>
     </ion-item>
   </ion-item-group>
-  <ion-button type=submit expand=full [disabled]='!isFormValid()'>Create Account</ion-button>
+  <ion-item lines="none" id="create-account-button">
+    <ion-button type=submit size="medium" id="create-account-button" [disabled]='!isFormValid()'>Create Account</ion-button>
+  </ion-item>
+    <ion-item-group class="error-field-group">
+      <ion-item *ngIf='fieldMissing()' lines="none" class="error-field">
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>One or more required fields is missing.</ion-text>
+      </ion-item>
+      <ion-item *ngIf='isErrorPresent("email", "email")' lines="none" class="error-field">
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Please enter a valid email address.</ion-text>
+      </ion-item>
+      <ion-item *ngIf='isErrorPresent("username", "usernameError")' lines="none" class="error-field">
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Username is already taken!.</ion-text>
+      </ion-item>
+      <ion-item *ngIf='isErrorPresent("password", "minlength")' lines="none" class="error-field">
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Password must be at least 8 characters.</ion-text>
+      </ion-item>
+      <ion-item *ngIf='isErrorPresent("passwordConfirm", "passwordError")' lines="none" class="error-field">
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Passwords do not match!.</ion-text>
+      </ion-item>
+    </ion-item-group>
   </form>
+
 </ion-content>

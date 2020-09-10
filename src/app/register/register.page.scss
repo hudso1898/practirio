@@ -12,6 +12,11 @@
     align-items: center;
     justify-content: center;
 }
+.error-field-group {
+    margin: 3vh 15%;
+    align-items: center;
+    justify-content: center;
+}
 .form-field {
     margin: 10px;
     flex-basis: content;
@@ -25,4 +30,11 @@ ion-item {
 }
 .alert-icon {
     margin-right: 10px;
+}
+.error-field {
+    width: max-content;
+    margin: auto;
+}
+#create-account-button {
+    margin: 2vh auto;
 }
