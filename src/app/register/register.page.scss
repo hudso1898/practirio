@@ -32,9 +32,25 @@ ion-item {
     margin-right: 10px;
 }
 .error-field {
-    width: max-content;
+    width: 90%;
+    word-wrap: break-word;
     margin: auto;
 }
 #create-account-button {
     margin: 2vh auto;
+}
+.small-spinner {
+    width: 1em;
+    height: 1em;
+}
+#register-spinner {
+    width: 40px !important;
+    height: 40px !important;
+}
+#register-spinner-item {
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+
 }

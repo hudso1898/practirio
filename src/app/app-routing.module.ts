@@ -22,10 +22,14 @@ const routes: Routes = [
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   {
+    path: 'confirmRegistration',
+    loadChildren: () => import('./confirm-registration/confirm-registration.module').then( m => m.ConfirmRegistrationPageModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
-];
+]
 
 @NgModule({
   imports: [

@@ -14,60 +14,67 @@
       <ion-label position="stacked" [color]='getLabelColor("firstname")'>
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("firstname")'></ion-icon><ion-text>First Name</ion-text>
       </ion-label>
-      <ion-input formControlName='firstname' name='firstname' required autocapitalize="on"></ion-input>
+      <ion-input formControlName='firstname' name='firstname' required autocapitalize="on" [disabled]='isRegistering'></ion-input>
     </ion-item>
     <ion-item class="form-field">
       <ion-label position="stacked" [color]='getLabelColor("lastname")'>
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("lastname")'></ion-icon><ion-text>Last Name</ion-text>
       </ion-label>
-      <ion-input formControlName='lastname' name='lastname' required autocapitalize="on"></ion-input>
+      <ion-input formControlName='lastname' name='lastname' required autocapitalize="on" [disabled]='isRegistering'></ion-input>
     </ion-item>
     <ion-item class="form-field">
       <ion-label position="stacked" [color]='getLabelColor("email")'>
-        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("email")'></ion-icon><ion-text>Email</ion-text>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("email")' [disabled]='isRegistering'></ion-icon><ion-text>Email</ion-text>
       </ion-label>
-      <ion-input formControlName='email' name=email type="email" required inputmode="email">
+      <ion-input formControlName='email' name=email type="email" required inputmode="email" [disabled]='isRegistering'>
       </ion-input>
     </ion-item>
     <ion-item class="form-field">
       <ion-label position="stacked" [color]='getLabelColor("username")'>
-        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("username")'></ion-icon><ion-text>Username</ion-text>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='(!usernameVerified || registerForm.value["username"].length === 0) && !isVerifyingUser'></ion-icon>
+        <ion-spinner class='alert-icon small-spinner' *ngIf='isVerifyingUser'></ion-spinner>
+        <ion-icon class="alert-icon" name="checkmark-circle-outline" color="success" *ngIf='(usernameVerified && registerForm.value["username"].length > 0) && !isVerifyingUser'></ion-icon><ion-text>Username</ion-text>
       </ion-label>
-      <ion-input formControlName='username' name=username required debounce="1000"></ion-input>
+      <ion-input formControlName='username' name=username required (change)='checkUsername()' (focusout)='checkUsername()' [disabled]='isRegistering'></ion-input>
     </ion-item>
     <ion-item class="form-field">
       <ion-label position="stacked" [color]='getLabelColor("password")'>
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("password")'></ion-icon><ion-text>Password</ion-text>
       </ion-label>
-      <ion-input formControlName='password' name=password type="password" required></ion-input>
+      <ion-input formControlName='password' name=password type="password" required [disabled]='isRegistering'></ion-input>
     </ion-item>
     <ion-item class="form-field">
       <ion-label position="stacked" [color]='getLabelColor("passwordConfirm")'>
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='showWarning("passwordConfirm")'></ion-icon><ion-text>Confirm Password</ion-text>
       </ion-label>
-      <ion-input formControlName='passwordConfirm' name=passwordConfirm type="password" required></ion-input>
+      <ion-input formControlName='passwordConfirm' name=passwordConfirm type="password" required [disabled]='isRegistering'></ion-input>
     </ion-item>
   </ion-item-group>
   <ion-item lines="none" id="create-account-button">
-    <ion-button type=submit size="medium" id="create-account-button" [disabled]='!isFormValid()'>Create Account</ion-button>
+    <ion-button type=submit size="medium" id="create-account-button" [disabled]='!isFormValid() || !usernameVerified || isRegistering'>Create Account</ion-button>
+  </ion-item>
+  <ion-item id="register-spinner-item" lines="none" *ngIf='isRegistering'>
+    <ion-spinner id="register-spinner" name="dots"></ion-spinner>
   </ion-item>
     <ion-item-group class="error-field-group">
+      <ion-item *ngIf='regError' lines="none" class='error-field'>
+        <ion-icon class='alert-icon' name="alert-circle-outline" color="danger"></ion-icon><ion-text>{{regErrorMessage}}</ion-text>
+      </ion-item>
       <ion-item *ngIf='fieldMissing()' lines="none" class="error-field">
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>One or more required fields is missing.</ion-text>
       </ion-item>
       <ion-item *ngIf='isErrorPresent("email", "email")' lines="none" class="error-field">
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Please enter a valid email address.</ion-text>
       </ion-item>
-      <ion-item *ngIf='isErrorPresent("username", "usernameError")' lines="none" class="error-field">
+      <ion-item *ngIf='isUsernameTaken' lines="none" class="error-field">
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Username is already taken!.</ion-text>
       </ion-item>
       <ion-item *ngIf='isErrorPresent("password", "minlength")' lines="none" class="error-field">
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Password must be at least 8 characters.</ion-text>
       </ion-item>
-      <ion-item *ngIf='isErrorPresent("passwordConfirm", "passwordError")' lines="none" class="error-field">
+      <ion-item *ngIf='this.registerForm.value["passwordConfirm"].length > 0 && (isErrorPresent("passwordConfirm", "passwordError") || this.registerForm.value["password"] !== this.registerForm.value["passwordConfirm"])' lines="none" class="error-field">
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Passwords do not match!.</ion-text>
       </ion-item>
     </ion-item-group>
   </form>
-
 </ion-content>

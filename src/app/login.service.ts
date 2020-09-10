@@ -11,7 +11,6 @@ export class LoginService {
   private loggingIn: boolean = false;
   private loginFail: boolean = false;
   user: User;
-  usernames: Array<String> = [];
 
   apiUrl = 'https://www.practirio.com:9000/';
 
@@ -22,12 +21,6 @@ export class LoginService {
         this.user = user;
       }
       else this.loggedIn = false;
-    });
-    this.http.get(this.apiUrl + 'get/users').subscribe((users: Array<String>) => {
-      for (let user of users) {
-        this.usernames.push(user)
-      }
-      console.dir(this.usernames)
     });
    }
 
@@ -44,8 +37,7 @@ export class LoginService {
       password: null,
       email: result.email,
       firstname: result.firstname,
-      lastname: result.lastname,
-      fullname: result.fullname
+      lastname: result.lastname
     };
 
     this.storage.set('loggedIn', this.user);
@@ -55,16 +47,12 @@ export class LoginService {
      this.storage.remove('loggedIn');
      this.loggedIn = false;
    }
-   searchUser(username: String): boolean {
-     for (let user of this.usernames) {
-       if(username == user) return true;
-     }
-     return false;
+   searchUser(username: String) {
+     return this.http.get(this.apiUrl + 'get/user/' + username);
    }
 
    addUser(user: User) {
-     this.usernames.push(user.username);
-     this.http.post(this.apiUrl + 'users/addUser', user).subscribe();
+     return this.http.post(this.apiUrl + 'users/addUser', user);
    }
 
    isLoggedIn(): boolean {
