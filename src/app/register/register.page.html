@@ -31,7 +31,7 @@
     </ion-item>
     <ion-item class="form-field">
       <ion-label position="stacked" [color]='getLabelColor("username")'>
-        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='(!usernameVerified || registerForm.value["username"].length === 0) && !isVerifyingUser'></ion-icon>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='!registerForm.get("username").pristine && (!usernameVerified || registerForm.value["username"].length === 0) && !isVerifyingUser'></ion-icon>
         <ion-spinner class='alert-icon small-spinner' *ngIf='isVerifyingUser'></ion-spinner>
         <ion-icon class="alert-icon" name="checkmark-circle-outline" color="success" *ngIf='(usernameVerified && registerForm.value["username"].length > 0) && !isVerifyingUser'></ion-icon><ion-text>Username</ion-text>
       </ion-label>
@@ -67,7 +67,7 @@
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Please enter a valid email address.</ion-text>
       </ion-item>
       <ion-item *ngIf='isUsernameTaken' lines="none" class="error-field">
-        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Username is already taken!.</ion-text>
+        <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Username is already taken!</ion-text>
       </ion-item>
       <ion-item *ngIf='isErrorPresent("password", "minlength")' lines="none" class="error-field">
         <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Password must be at least 8 characters.</ion-text>

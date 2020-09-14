@@ -26,6 +26,10 @@ const routes: Routes = [
     loadChildren: () => import('./confirm-registration/confirm-registration.module').then( m => m.ConfirmRegistrationPageModule)
   },
   {
+    path: 'verify',
+    loadChildren: () => import('./verify/verify.module').then( m => m.VerifyPageModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
