@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-verify',
@@ -7,9 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerifyPage implements OnInit {
 
-  constructor() { }
+  loading: boolean = true;
+  verified: boolean = false;
+  message: string = '';
+  constructor(private route: ActivatedRoute, private loginService: LoginService) { }
 
   ngOnInit() {
+    if (this.route.snapshot.queryParams.vid !== undefined) {
+      this.loginService.verifyAccount(this.route.snapshot.queryParams.vid).subscribe((res: { ok: boolean }) => {
+        if (res.ok) {
+          this.verified = true;
+        }
+        else {
+          this.message = 'Invalid verification.'
+        }
+        this.loading = false;
+      }, err => {
+        this.loading = false;
+        this.message = 'Verification request failed.';
+      });
+    }
+    else {
+      this.loading = false;
+      this.message = 'This verification link seems to be misformatted.';
+    }
   }
 
 }

@@ -68,4 +68,7 @@ export class LoginService {
    didLoginFail(): boolean {
      return this.loginFail;
    }
+   verifyAccount(verifyId: string) {
+     return this.http.post(this.apiUrl + 'verifyUser', { verifyId: verifyId});
+   }
 }
