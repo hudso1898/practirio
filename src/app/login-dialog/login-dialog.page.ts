@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { LoginService } from '../login.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { User } from '../interfaces/User';
-import { timeStamp } from 'console';
 import { Router } from '@angular/router';
 
 @Component({
