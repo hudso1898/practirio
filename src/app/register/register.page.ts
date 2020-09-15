@@ -25,6 +25,9 @@ export class RegisterPage implements OnInit {
     });
   }
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private route: ActivatedRoute, private router: Router) {
+    if(loginService.isTokenPresent()) {
+      this.router.navigate(['/home']);
+    }
     this.registerForm = formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],

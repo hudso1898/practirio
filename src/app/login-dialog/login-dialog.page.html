@@ -12,7 +12,7 @@
     <ion-item-group id="login-group">
       <ion-item id='login-error-item' lines="none">
         <ion-icon *ngIf='didLoginFail' name='alert-circle-outline' color="danger"></ion-icon>
-        <ion-text *ngIf='didLoginFail' class='error-text'>Invalid username/password.</ion-text>
+        <ion-text *ngIf='didLoginFail' class='error-text'>{{errorMessage}}</ion-text>
       </ion-item>
     <ion-item>
       <ion-icon name="person" slot="start" color="secondary"></ion-icon>
@@ -24,7 +24,7 @@
     <ion-item id="password-item"> 
       <ion-icon name='key-outline' slot="start" color="tertiary"></ion-icon>
       <ion-label position="stacked">Password</ion-label>
-      <ion-input type=password name=password required formControlName='password' [disabled]="isLoggingIn" ></ion-input>
+      <ion-input type=password name=password required formControlName='password' [disabled]="isLoggingIn" (keyup)='keyUp($event)'></ion-input>
     </ion-item>
 
     <ion-item id="remember-me-item" lines="none">

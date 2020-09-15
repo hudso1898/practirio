@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../login.service';
 
 @Component({
@@ -12,7 +12,11 @@ export class VerifyPage implements OnInit {
   loading: boolean = true;
   verified: boolean = false;
   message: string = '';
-  constructor(private route: ActivatedRoute, private loginService: LoginService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private loginService: LoginService) {
+    if(loginService.isTokenPresent()) {
+      this.router.navigate(['/home']);
+    }
+   }
 
   ngOnInit() {
     if (this.route.snapshot.queryParams.vid !== undefined) {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -12,7 +13,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuardService]
   }, {
     path: 'login',
     loadChildren: () => import('./login-dialog/login-dialog.module').then( m => m.LoginDialogPageModule)
@@ -28,6 +30,10 @@ const routes: Routes = [
   {
     path: 'verify',
     loadChildren: () => import('./verify/verify.module').then( m => m.VerifyPageModule)
+  },
+  {
+    path: 'sessionExpired',
+    loadChildren: () => import('./session-expired/session-expired.module').then( m => m.SessionExpiredPageModule)
   },
   {
     path: '**',

@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LoginService } from './login.service';
 import { SettingsService } from './settings.service';
-import { LoginDialogPage } from './login-dialog/login-dialog.page';
 
 @Component({
   selector: 'app-root',
@@ -72,15 +71,11 @@ export class AppComponent implements OnInit {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
   }
-
-  async openLogin() {
-    const modal = await this.modalCtrl.create({
-      component: LoginDialogPage
-    });
-    return await modal.present();
-  }
   get isLoggedIn(): boolean {
     return this.loginService.isLoggedIn();
+  }
+  get isLoggingIn(): boolean {
+    return this.loginService.isLoggingIn();
   }
 
   get isDarkMode(): boolean {
@@ -89,4 +84,5 @@ export class AppComponent implements OnInit {
   toggleTheme() {
     this.settingsService.toggleDarkMode();
   }
+
 }

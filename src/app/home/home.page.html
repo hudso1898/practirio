@@ -1,9 +1,24 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<ion-split-pane contentId="main-content" when="md">
+  <ion-menu contentId='main-content' menuId='mainMenu'>
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          Various
+        </ion-item>
+        <ion-item>
+          Options
+        </ion-item>
+        <ion-item>
+          Go
+        </ion-item>
+        <ion-item>
+          Here
+        </ion-item>
+        <ion-item>
+          <ion-button (click)='logout()'>Logout</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id='main-content'>(todo)</ion-router-outlet>
+  </ion-split-pane>

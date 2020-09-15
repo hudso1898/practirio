@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginService } from '../login.service';
 import { SettingsService } from '../settings.service';
 import { Animation, AnimationController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-frontpage',
@@ -27,7 +28,11 @@ export class FrontpagePage implements OnInit {
   fadeAnimation: Animation
   constructor(private loginService: LoginService,
     private settingsService: SettingsService,
-    private animationCtrl: AnimationController) {
+    private animationCtrl: AnimationController,
+    private router: Router) {
+      if(loginService.isTokenPresent()) {
+        this.router.navigate(['/home']);
+      }
     }
 
   ngOnInit() {

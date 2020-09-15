@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginDialogPage } from '../login-dialog/login-dialog.page';
+import { LoginService } from '../login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-registration',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmRegistrationPage implements OnInit {
 
-  constructor() { }
+  constructor(private loginService: LoginService, private router: Router) {
+    if(loginService.isTokenPresent()) {
+      this.router.navigate(['/home']);
+    }
+   }
 
   ngOnInit() {
   }

@@ -1,11 +1,20 @@
 <ion-app>
   <ion-header *ngIf='isLoggedIn'>
     <ion-toolbar>
-      <ion-item>
-        <ion-avatar slot="start">
+      <ion-avatar slot="start">
+        <a routerLink='/home'>
           <img src='../assets/icon/favicon.png' class='prac-baricon'>
-        </ion-avatar>
-      </ion-item>
+        </a>
+      </ion-avatar>
+      <ion-buttons slot='start'>
+        <ion-button (click)='toggleTheme()' class="circle-button">
+          <ion-icon *ngIf='isDarkMode' name="moon-outline"></ion-icon>
+          <ion-icon *ngIf='!isDarkMode' name="sunny-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot='end'>
+        <ion-menu-button menu='mainMenu'></ion-menu-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-header *ngIf='!isLoggedIn'>
@@ -21,7 +30,7 @@
             <ion-icon *ngIf='!isDarkMode' name="sunny-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-buttons slot='end'>
+        <ion-buttons slot='end' *ngIf='!isLoggingIn'>
           <ion-button routerLink='/login'>
           Log In
         </ion-button>
@@ -32,6 +41,7 @@
           Register
         </ion-button>
         </ion-buttons>
+        <ion-spinner slot='end' *ngIf='isLoggingIn' id='logging-in-spinner'></ion-spinner>
     </ion-toolbar>
   </ion-header>
   <ion-content>
