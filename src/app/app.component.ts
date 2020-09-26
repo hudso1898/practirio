@@ -81,8 +81,20 @@ export class AppComponent implements OnInit {
   get isDarkMode(): boolean {
     return this.settingsService.isDarkMode();
   }
+  get firstname(): String {
+    return this.loginService.user.firstname;
+  }
+  get lastname(): String {
+    return this.loginService.user.lastname;
+  }
+  get username(): String {
+    return this.loginService.user.username;
+  }
   toggleTheme() {
     this.settingsService.toggleDarkMode();
+  }
+  logout() {
+    this.loginService.logout();
   }
 
 }

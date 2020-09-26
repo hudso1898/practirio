@@ -1,24 +1,43 @@
-<ion-split-pane contentId="main-content" when="md">
+<ion-split-pane contentId="main-content" when="md" class='split-pane'>
   <ion-menu contentId='main-content' menuId='mainMenu'>
-    <ion-content>
-      <ion-list>
-        <ion-item>
-          Various
+    <ion-content class='menu-content'>
+      <ion-list class='menu-list'>
+        <ion-list-header *ngIf='isMobile()'>
+          <ion-text class='user-info' *ngIf='this.loginService.user'>
+            <h5>{{firstname}} {{lastname}} <br><span class='username'>{{username}}</span></h5>
+          </ion-text>
+        </ion-list-header>
+        <ion-item lines='none' class='menu-item no-select' routerLink='/home' (click)='menuToggle();'>
+          <ion-icon slot='start' name='home-outline' color='medium' class='menu-icon' *ngIf='this.router.url !== "/home"'></ion-icon>
+          <ion-icon slot='start' name='home' color='medium' class='menu-icon' *ngIf='this.router.url === "/home"'></ion-icon>
+          <ion-label>Home</ion-label>
         </ion-item>
-        <ion-item>
-          Options
+        <ion-item lines='none' class='menu-item no-select' routerLink='/home/studios' routerLinkActive='active-item' (click)='menuToggle()'>
+          <ion-icon slot='start' name='musical-note-outline' color='primary' class='menu-icon' *ngIf='!this.router.url.includes("/home/studios")'></ion-icon>
+          <ion-icon slot='start' name='musical-note' color='primary' class='menu-icon'*ngIf='this.router.url.includes("/home/studios")'></ion-icon>
+          <ion-label class='no-select'>Studios</ion-label>
         </ion-item>
-        <ion-item>
-          Go
+        <ion-item lines='none' class='menu-item no-select' routerLink='/home/ensembles' routerLinkActive='active-item' (click)='menuToggle()'>
+          <ion-icon slot='start' name='musical-notes-outline' color='secondary' class='menu-icon' *ngIf='!this.router.url.includes("/home/ensembles")'></ion-icon>
+          <ion-icon slot='start' name='musical-notes' color='secondary' class='menu-icon' *ngIf='this.router.url.includes("/home/ensembles")'></ion-icon>
+          <ion-label class='no-select'>Ensembles</ion-label>
         </ion-item>
-        <ion-item>
-          Here
+        <ion-item lines='none' class='menu-item no-select' routerLink='/home/events' routerLinkActive='active-item' (click)='menuToggle()'>
+          <ion-icon slot='start' name='calendar-outline' color='tertiary' class='menu-icon' *ngIf='!this.router.url.includes("/home/events")'></ion-icon>
+          <ion-icon slot='start' name='calendar' color='tertiary' class='menu-icon' *ngIf='this.router.url.includes("/home/events")'></ion-icon>
+          <ion-label class='no-select'>Events</ion-label>
         </ion-item>
-        <ion-item>
-          <ion-button (click)='logout()'>Logout</ion-button>
+        <ion-item lines='none' class='menu-item no-select' routerLink='/home/practice' routerLinkActive='active-item' (click)='menuToggle()'>
+          <ion-icon slot='start' name='bulb-outline' color='success' class='menu-icon' *ngIf='!this.router.url.includes("/home/practice")'></ion-icon>
+          <ion-icon slot='start' name='bulb' color='success' class='menu-icon' *ngIf='this.router.url.includes("/home/practice")'></ion-icon>
+          <ion-label class='no-select'>My Practice</ion-label>
+        </ion-item>
+        <ion-item lines='none' class='menu-item no-select' (click)=logout()>
+          <ion-icon slot='start' name='log-out-outline' color='warning' class='menu-icon'></ion-icon>
+          <ion-label class='no-select'>Logout</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
-  <ion-router-outlet id='main-content'>(todo)</ion-router-outlet>
+  <ion-router-outlet id='main-content'></ion-router-outlet>
   </ion-split-pane>

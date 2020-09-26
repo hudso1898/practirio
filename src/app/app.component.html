@@ -12,6 +12,12 @@
           <ion-icon *ngIf='!isDarkMode' name="sunny-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
+      <ion-text slot='end' class='user-info' *ngIf='this.platform.width() >= 768'>
+        <h5>{{firstname}} {{lastname}} <h6 class='username'>{{username}}</h6></h5>
+      </ion-text>
+      <!-- <ion-buttons slot='end' *ngIf='this.platform.width() >= 768'>
+        <ion-button (click)='logout()'>Logout</ion-button>
+      </ion-buttons> -->
       <ion-buttons slot='end'>
         <ion-menu-button menu='mainMenu'></ion-menu-button>
       </ion-buttons>
