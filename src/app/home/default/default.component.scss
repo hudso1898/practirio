@@ -1,0 +1,10 @@
+.desktop-item {
+    margin: 2%;
+}
+.viewer-box {
+    height: 0vh;
+}
+.viewer-box.loaded {
+    height: 35vh;
+    transition: height 1s;
+}

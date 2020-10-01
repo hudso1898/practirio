@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-studios',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudiosComponent implements OnInit {
 
-  constructor() { }
+  constructor(private platform: Platform) { }
 
   ngOnInit() {}
 
+  isMobile() {
+    return (this.platform.width() < 768);
+  }
 }

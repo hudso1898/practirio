@@ -1,3 +1,43 @@
-<p>
-  Default view (todo)
-</p>
+<ion-content *ngIf='!this.isMobile()'>
+  <ion-card class='desktop-item'>
+    <ion-card-header>
+      <ion-card-title class='ion-text-center'>My Studios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo'>
+      <div *ngIf='this.loginService.hasFetchedUserInfo'>
+        <ion-card *ngFor='let studio of this.loginService.userStudios'>
+        </ion-card>
+        <div *ngIf='this.loginService.userStudios.length === 0'>
+          No studios
+        </div>
+      </div>
+      </div>
+    </ion-card-content>
+    <ion-progress-bar type="indeterminate" *ngIf='!this.loginService.hasFetchedUserInfo'></ion-progress-bar>
+  </ion-card>
+  <ion-card class='desktop-item'>
+    <ion-card-header>
+      <ion-card-title class='ion-text-center'>My Ensembles</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo'>
+      <div *ngIf='this.loginService.hasFetchedUserInfo'>
+        <ion-card *ngFor='let ensembles of this.loginService.userEnsembles'>
+        </ion-card>
+        <div *ngIf='this.loginService.userEnsembles.length === 0'>
+          No ensembles
+        </div>
+      </div>
+      </div>
+    </ion-card-content>
+    <ion-progress-bar type="indeterminate" color='secondary' *ngIf='!this.loginService.hasFetchedUserInfo'></ion-progress-bar>
+  </ion-card>
+</ion-content>
+<ion-content class='mobile-subpage' *ngIf='this.isMobile()'>
+  <ion-text class='ion-text-center'>
+    <h3>Studios</h3>
+  </ion-text>
+</ion-content>
+<!-- studios: card for each studio, scroll horizontally -->
+<!-- ensembles, same as studios -->

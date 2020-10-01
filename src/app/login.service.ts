@@ -3,6 +3,9 @@ import { User } from './interfaces/User';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import { Studio } from './interfaces/Studio';
+import { Ensemble } from './interfaces/Ensemble';
+import { Profile } from './interfaces/Profile';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +16,12 @@ export class LoginService {
   private loginFail: boolean = false;
   private tokenPresent: boolean = false;
   user: User;
+
+  public isFetchingUserInfo: boolean = false;
+  public hasFetchedUserInfo: boolean = false;
+  userStudios: Studio[];
+  userEnsembles: Ensemble[];
+  userProfiles: Profile[];
 
   apiUrl = 'https://www.practirio.com:9000/';
 
@@ -72,6 +81,31 @@ export class LoginService {
     this.storage.set('loggedIn', this.user);
     this.tokenPresent = true;
     this.loggingIn = false;
+   }
+
+   getUserInfo(user: User) {
+     return this.http.post(this.apiUrl + 'userInfo', {id: user.id, sessionId: user.currentSessionId});
+   }
+
+   setUserInfo(studios: Studio[], ensembles: Ensemble[], profiles: Profile[]) {
+    this.userStudios = studios;
+    this.userEnsembles = ensembles;
+    this.userProfiles = profiles;
+
+    this.user.studios = [];
+    this.user.ensembles = [];
+    this.user.profiles = [];
+
+    for (let studio of studios) {
+      this.user.studios.push(studio.id);
+    }
+    for (let ensemble of ensembles) {
+      this.user.ensembles.push(ensemble.id);
+    }
+    for (let profile of profiles) {
+      this.user.profiles.push(profile.id);
+    }
+    this.hasFetchedUserInfo = true;
    }
 
    logout() {

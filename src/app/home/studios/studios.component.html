@@ -1,3 +1,22 @@
-<p>
-  studios works!
-</p>
+<ion-content *ngIf='!this.isMobile()'>
+  <div class='desktop-subpage' >
+  <ion-card class='desktop-item'>
+    <ion-card-header>
+      <ion-card-title class='ion-text-center'>Studio 1</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      
+    </ion-card-content>
+  </ion-card>
+  <ion-card class='desktop-item'>
+    <ion-card-header>
+      <ion-card-title class='ion-text-center'>Studio 2</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  </div>
+</ion-content>
+<ion-content class='mobile-subpage' *ngIf='this.isMobile()'>
+  <ion-text class='ion-text-center'>
+    <h3>Studios</h3>
+  </ion-text>
+</ion-content>

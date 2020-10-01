@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -17,6 +18,7 @@ import { IonicStorageModule } from '@ionic/storage';
   entryComponents: [],
   imports: [
     BrowserModule,
+    CommonModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,

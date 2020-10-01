@@ -1,3 +1,5 @@
+import { Studio } from './Studio';
+
 export interface User {
     valid?: boolean,
     id: String,
@@ -9,5 +11,9 @@ export interface User {
     currentSessionId?: String,
     sessionId?: String,
     expDate?: Date,
-    message?: String
+    message?: String,
+    // identify by ids
+    studios?: string[],
+    ensembles?: string[],
+    profiles?: string[]
 }
