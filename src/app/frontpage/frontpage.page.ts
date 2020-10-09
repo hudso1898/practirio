@@ -142,6 +142,9 @@ export class FrontpagePage implements OnInit {
       threshold: 0.5
     })
     imageObserver.observe(document.querySelector('#pitch-target'));
+    setInterval(() => {
+      if (this.loginService.isLoggedIn() && !this.router.url.includes('/home')) this.router.navigate(['/home']);
+    }, 1000);
   }
 
 }

@@ -1,0 +1,54 @@
+<ion-content>
+  <br>
+  <ion-text class='ion-text-center'><h2><ion-icon name='musical-note' color='primary' class='icon-center'></ion-icon> Create a Studio </h2></ion-text>
+  <ion-text class='ion-text-center' color='dark'><p><i>Studio</i>: teaching through individual and/or group instruction.</p></ion-text>
+  <div class='info'></div><br>
+
+  <form name='studioForm' [formGroup]='studioForm' class='studio-form'>
+    <ion-item-group>
+
+      <ion-item>
+        <ion-label position="stacked" [color]='getLabelColor("name")'>
+          <ion-icon class="alert-icon" name="alert-circle-outline" color="danger" *ngIf='!studioForm.get("name").pristine && (!studioVerified || studioForm.value["name"].length === 0) && !isVerifyingStudio'></ion-icon>
+          <ion-spinner class='alert-icon small-spinner' *ngIf='isVerifyingStudio'></ion-spinner>
+          <ion-icon class="alert-icon" name="checkmark-circle-outline" color="success" *ngIf='(studioVerified && studioForm.value["name"].length > 0) && !isVerifyingStudio'></ion-icon><ion-text>Studio Name</ion-text>
+        </ion-label>
+        <ion-input formControlName='name' type='text' name='name' required (change)='checkStudio()' (focusout)='checkStudio()'></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position='stacked' color='medium'>Studio Description</ion-label>
+        <ion-textarea formControlName='description' autoGrow='true' class='description'></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position='floating' color='medium'>Tags</ion-label>
+        <ion-input id='tag-input' formControlName='tag' type='text' name='tag' placeholder='Add a tag...' (keyup)='addTagKeyup($event)'> <ion-button color='tertiary' [disabled]='studioForm.value["tag"] === "" || tags.includes(studioForm.value["tag"])' class='right-margin'
+          (click)='addTag(studioForm.value["tag"])'>Add</ion-button></ion-input>
+      </ion-item>
+      <ion-item><div id='tag-display'>
+        <ion-chip class="tag-chip" *ngFor='let tag of tags' color='secondary'>{{tag}} <ion-icon name='close' (click)='removeTag(tag)'></ion-icon></ion-chip>
+      </div></ion-item>
+      <ion-item>
+        <ion-label position='stacked' color='medium'>Studio Image (optional)</ion-label>
+        <ion-input type='file' accept="image/png, image/jpeg"></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <br>
+    <ion-item lines="none" id="create-studio-button">
+      <ion-button (click)='submit()' id='create-studio-button' [disabled]='!studioForm.valid'>Create this Studio!</ion-button>
+    </ion-item>
+    <ion-item id="spinner-item" lines="none" *ngIf='isCreating'>
+      <ion-spinner id="spinner" name="dots"></ion-spinner>
+    </ion-item>
+      <ion-item-group class="error-field-group">
+        <ion-item *ngIf='createError' lines="none" class='error-field'>
+          <ion-icon class='alert-icon' name="alert-circle-outline" color="danger"></ion-icon><ion-text>{{createErrorMessage}}</ion-text>
+        </ion-item>
+        <ion-item *ngIf='!studioForm.valid' lines="none" class="error-field">
+          <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>One or more required fields is missing.</ion-text>
+        </ion-item>
+        <ion-item *ngIf='isStudioTaken' lines="none" class="error-field">
+          <ion-icon class="alert-icon" name="alert-circle-outline" color="danger"></ion-icon><ion-text>Studio name is already taken!</ion-text>
+        </ion-item>
+      </ion-item-group>
+  </form>
+</ion-content>

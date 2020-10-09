@@ -8,3 +8,18 @@
     height: 35vh;
     transition: height 1s;
 }
+.viewer-box.loaded.empty {
+    height: 10vh;
+    transition: height 1s;
+}
+.middle-message {
+    text-align: center;
+    align-items: center;
+}
+.icon-mr {
+    margin-right: 10px;
+}
+.center {
+    margin: 2vh auto 0 auto;
+    width: max-content;
+}

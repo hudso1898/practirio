@@ -1,3 +1,6 @@
 export interface Profile {
-    id: string
+    id: string,
+    userId: string,
+    studioId?: string,
+    ensembleId?: string
 }

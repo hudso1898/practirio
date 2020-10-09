@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -12,14 +12,16 @@ import { EnsemblesComponent } from './ensembles/ensembles.component';
 import { EventsComponent } from './events/events.component';
 import { PracticeComponent } from './practice/practice.component';
 import { StudiosComponent } from './studios/studios.component';
+import { CreateStudioComponent } from './create-studio/create-studio.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, DefaultComponent, EnsemblesComponent, EventsComponent, PracticeComponent, StudiosComponent]
+  declarations: [HomePage, DefaultComponent, EnsemblesComponent, EventsComponent, PracticeComponent, StudiosComponent, CreateStudioComponent]
 })
 export class HomePageModule {}

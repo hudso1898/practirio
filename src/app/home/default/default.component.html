@@ -4,12 +4,16 @@
       <ion-card-title class='ion-text-center'>My Studios</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo'>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'>
       <div *ngIf='this.loginService.hasFetchedUserInfo'>
         <ion-card *ngFor='let studio of this.loginService.userStudios'>
         </ion-card>
-        <div *ngIf='this.loginService.userStudios.length === 0'>
-          No studios
+        <div *ngIf='this.loginService.userStudios.length === 0' class='middle-message'>
+          <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
+          <ion-buttons class='center'>
+            <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
+            <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
+          </ion-buttons>
         </div>
       </div>
       </div>
@@ -21,12 +25,16 @@
       <ion-card-title class='ion-text-center'>My Ensembles</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo'>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'>
       <div *ngIf='this.loginService.hasFetchedUserInfo'>
         <ion-card *ngFor='let ensembles of this.loginService.userEnsembles'>
         </ion-card>
-        <div *ngIf='this.loginService.userEnsembles.length === 0'>
-          No ensembles
+        <div *ngIf='this.loginService.userEnsembles.length === 0' class='middle-message'>
+          <ion-text class='ion-text-center'><h4>You are not currently a member of any ensembles.</h4></ion-text>
+          <ion-buttons class='center'>
+            <ion-button routerLink='/home/ensembles/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
+            <ion-button routerLink='/home/ensembles/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
+          </ion-buttons>
         </div>
       </div>
       </div>

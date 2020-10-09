@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from './interfaces/User';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Studio } from './interfaces/Studio';
 import { Ensemble } from './interfaces/Ensemble';
 import { Profile } from './interfaces/Profile';
@@ -19,9 +19,9 @@ export class LoginService {
 
   public isFetchingUserInfo: boolean = false;
   public hasFetchedUserInfo: boolean = false;
-  userStudios: Studio[];
-  userEnsembles: Ensemble[];
-  userProfiles: Profile[];
+  userStudios: Studio[] = [];
+  userEnsembles: Ensemble[] = [];
+  userProfiles: Profile[] = [];
 
   apiUrl = 'https://www.practirio.com:9000/';
 
@@ -34,7 +34,6 @@ export class LoginService {
           if (res.ok) {
             this.loggedIn = true;
             this.user = user;
-            this.router.navigate(['/home']);
           }
           else {
             this.storage.remove('loggedIn');
@@ -116,6 +115,9 @@ export class LoginService {
    }
    searchUser(username: String) {
      return this.http.get(this.apiUrl + 'get/user/' + username);
+   }
+   searchStudio(name: string) {
+     return this.http.get(this.apiUrl + 'get/studio/' + name);
    }
 
    addUser(user: User) {
