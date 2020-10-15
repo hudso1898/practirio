@@ -5,8 +5,17 @@
     </ion-card-header>
     <ion-card-content>
       <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'>
-      <div *ngIf='this.loginService.hasFetchedUserInfo'>
-        <ion-card *ngFor='let studio of this.loginService.userStudios'>
+      <div *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios' class='card-flexbox'>
+        <ion-card *ngFor='let studio of this.loginService.userStudios' class='card'>
+          <img [src]='studio.imageUrl' [alt]='studio.name' class='card-image' *ngIf='this.isTallEnough()'>
+          <ion-card-content class='card-header'>
+            <ion-text color='dark' class='card-title'><h2 class='card-title-interior'>{{studio.name}}</h2></ion-text>
+            <ion-buttons class='margin-left inline-buttons'>
+              <ion-button [routerLink]='"/home/studios/" + studio.name'>Go To
+                <ion-icon size='large' class='margin-left' color='success' name="arrow-forward-circle-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-card-content>
         </ion-card>
         <div *ngIf='this.loginService.userStudios.length === 0' class='middle-message'>
           <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
@@ -18,8 +27,15 @@
       </div>
       </div>
     </ion-card-content>
-    <ion-progress-bar type="indeterminate" *ngIf='!this.loginService.hasFetchedUserInfo'></ion-progress-bar>
+    <ion-progress-bar type="indeterminate" *ngIf='!this.loginService.hasFetchedUserInfo || this.userDataService.isLoadingStudios'></ion-progress-bar>
   </ion-card>
+  <div id='music-lines-1'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+  </div>
   <ion-card class='desktop-item'>
     <ion-card-header>
       <ion-card-title class='ion-text-center'>My Ensembles</ion-card-title>

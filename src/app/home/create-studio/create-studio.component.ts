@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class CreateStudioComponent implements OnInit {
   private file: File | null = null;
 
   isVerifyingStudio: boolean = false;
+  isAddingStudio: boolean = false;
   isStudioTaken: boolean = false;
   studioVerified: boolean = false;
 
@@ -22,7 +24,7 @@ export class CreateStudioComponent implements OnInit {
     const file = event && event.item(0);
     this.file = file;
   }
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService) { 
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) { 
     this.studioForm = formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -31,9 +33,18 @@ export class CreateStudioComponent implements OnInit {
   }
 
   submit() {
-    console.dir(this.studioForm);
+    if (!this.studioForm.valid) return;
+    this.isAddingStudio = true;
+    this.loginService.addStudio(this.studioForm.value["name"], this.studioForm.value["description"], this.tags).subscribe((res: {success: boolean}) => {
+      this.isAddingStudio = false;
+      if (res.success) {
+        this.loginService.hasFetchedUserInfo = false;
+        this.router.navigate(["/home"]);
+      }
+    }, err => {
+      this.isAddingStudio = false;
+    });
     console.dir(this.file);
-    console.dir(this.tags);
   }
   getLabelColor(formControlName: string) : string {
     return (this.studioForm.get(formControlName) !== undefined && (this.studioForm.get(formControlName).touched || this.studioForm.get(formControlName).dirty) && !this.studioForm.get(formControlName).valid) ? "danger" : "medium";

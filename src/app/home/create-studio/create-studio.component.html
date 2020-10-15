@@ -34,7 +34,7 @@
     </ion-item-group>
     <br>
     <ion-item lines="none" id="create-studio-button">
-      <ion-button (click)='submit()' id='create-studio-button' [disabled]='!studioForm.valid'>Create this Studio!</ion-button>
+      <ion-button size='default' (click)='submit()' id='create-studio-button' [disabled]='!studioForm.valid || !studioVerified'>Create this Studio!</ion-button>
     </ion-item>
     <ion-item id="spinner-item" lines="none" *ngIf='isCreating'>
       <ion-spinner id="spinner" name="dots"></ion-spinner>

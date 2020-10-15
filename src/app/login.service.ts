@@ -25,6 +25,11 @@ export class LoginService {
 
   apiUrl = 'https://www.practirio.com:9000/';
 
+  sortByName(obj1: { name: string}, obj2: { name: string }) : number {
+    return (obj1.name < obj2.name) ? -1 :
+      (obj1.name === obj2.name) ? 0 : 1;
+  }
+
   constructor(private http: HttpClient, private storage: Storage, private router: Router) {
     this.storage.get('loggedIn').then((user) => {
       this.loggingIn = true;
@@ -86,6 +91,25 @@ export class LoginService {
      return this.http.post(this.apiUrl + 'userInfo', {id: user.id, sessionId: user.currentSessionId});
    }
 
+   addStudioToUser(studio: Studio) {
+     this.userStudios.push(studio);
+     this.userStudios.sort(this.sortByName);
+     this.user.studios.push(studio.id);
+     if (this.findProfile(studio)) {
+       this.user.profiles.push(this.findProfile(studio));
+     }
+   }
+   findProfile(obj: Studio | Ensemble): string {
+     if (obj.instructors.find(val => val.id === this.user.id)) return obj.instructors.find(val => val.id === this.user.id).profile;
+     else if (obj.assistants.find(val => val.id === this.user.id)) return obj.assistants.find(val => val.id === this.user.id).profile;
+     else if (obj.students.find(val => val.id === this.user.id)) return obj.students.find(val => val.id === this.user.id).profile;
+     else return null;
+   }
+   resetUserInfo() {
+     this.userStudios = [];
+     this.userEnsembles = [];
+     this.userProfiles = [];
+   }
    setUserInfo(studios: Studio[], ensembles: Ensemble[], profiles: Profile[]) {
     this.userStudios = studios;
     this.userEnsembles = ensembles;
@@ -104,6 +128,7 @@ export class LoginService {
     for (let profile of profiles) {
       this.user.profiles.push(profile.id);
     }
+    console.dir(this.user);
     this.hasFetchedUserInfo = true;
    }
 
@@ -116,8 +141,20 @@ export class LoginService {
    searchUser(username: String) {
      return this.http.get(this.apiUrl + 'get/user/' + username);
    }
+   searchStudioById(id: string) {
+     return this.http.get(this.apiUrl + 'get/studioById/' + id);
+   }
    searchStudio(name: string) {
      return this.http.get(this.apiUrl + 'get/studio/' + name);
+   }
+   addStudio(name: string, desc: string, tags: string[]) {
+     return this.http.post(this.apiUrl + 'addStudio', {
+      userId: this.user.id,
+      sessionId: this.user.currentSessionId,
+      name: name,
+      description: desc,
+      tags: tags
+     });
    }
 
    addUser(user: User) {

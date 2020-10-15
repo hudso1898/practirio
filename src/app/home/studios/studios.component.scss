@@ -1,8 +1,39 @@
 .desktop-subpage {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .desktop-item {
-    flex: 0 46%;
+    flex-basis: 46%;
     margin: 2%;
+    height: 60vh;
+    text-align: center;
+    min-height: 250px;
+}
+.card-image {
+    max-height: 40%;
+    max-width: 100%;
+    margin-top: 15px;
+}
+.buttons {
+    margin: auto;
+    margin-top: 30px;
+    justify-content: center;
+}
+.button {
+    text-align: center;
+    border-bottom: none;
+}
+.button:hover {
+    border-bottom: 1px solid lightgreen;
+}
+.center {
+    margin: auto;
+    width: max-content;
+}
+.description {
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 100px;
 }
