@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar [color]='(this.settingsService.isDarkMode()) ? "tertiary" : "primary"'>
+    <ion-avatar class='bar-avatar' slot='start' *ngIf='this.studio !== undefined && this.studio.imageUrl !== undefined'>
+      <img class='avatar' [src]='this.studio.imageUrl' [alt]='this.studio.name'>
+    </ion-avatar>
+    <ion-buttons slot='start'>
+      <ion-button routerLink='/home/studios'><ion-icon class='back-icon' name='arrow-back-outline'></ion-icon>Back</ion-button>
+       </ion-buttons>
+    <ion-buttons *ngIf='!this.isLoading && !this.loadError && this.studio !== undefined' slot='end'>
+      <ion-button [routerLink]='"/home/studios/" + this.studioId' routerLinkActive='active-route' [routerLinkActiveOptions]="{exact:
+        true}">Home</ion-button>
+      <ion-button [routerLink]='"/home/studios/" + this.studioId + "/members"' routerLinkActive='active-route'>Members</ion-button>
+      <ion-button [routerLink]='"/home/studios/" + this.studioId + "/manage"' *ngIf='this.isInstructor()' routerLinkActive='active-route'>Manage</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar *ngIf='this.isLoading'></ion-progress-bar>
+<ion-content>
+  <div *ngIf='!this.isLoading && this.studio'>
+    <ion-router-outlet></ion-router-outlet>
+  </div>
+  <ion-text *ngIf='this.loadError' class='ion-text-center message'><h4>There was an issue loading this studio.</h4></ion-text>
+</ion-content>

@@ -1,0 +1,51 @@
+<ion-content id='members-content'>
+  <ion-card id='instructors-card'>
+    <ion-card-header>
+      <ion-card-title>Instructors</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor='let instructor of this.studio.instructors'>
+          <ion-spinner name="dots" *ngIf='getUser(instructor.id).id === ""'></ion-spinner>
+          <span class='you-display' *ngIf='getUser(instructor.id).id === this.loginService.user.id'>(You)</span>
+          {{ getUser(instructor.id).firstname + " " + getUser(instructor.id).lastname}}
+          <span *ngIf='getUser(instructor.id).id !== ""' class='username-display'>({{getUser(instructor.id).username}})</span>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card id='assistants-card'>
+    <ion-card-header>
+      <ion-card-title>Assistants</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor='let assistant of this.studio.assistants'>
+          <ion-spinner name="dots" *ngIf='getUser(assistant.id).id === ""'></ion-spinner>
+          <span class='you-display' *ngIf='getUser(assistant.id).id === this.loginService.user.id'>(You)</span>
+          {{ getUser(assistant.id).firstname + " " + getUser(assistant.id).lastname}}
+          <span *ngIf='getUser(assistant.id).id !== ""' class='username-display'>({{getUser(assistant.id).username}})</span>
+        </ion-item>
+        <ion-item *ngIf='this.studio.assistants.length === 0'>
+          There are no assistants enrolled in this studio.
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card id='students-card'>
+    <ion-card-header>
+      <ion-card-title>Students</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item *ngFor='let students of this.studio.students'>
+        <ion-spinner name="dots" *ngIf='getUser(student.id).id === ""'></ion-spinner>
+        <span class='you-display' *ngIf='getUser(student.id).id === this.loginService.user.id'>(You)</span>
+        {{ getUser(student.id).firstname + " " + getUser(student.id).lastname}}
+        <span *ngIf='getUser(student.id).id !== ""' class='username-display'>({{getUser(student.id).username}})</span>
+      </ion-item>
+      <ion-item *ngIf='this.studio.students.length === 0'>
+        There are no students enrolled in this studio.
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
