@@ -1,3 +1,63 @@
-<p>
-  join-studio works!
-</p>
+<ion-content>
+  <ion-buttons id='buttons'>
+    <ion-button routerLink="/home/studios" id="back-button">
+      <ion-icon name="arrow-back-outline" size="large"></ion-icon>
+      <span id="back-button-text">Back</span>
+    </ion-button>
+  </ion-buttons>
+  <br>
+  <ion-text class='ion-text-center'><h2><ion-icon name='musical-note' color='primary' class='icon-center'></ion-icon> Join a Studio </h2></ion-text>
+  <ion-text class='ion-text-center' color='dark'><p><i>Studio</i>: teaching through individual and/or group instruction.</p></ion-text>
+
+  <div class='info'></div><br>
+
+  <form name='studioForm' [formGroup]='studioForm' class='studio-form'>
+    <ion-item-group>
+
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-text>Studio Name</ion-text>
+        </ion-label>
+        <ion-input formControlName='name' type='text' name='name' required (focusout)='search()' (keyup)='nameKeyup($event)'></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position='floating' color='medium'>Tags</ion-label>
+        <ion-input id='tag-input' formControlName='tag' type='text' name='tag' placeholder='Add a tag...' (keyup)='addTagKeyup($event)'> <ion-button color='tertiary' [disabled]='studioForm.value["tag"] === "" || tags.includes(studioForm.value["tag"])' class='right-margin'
+          (click)='addTag(studioForm.value["tag"])'>Add</ion-button></ion-input>
+      </ion-item>
+      <ion-item *ngIf='this.tags.length > 0'><div id='tag-display'>
+        <ion-chip class="tag-chip" *ngFor='let tag of tags' color='secondary'>{{tag}} <ion-icon name='close' (click)='removeTag(tag)'></ion-icon></ion-chip>
+      </div></ion-item>
+      </ion-item-group>
+  </form>
+
+  <ion-spinner id='spinner' *ngIf='isSearching'></ion-spinner>
+  <ion-list *ngIf='!isSearching'>
+        <ion-list-header>
+          <ion-text *ngIf='results.length === 0'>0 Studios</ion-text>
+          <ion-text *ngIf='results.length === 1'>{{results.length}} Studio</ion-text>
+          <ion-text *ngIf='results.length > 1'>{{results.length}} Studios</ion-text>
+        </ion-list-header>
+        <ion-item *ngFor='let studio of results' text-wrap>
+          <ion-avatar slot='start'>
+            <img class='avatar-image' [src]='studio.imageUrl' alt='img'>
+          </ion-avatar>
+
+          <ion-label>{{studio.name}}
+            <div *ngIf='studio.tags.length > 0' class='tag-display'>
+              <ion-chip size='small' class="tag-chip" *ngFor='let tag of studio.tags' [color]='isSearched(tag)'>{{tag}}</ion-chip>
+            </div>
+          </ion-label>
+          <div slot='end'>
+            <ion-text *ngIf='studio.size === 1'>{{studio.size}} member</ion-text>
+            <ion-text *ngIf='studio.size !== 1'>{{studio.size}} members</ion-text>
+            <ion-button class='left-margin' (click)='requestJoin(studio)' *ngIf='!loginService.user.studios.includes(studio.id) && !studio.applicants'>Join</ion-button>
+            <ion-button class='left-margin' (click)='requestJoin(studio)' *ngIf='!loginService.user.studios.includes(studio.id) && (studio.applicants && !studio.applicants.includes(loginService.user.id))'>Join</ion-button>
+            <ion-button class='left-margin' (click)='requestJoin(studio)' *ngIf='!loginService.user.studios.includes(studio.id) && (studio.applicants && studio.applicants.includes(loginService.user.id))' disabled>Pending</ion-button>
+            <ion-button class='left-margin' color='medium' *ngIf='loginService.user.studios.includes(studio.id)' disabled>Joined</ion-button>
+            
+          </div>
+        </ion-item>
+
+  </ion-list>
+</ion-content>

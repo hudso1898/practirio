@@ -27,6 +27,10 @@ export class HomePage implements OnInit {
     return this.loginService.user;
   }
   ngOnInit() {
+    this.init();
+  }
+
+  init() {
     if (this.user) {
       this.loginService.isFetchingUserInfo = true;
           this.loginService.getUserInfo(this.user).subscribe((res: { studios: string[], ensembles: Ensemble[], profiles: Profile[]}) => {

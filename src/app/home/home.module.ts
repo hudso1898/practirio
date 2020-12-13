@@ -13,6 +13,7 @@ import { EventsComponent } from './events/events.component';
 import { PracticeComponent } from './practice/practice.component';
 import { StudiosComponent } from './studios/studios.component';
 import { CreateStudioComponent } from './create-studio/create-studio.component';
+import { JoinStudioComponent } from './join-studio/join-studio.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { CreateStudioComponent } from './create-studio/create-studio.component';
     ReactiveFormsModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, DefaultComponent, EnsemblesComponent, EventsComponent, PracticeComponent, StudiosComponent, CreateStudioComponent]
+  declarations: [HomePage, DefaultComponent, EnsemblesComponent, EventsComponent, PracticeComponent, StudiosComponent, CreateStudioComponent, JoinStudioComponent]
 })
 export class HomePageModule {}

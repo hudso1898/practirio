@@ -37,7 +37,7 @@
       <ion-card-title>Students</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item *ngFor='let students of this.studio.students'>
+      <ion-item *ngFor='let student of this.studio.students'>
         <ion-spinner name="dots" *ngIf='getUser(student.id).id === ""'></ion-spinner>
         <span class='you-display' *ngIf='getUser(student.id).id === this.loginService.user.id'>(You)</span>
         {{ getUser(student.id).firstname + " " + getUser(student.id).lastname}}

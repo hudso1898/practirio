@@ -1,0 +1,18 @@
+<ion-content>
+  <ion-buttons>
+    <ion-button class='back-button' [routerLink]='"/home/studios/" + this.userDataService.studio.id + "/manage"'><ion-icon class='back-icon' name='arrow-back-outline'></ion-icon>Management Home</ion-button>
+  </ion-buttons>
+  <ion-text class='ion-text-center'><h2>Membership Applications</h2></ion-text>
+  <ion-list>
+    <ion-item *ngFor='let applicant of this.userDataService.studio.applicants'>
+      <ion-spinner name="dots" *ngIf='getUser(applicant).id === ""'></ion-spinner>
+      {{ getUser(applicant).firstname + " " + getUser(applicant).lastname}}
+      <span *ngIf='getUser(applicant).id !== ""' class='username-display'>({{getUser(applicant).username}})</span>
+      <ion-buttons slot='end' *ngIf='getUser(applicant).id !== ""'>
+        <ion-button (click)='confirm(getUser(applicant).id)' color='success'>Confirm</ion-button>
+        <ion-button (click)='deny(getUser(applicant).username, applicant)' color='danger'>Deny</ion-button>
+      </ion-buttons>
+    </ion-item>
+    <ion-text class='ion-text-center' *ngIf='!this.userDataService.studio.applicants || this.userDataService.studio.applicants.length === 0'><h5>There are no applications to display.</h5></ion-text>
+  </ion-list>
+</ion-content>

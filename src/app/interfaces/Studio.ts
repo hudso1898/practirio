@@ -17,4 +17,5 @@ export interface Studio {
         id: string,
         profile: string
     }[],
+    applicants?: string[]
 }

@@ -35,6 +35,10 @@ const routes: Routes = [
         component: JoinStudioComponent
       },
       {
+        path: 'studios/:id',
+        loadChildren: () => import('./studio/studio.module').then( m => m.StudioPageModule)
+      },
+      {
         path: 'ensembles',
         pathMatch: 'full',
         component: EnsemblesComponent
@@ -53,6 +57,10 @@ const routes: Routes = [
         redirectTo: ''
       }
     ]
+  },
+  {
+    path: 'studio',
+    loadChildren: () => import('./studio/studio.module').then( m => m.StudioPageModule)
   }
 ];
 

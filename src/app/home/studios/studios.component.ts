@@ -35,7 +35,7 @@ export class StudiosComponent implements OnInit {
     return this.settingsService.isDarkMode();
   }
   truncateDesc(desc: string) {
-   if (desc.length > 197) return desc.slice(0, 197) + '...';
+   if (desc.length > 147) return desc.slice(0, 147) + '...';
    else return desc;
   }
 }

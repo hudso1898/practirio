@@ -5,6 +5,7 @@
     </ion-avatar>
     <ion-buttons slot='start'>
       <ion-button routerLink='/home/studios'><ion-icon class='back-icon' name='arrow-back-outline'></ion-icon>Back</ion-button>
+      <ion-button (click)='this.init()'><ion-icon class='refresh-icon' name='refresh-outline'></ion-icon></ion-button>
        </ion-buttons>
     <ion-buttons *ngIf='!this.isLoading && !this.loadError && this.studio !== undefined' slot='end'>
       <ion-button [routerLink]='"/home/studios/" + this.studioId' routerLinkActive='active-route' [routerLinkActiveOptions]="{exact:

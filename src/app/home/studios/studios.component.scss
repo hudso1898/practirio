@@ -11,7 +11,7 @@
     min-height: 250px;
 }
 .card-image {
-    max-height: 40%;
+    max-height: 30%;
     max-width: 100%;
     margin-top: 15px;
 }
@@ -32,8 +32,12 @@
     width: max-content;
 }
 .description {
-    white-space: pre-wrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-height: 100px;
+    max-height: 20%;
+}
+.middle-message {
+    margin: 20vh auto 5vh auto;
+    text-align: center;
+    max-width: 90%;
 }

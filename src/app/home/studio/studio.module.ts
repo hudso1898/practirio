@@ -9,6 +9,9 @@ import { StudioPageRoutingModule } from './studio-routing.module';
 import { StudioPage } from './studio.page';
 import { StudioHomeComponent } from './studio-home/studio-home.component';
 import { StudioMembersComponent } from './studio-members/studio-members.component';
+import { StudioManageComponent } from './studio-manage/studio-manage.component';
+import { StudioApplicantsComponent } from './studio-applicants/studio-applicants.component';
+import { ApprovePopoverComponent } from './studio-applicants/approve-popover/approve-popover.component';
 
 @NgModule({
   imports: [
@@ -17,6 +20,6 @@ import { StudioMembersComponent } from './studio-members/studio-members.componen
     IonicModule,
     StudioPageRoutingModule
   ],
-  declarations: [StudioPage, StudioHomeComponent, StudioMembersComponent]
+  declarations: [StudioPage, StudioHomeComponent, StudioMembersComponent, StudioManageComponent, StudioApplicantsComponent, ApprovePopoverComponent]
 })
 export class StudioPageModule {}

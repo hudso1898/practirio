@@ -1,0 +1,10 @@
+<ion-content>
+  <ion-list>
+    <ion-item [routerLink]='"/home/studios/" + this.userDataService.studio.id + "/manage/applicants"'>
+      <ion-badge *ngIf='this.userDataService.studio.applicants && this.userDataService.studio.applicants.length > 0' color='danger' class='notification-chip'>
+        {{this.userDataService.studio.applicants.length}}
+      </ion-badge>
+      Applicants
+    </ion-item>
+  </ion-list>
+</ion-content>

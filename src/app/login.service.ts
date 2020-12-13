@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Studio } from './interfaces/Studio';
 import { Ensemble } from './interfaces/Ensemble';
 import { Profile } from './interfaces/Profile';
+import { UserDataService } from './services/user-data.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +16,7 @@ export class LoginService {
   private loggingIn: boolean = false;
   private loginFail: boolean = false;
   private tokenPresent: boolean = false;
+  private loadedStudios: number = 0;
   user: User;
 
   public isFetchingUserInfo: boolean = false;
@@ -30,7 +32,7 @@ export class LoginService {
       (obj1.name === obj2.name) ? 0 : 1;
   }
 
-  constructor(private http: HttpClient, private storage: Storage, private router: Router) {
+  constructor(private http: HttpClient, private storage: Storage, private router: Router, private userDataService: UserDataService) {
     this.storage.get('loggedIn').then((user) => {
       this.loggingIn = true;
       if (user && user.id !== undefined && user.currentSessionId !== undefined) {
@@ -85,6 +87,51 @@ export class LoginService {
     this.storage.set('loggedIn', this.user);
     this.tokenPresent = true;
     this.loggingIn = false;
+    if (this.user) {
+      this.isFetchingUserInfo = true;
+          this.getUserInfo(this.user).subscribe((res: { studios: string[], ensembles: Ensemble[], profiles: Profile[]}) => {
+            if (res) {
+              this.setUserInfo([], [], []);
+              if (res.studios.length > 0) {
+                this.userDataService.isLoadingStudios = true;
+                res.studios.map((studio) => {
+                  this.searchStudioById(studio).subscribe((result: { found: boolean, studio: Studio}) => {
+                    if (result.found) this.addStudioToUser(result.studio);
+                    this.loadedStudios++;
+                    if(this.loadedStudios >= res.studios.length) this.userDataService.isLoadingStudios = false;
+                  })
+                })
+              }
+              this.hasFetchedUserInfo = true;
+              this.isFetchingUserInfo = false;
+            }
+          });
+    }
+    else {
+      setInterval(() => {
+        if (!this.hasFetchedUserInfo && this.user) {
+          this.isFetchingUserInfo = true;
+          this.getUserInfo(this.user).subscribe((res: { studios: string[], ensembles: Ensemble[], profiles: Profile[]}) => {
+            if (res) {
+              this.setUserInfo([], [], []);
+              if (res.studios.length > 0) {
+                this.userDataService.isLoadingStudios = true;
+                res.studios.map((studio) => {
+                  this.searchStudioById(studio).subscribe((result: { found: boolean, studio: Studio}) => {
+                    if (result.found) this.addStudioToUser(result.studio);
+                    this.loadedStudios++;
+                    if(this.loadedStudios == res.studios.length) this.userDataService.isLoadingStudios = false;
+                  })
+                })
+              }
+              // this.loginService.setUserInfo(res.studios, res.ensembles, res.profiles);
+              this.hasFetchedUserInfo = true;
+              this.isFetchingUserInfo = false;
+            }
+          });
+        }
+      }, 2000);
+    }
    }
 
    getUserInfo(user: User) {
@@ -98,6 +145,57 @@ export class LoginService {
      if (this.findProfile(studio)) {
        this.user.profiles.push(this.findProfile(studio));
      }
+     let userIds = [];
+     for (let instructor of studio.instructors) {
+      if (!this.userDataService.loadingUser(instructor.id) && !userIds.includes(instructor.id)) {
+        userIds.push(instructor.id);
+      }
+    }
+    for (let assistant of studio.assistants) {
+      if (!this.userDataService.loadingUser(assistant.id) && !userIds.includes(assistant.id)) {
+        userIds.push(assistant.id);
+      }
+    }
+    for (let student of studio.students) {
+      if (!this.userDataService.loadingUser(student.id) && !userIds.includes(student.id)) {
+        userIds.push(student.id);
+      }
+    }
+    if (studio.instructors.findIndex(i => i.id === this.user.id) !== -1 && studio.applicants) {
+      for (let applicant of studio.applicants) {
+        userIds.push(applicant);
+      }
+    }
+    for (let id of userIds) {
+      if (!this.userDataService.loadingUser(id)) this.userDataService.searchAndAddUser(id);
+    }
+   }
+
+   updateStudioUsers(studio: Studio) {
+    let userIds = [];
+    for (let instructor of studio.instructors) {
+     if (!this.userDataService.loadingUser(instructor.id) && !userIds.includes(instructor.id)) {
+       userIds.push(instructor.id);
+     }
+   }
+   for (let assistant of studio.assistants) {
+     if (!this.userDataService.loadingUser(assistant.id) && !userIds.includes(assistant.id)) {
+       userIds.push(assistant.id);
+     }
+   }
+   for (let student of studio.students) {
+     if (!this.userDataService.loadingUser(student.id) && !userIds.includes(student.id)) {
+       userIds.push(student.id);
+     }
+   }
+   if (studio.instructors.findIndex(i => i.id === this.user.id) !== -1 && studio.applicants) {
+     for (let applicant of studio.applicants) {
+       userIds.push(applicant);
+     }
+   }
+   for (let id of userIds) {
+     if (!this.userDataService.loadingUser(id)) this.userDataService.searchAndAddUser(id);
+   }
    }
    findProfile(obj: Studio | Ensemble): string {
      if (obj.instructors.find(val => val.id === this.user.id)) return obj.instructors.find(val => val.id === this.user.id).profile;
@@ -119,6 +217,7 @@ export class LoginService {
     this.user.ensembles = [];
     this.user.profiles = [];
 
+
     for (let studio of studios) {
       this.user.studios.push(studio.id);
     }
@@ -128,7 +227,6 @@ export class LoginService {
     for (let profile of profiles) {
       this.user.profiles.push(profile.id);
     }
-    console.dir(this.user);
     this.hasFetchedUserInfo = true;
    }
 
@@ -136,6 +234,10 @@ export class LoginService {
      this.storage.remove('loggedIn');
      this.tokenPresent = false;
      this.loggedIn = false;
+     this.userStudios = [];
+     this.userEnsembles = [];
+     this.userProfiles = [];
+     this.userDataService.studio = undefined;
      this.router.navigate(["/"]);
    }
    searchUser(username: String) {
