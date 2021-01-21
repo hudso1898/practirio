@@ -109,7 +109,7 @@ export class LoginService {
     }
     else {
       setInterval(() => {
-        if (!this.hasFetchedUserInfo && this.user) {
+        if (!this.hasFetchedUserInfo && !this.isFetchingUserInfo && this.user) {
           this.isFetchingUserInfo = true;
           this.getUserInfo(this.user).subscribe((res: { studios: string[], ensembles: Ensemble[], profiles: Profile[]}) => {
             if (res) {
@@ -143,7 +143,7 @@ export class LoginService {
      this.userStudios.sort(this.sortByName);
      this.user.studios.push(studio.id);
      if (this.findProfile(studio)) {
-       this.user.profiles.push(this.findProfile(studio));
+       this.user.profiles.push(this.findProfile(studio).id);
      }
      let userIds = [];
      for (let instructor of studio.instructors) {
@@ -197,7 +197,7 @@ export class LoginService {
      if (!this.userDataService.loadingUser(id)) this.userDataService.searchAndAddUser(id);
    }
    }
-   findProfile(obj: Studio | Ensemble): string {
+   findProfile(obj: Studio | Ensemble): Profile {
      if (obj.instructors.find(val => val.id === this.user.id)) return obj.instructors.find(val => val.id === this.user.id).profile;
      else if (obj.assistants.find(val => val.id === this.user.id)) return obj.assistants.find(val => val.id === this.user.id).profile;
      else if (obj.students.find(val => val.id === this.user.id)) return obj.students.find(val => val.id === this.user.id).profile;

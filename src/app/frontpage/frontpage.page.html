@@ -33,6 +33,76 @@
        collaborating with our peers and teachers, and informing our practical and musical decisions, <i>Practirio</i> enables today's students to become the next generation of music performers, educators, artists, and enthusiasts.</ion-text>
     </ion-card-content>
    </ion-card>
+   <div class='info-flexbox'>
+   <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+     <img src='../../assets/frontpage-1.jpg' class='info-card-img'>
+    <ion-card-header>
+    <ion-card-title>
+      From the First Lesson to the Degree Recital
+    </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text color=dark>Practirio is built for all levels of musician, from one's first lessons to advanced college undergraduate or graduate studies.
+        Students and instructors can keep track of their lessons, highlight areas of success and improvement, and develop personalized plans to best develop musical potential.
+        </ion-text>
+    </ion-card-content>
+   </ion-card>
+
+   <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+    <img src='../../assets/frontpage-2.jpg' class='info-card-img'>
+    <ion-card-header>
+    <ion-card-title>
+      Take Practicing to the Next Level
+    </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text color=dark>Had a rough week of practicing? We've been there. Sync your practicing tasks from your studios and ensembles and get to it! Practirio
+        allows you to track your practice sessions, create and work through warm-up routines, divide and log your time spent on each task, and keep a practice journal,
+        all while providing you analysis of your practicing to help you develop better practice habits, for your craft and for your health.
+        </ion-text>
+    </ion-card-content>
+   </ion-card>
+   </div>
+   <br><br>
+   <div class='info-flexbox'>
+    <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+      <img src='../../assets/frontpage-3.jpg' class='info-card-img'>
+     <ion-card-header>
+     <ion-card-title>
+       Control your Musical Life
+     </ion-card-title>
+     </ion-card-header>
+     <ion-card-content>
+       <ion-text color=dark> With Practirio, all of your musical organizations are in one place. Events, practice logs, lesson notes, and more integrate together to help you 
+           make music no matter how busy you may be. Musicians are always on the go, and so is Practirio. Use the app on your desktop or laptop computer, or download Practirio on your phone or tablet to use
+           in the practice room.
+         </ion-text>
+     </ion-card-content>
+    </ion-card>
+ 
+    <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+      <img src='../../assets/frontpage-4.jpeg' class='info-card-img'>
+     <ion-card-header>
+     <ion-card-title>
+       Manage Your Organizations With Ease
+     </ion-card-title>
+     </ion-card-header>
+     <ion-card-content>
+       <ion-text color=dark>From private studios, primary/secondary music programs, college studios and ensembles, and beyond, Practirio helps manage and connect musicians together. Create
+         studios and ensembles, share rehearsal and event schedules, and manage your organization's inventory and digital resources, all in one convenient platform.
+         </ion-text>
+     </ion-card-content>
+    </ion-card>
+    </div>
+    <br><br>
+    <div class='center'>
+      <img class='store-image' src='../../assets/app-store-placeholder.png'>
+    </div>
+    <br>
+    <div class='center'>
+      <ion-text><h5><a [class]='(settingsService.isDarkMode()) ? "fb-link-dark" : "fb-link"'  href="https://www.facebook.com/Practirio-105753078082979" target='_blank'>Like us on Facebook!</a></h5></ion-text>
+      <div class="fb-like center" data-href="https://www.facebook.com/Practirio-105753078082979" data-width="" data-layout="box_count" data-action="like" data-size="large" data-share="true"></div>
+    </div>
 </div>
 <div class="img-column" [class.invisible]='!this.hasPitchAppeared'>
   <img id='eigth-image-light' [class.hidden]='settingsService.isDarkMode()' src="../../assets/eigthnotes-light.png">
@@ -41,7 +111,7 @@
 </div>
 <ion-footer>
   <ion-toolbar class="footer" color="light">
-    Made with love by a musician, for musicians.<br>
+    Made by a musician, for musicians.<br>
     © 2020 Matt Hudson
   </ion-toolbar>
 </ion-footer>

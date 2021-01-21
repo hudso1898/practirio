@@ -13,6 +13,10 @@ import { SettingsService } from 'src/app/settings.service';
 export class StudioPage implements OnInit {
 
   studio: Studio;
+  
+  get studioName(): string {
+    return (this.studio) ? this.studio.name : "";
+  }
   constructor(private loginService: LoginService, private route: ActivatedRoute, private settingsService: SettingsService, private userDataService: UserDataService,
     private router: Router) { }
 

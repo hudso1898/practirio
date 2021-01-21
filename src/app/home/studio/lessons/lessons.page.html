@@ -1,0 +1,43 @@
+<ion-content>
+<div *ngIf='this.isInstructor() && this.uid === ""'>
+  <ion-text class='ion-text-center'><h3>Lesson Management</h3></ion-text>
+  <ion-list *ngIf='this.studio.assistants.length > 0'>
+    <ion-list-header>
+      Assistants
+    </ion-list-header>
+    <ion-item-sliding *ngFor='let assistant of this.studio.assistants'>
+      <ion-item>
+        <ion-label>Assistant</ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option>Option</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list *ngIf='this.studio.assistants.length === 0'>
+    <ion-list-header>Assistants</ion-list-header>
+    <ion-item>There are no assistants currently in this studio.</ion-item>
+  </ion-list>
+  <ion-list *ngIf='this.studio.students.length > 0'>
+    <ion-list-header>
+      Students
+    </ion-list-header>
+    <ion-item-sliding *ngFor='let student of this.studio.students'>
+      <ion-item>
+        <ion-label>{{this.getUser(student.id).firstname + " " + this.getUser(student.id).lastname}}<span class='username-display'>({{this.getUser(student.id).username}})</span></ion-label>
+        <ion-button (click)='switchToUser(student.id)'>Lessons</ion-button>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option (click)='switchToUser(student.id)'>View</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list *ngIf='this.studio.students.length === 0'>
+    <ion-list-header>Students</ion-list-header>
+    <ion-item>There are no students currently in this studio.</ion-item>
+  </ion-list>
+</div>
+<div *ngIf='!this.isInstructor() || this.uid !== ""'>
+  <app-user-lessons [uid]='this.uid'></app-user-lessons>
+</div>
+</ion-content>

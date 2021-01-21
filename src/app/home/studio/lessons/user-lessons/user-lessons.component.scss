@@ -1,0 +1,56 @@
+.left-icon {
+    margin-right: 10px;
+}
+#lesson-view {
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 25vh;
+    overflow-x: scroll;
+}
+.double-bar {
+    display: inline-block;
+    border-right: 6px double black;
+    height: 20vh;
+}
+.connector {
+    display: inline-block;
+    width: 10vw;
+    border-top: 3px solid black;
+    margin-bottom: 10vh;
+}
+.empty-note {
+    display: inline-block;
+    width: 5vw;
+    height: 5vw;
+    margin-bottom: 5vh;
+    border: 2px solid black;
+    border-radius: 100px;
+    transition: all 0.3s;
+}
+.double-bar.darkcolor {
+    border-right-color: white;
+}
+.connector.darkcolor {
+    border-top-color: white;
+}
+.empty-note.darkcolor {
+    border-color: white;
+}
+.empty-note:hover {
+    box-shadow: 0 0 3px 2px #3880FF;
+    background-color: rgba(159, 194, 248, 0.4);
+    transition: all 0.4s;
+    cursor: pointer;
+}
+.note-wrapper {
+    position: absolute;
+}
+.note-title {
+    position: absolute;
+    text-align: center;
+    width: max-content;
+    top: 75px;
+}
+.note-title>p {
+    margin-left: -7px;
+}

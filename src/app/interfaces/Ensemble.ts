@@ -1,3 +1,5 @@
+import { Profile } from "./Profile";
+
 export interface Ensemble {
     id: string,
     name: string,
@@ -7,14 +9,14 @@ export interface Ensemble {
     // identify users by their user IDs
     instructors: {
         id: string,
-        profile: string
+        profile: Profile
     }[],
     assistants: {
         id: string,
-        profile: string
+        profile: Profile
     }[],
     students: {
         id: string,
-        profile: string
+        profile: Profile
     }[],
 }

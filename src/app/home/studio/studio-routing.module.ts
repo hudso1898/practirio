@@ -29,6 +29,10 @@ const routes: Routes = [
         path: 'manage/applicants',
         pathMatch: 'full',
         component: StudioApplicantsComponent
+      },
+      {
+        path: 'lessons',
+        loadChildren: () => import('./lessons/lessons.module').then( m => m.LessonsPageModule)
       }
     ]
   }

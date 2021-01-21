@@ -31,7 +31,7 @@ export class HomePage implements OnInit {
   }
 
   init() {
-    if (this.user) {
+    if (this.user && !this.loginService.isFetchingUserInfo && !this.loginService.hasFetchedUserInfo) {
       this.loginService.isFetchingUserInfo = true;
           this.loginService.getUserInfo(this.user).subscribe((res: { studios: string[], ensembles: Ensemble[], profiles: Profile[]}) => {
             if (res) {

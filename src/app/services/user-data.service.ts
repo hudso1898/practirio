@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Profile } from '../interfaces/Profile';
 import { Studio } from '../interfaces/Studio';
 import { User } from '../interfaces/User';
 import { LoginService } from '../login.service';
@@ -88,5 +89,26 @@ export class UserDataService {
   }
   searchUser(id: string) {
     return this.http.get(this.apiUrl + 'get/userById/' + id);
+  }
+  isInstructor(studio: Studio, user: User): boolean {
+    return (studio.instructors.find(i => i.id === user.id)) ? true : false;
+  }
+  isAssistant(studio: Studio, user: User): boolean {
+    return (studio.assistants.find(a => a.id === user.id)) ? true : false;
+  }
+  isStudent(studio: Studio, user: User): boolean {
+    return (studio.students.find(s => s.id === user.id)) ? true : false;
+  }
+  getStudioProfile(studio: Studio, user: User): Profile | {} {
+    if (this.isInstructor(studio, user)) {
+      return studio.instructors.find(i => i.id === user.id).profile;
+    }
+    else if (this.isAssistant(studio,user)) {
+      return studio.assistants.find(a => a.id === user.id).profile;
+    }
+    else if (this.isStudent(studio,user)) {
+      return studio.students.find(s => s.id === user.id).profile;
+    }
+    else return {};
   }
 }
