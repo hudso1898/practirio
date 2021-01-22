@@ -10,3 +10,19 @@
 .you-display {
     margin-right: 5px;
 }
+.add-button {
+    margin-right: 5px;
+}
+app-new-member-popover {
+    border-top: 3px double grey;
+    border-bottom: 3px double grey;
+    padding: 40px 0;
+    margin: 20px 0;
+    width: 100%;
+    display: inline-block;
+    background-color: #f4f4f4;
+    opacity: 0; // animation handles fade in
+}
+app-new-member-popover.dark {
+    background-color: #1f1f1f;
+}

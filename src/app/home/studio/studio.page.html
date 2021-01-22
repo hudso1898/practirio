@@ -1,4 +1,4 @@
-<ion-header collapse='collapse'>
+<ion-header>
   <ion-toolbar [color]='(this.settingsService.isDarkMode()) ? "tertiary" : "primary"'>
     <ion-avatar class='bar-avatar' slot='start' *ngIf='this.studio !== undefined && this.studio.imageUrl !== undefined'>
       <img class='avatar' [src]='this.studio.imageUrl' [alt]='this.studio.name'>
@@ -20,7 +20,7 @@
 <ion-progress-bar *ngIf='this.isLoading'></ion-progress-bar>
 <ion-content>
   <div *ngIf='!this.isLoading && this.studio'>
-    <ion-router-outlet></ion-router-outlet>
+    <ion-router-outlet id='main-studio-content' (activate)='onActivate($event)'></ion-router-outlet>
   </div>
   <ion-text *ngIf='this.loadError' class='ion-text-center message'><h4>There was an issue loading this studio.</h4></ion-text>
 </ion-content>

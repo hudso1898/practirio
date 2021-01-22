@@ -50,5 +50,15 @@ export class StudioPage implements OnInit {
   isInstructor(): boolean {
     return this.studio.instructors.findIndex(i => i.id === this.loginService.user.id) !== -1
   }
+  onActivate(event) {
+    if (event.update) {
+      event.update.subscribe(ev => {
+        console.log('init')
+        if (ev === 'init') this.init();
+      });
+      console.log('update')
+    }
+    else console.log('no update')
+  }
 
 }

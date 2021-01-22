@@ -8,6 +8,7 @@ import { LessonsPageRoutingModule } from './lessons-routing.module';
 
 import { LessonsPage } from './lessons.page';
 import { UserLessonsComponent } from './user-lessons/user-lessons.component';
+import { LessonEditorComponent } from './lesson-editor/lesson-editor.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { UserLessonsComponent } from './user-lessons/user-lessons.component';
     IonicModule,
     LessonsPageRoutingModule
   ],
-  declarations: [LessonsPage, UserLessonsComponent]
+  declarations: [LessonsPage, UserLessonsComponent, LessonEditorComponent]
 })
 export class LessonsPageModule {}

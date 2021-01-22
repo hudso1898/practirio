@@ -1,0 +1,22 @@
+<div *ngIf='!apiComplete'>
+<ion-text class='ion-text-center'><h2>Add {{role}}</h2></ion-text>
+<br>
+<ion-searchbar id='user-searchbar' [(ngModel)]='query' placeholder='Search Users...' (focusout)='search()' (keyup)='nameKeyup($event)'></ion-searchbar>
+<ion-progress-bar type='indeterminate' *ngIf='loading || apiRunning'></ion-progress-bar>
+<br>
+<ion-list *ngIf='this.results && !this.loading' id='results-list'>
+  <ion-item *ngIf='this.results.length === 0'>There are no users matching your search.</ion-item>
+  <div *ngIf='this.results.length > 0'>
+  <ion-item *ngFor='let user of results'>
+    <span *ngIf='findMember(user)' class='grey'>{{user.firstname + " " + user.lastname}} ({{user.username}})</span>
+    <span *ngIf='!findMember(user)'>{{user.firstname + " " + user.lastname}} ({{user.username}})</span>
+    <ion-checkbox *ngIf='!findMember(user)' slot='end' (click)='toggleAddUser(user.id)'></ion-checkbox>
+    <span *ngIf='findMember(user)' class='grey' slot='end'>{{getRole(user)}}</span>
+  </ion-item>
+  </div>
+</ion-list>
+<ion-buttons><ion-button class='center'[disabled]='newMembers.length === 0 || this.apiRunning' (click)='submit()'>Add {{role}}s</ion-button></ion-buttons>
+</div>
+<div *ngIf='apiComplete'>
+  <ion-text class='ion-text-center'><h3>{{newMembers.length}} {{role}}s added!</h3></ion-text>
+</div>

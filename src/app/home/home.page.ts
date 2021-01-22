@@ -42,8 +42,6 @@ export class HomePage implements OnInit {
                   this.loginService.searchStudioById(studio).subscribe((result: { found: boolean, studio: Studio}) => {
                     if (result.found) this.loginService.addStudioToUser(result.studio);
                     this.loadedStudios++;
-                    console.log(this.loadedStudios)
-                    console.log(res.studios.length)
                     if(this.loadedStudios >= res.studios.length) this.userDataService.isLoadingStudios = false;
                   })
                 })

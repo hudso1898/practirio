@@ -1,19 +1,24 @@
 <ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
-<div *ngIf='!loading'>
+<ion-content *ngIf='!loading'>
   <ion-button color='tertiary' (click)='back()' *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
     <ion-icon class='left-icon' name='chevron-back'></ion-icon>Lesson Home
   </ion-button>
-  <ion-text class='ion-text-center'><h2>{{this.user.firstname + " " + this.user.lastname}}'s Lessons</h2></ion-text>
+  <ion-text class='ion-text-center' *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
+    <h2>{{this.user.firstname + " " + this.user.lastname}}'s Lessons</h2>
+  </ion-text>
+  <ion-text class='ion-text-center' *ngIf='!this.userDataService.isInstructor(this.studio, this.loginService.user)'>
+    <h2>{{this.user.firstname + " " + this.user.lastname}}'s Lesson History</h2>
+  </ion-text>
   <div id='lesson-view'>
     <span class='double-bar' [class.darkcolor]='this.settingsService.isDarkMode()'></span>
     <!-- build the barline from here -->
     <span *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
     <span class='connector' [class.darkcolor]='this.settingsService.isDarkMode()'></span>
-    <div class='empty-note' [class.darkcolor]='this.settingsService.isDarkMode()'>
+    <div class='empty-note' [class.darkcolor]='this.settingsService.isDarkMode()' (click)='newLesson()'>
       <div class='note-wrapper'>
         <ion-text class='note-title'><p>New Lesson</p></ion-text>
       </div>
     </div>
     </span>
   </div>
-</div>
+</ion-content>

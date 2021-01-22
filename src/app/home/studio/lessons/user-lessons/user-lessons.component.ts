@@ -25,30 +25,31 @@ export class UserLessonsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = this.userDataService.getUser(this.route.snapshot.params['id']);
-    if (!this.user.id) this.user = this.loginService.user;
-    this.studio = this.userDataService.studio;
-    console.dir(this.user)
-    console.dir(this.studio)
-    this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
-    console.dir(this.profile)
-    if (this.user.id === "") {
-      setTimeout(() => {
-        this.user = this.userDataService.getUser(this.route.snapshot.params['id']);
-        this.studio = this.userDataService.studio;
-        console.dir(this.user)
-        console.dir(this.studio)
-        this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
-        console.dir(this.profile)
-        this.loading = false;
-      }, 1000);
-    }
-    else this.loading = false;
+    setTimeout(() => {
+      this.user = this.userDataService.getUser(this.route.snapshot.params['id']);
+      if (!this.user.id) this.user = this.loginService.user;
+      this.studio = this.userDataService.studio;
+      this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
+      console.dir(this.profile)
+      if (this.user.id === "" || this.profile === {}) {
+        setTimeout(() => {
+          this.user = this.userDataService.getUser(this.route.snapshot.params['id']);
+          this.studio = this.userDataService.studio;
+          this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
+          console.dir(this.profile)
+          this.loading = false;
+        }, 1000);
+      }
+      else this.loading = false;
+    }, 1000);
   }
 
   back() {
     if (this.studio.instructors.find(i => i.id === this.loginService.user.id)) this.router.navigateByUrl('/home/studios/' + this.studio.id + "/lessons");
     else this.router.navigateByUrl('/home/studios/' + this.studio.id);
+  }
+  newLesson() {
+    if (this.studio.instructors.find(i => i.id === this.loginService.user.id)) this.router.navigateByUrl('/home/studios/' + this.studio.id + "/lessons/" + this.user.id + "/new");
   }
 
 }

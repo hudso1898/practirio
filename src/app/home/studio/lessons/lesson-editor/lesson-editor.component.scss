@@ -1,0 +1,32 @@
+hr.music-line {
+    border-top: 1px solid black;
+    margin-bottom: 1px;
+}
+.music-line.white {
+    border-top: 1px solid white !important;
+}
+.music-lines {
+    opacity: 0.4;
+}
+#lesson-form {
+    margin: 0 5vw;
+}
+.help {
+    margin-left: 10px;
+}
+.info {
+    color: grey;
+}
+.no-bottom-margin {
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+.add-button,.left-icon {
+    margin-right: 10px;
+}
+#note-area {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.2s;
+}

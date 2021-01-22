@@ -243,6 +243,9 @@ export class LoginService {
    searchUser(username: String) {
      return this.http.get(this.apiUrl + 'get/user/' + username);
    }
+   searchUserByNames(names: string[]) {
+     return this.http.post(this.apiUrl + 'searchUser', {names: names});
+   }
    searchStudioById(id: string) {
      return this.http.get(this.apiUrl + 'get/studioById/' + id);
    }

@@ -99,7 +99,7 @@ export class UserDataService {
   isStudent(studio: Studio, user: User): boolean {
     return (studio.students.find(s => s.id === user.id)) ? true : false;
   }
-  getStudioProfile(studio: Studio, user: User): Profile | {} {
+  getStudioProfile(studio: Studio, user: User): Profile {
     if (this.isInstructor(studio, user)) {
       return studio.instructors.find(i => i.id === user.id).profile;
     }
@@ -109,6 +109,6 @@ export class UserDataService {
     else if (this.isStudent(studio,user)) {
       return studio.students.find(s => s.id === user.id).profile;
     }
-    else return {};
+    else return {id: "", lessons: [], userId: "", todos: []};
   }
 }

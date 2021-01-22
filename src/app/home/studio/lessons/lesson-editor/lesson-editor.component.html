@@ -1,0 +1,59 @@
+<ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
+<ion-content *ngIf='!loading'>
+  <ion-button color='tertiary' (click)='back()' *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
+    <ion-icon class='left-icon' name='chevron-back'></ion-icon>{{this.user.firstname}}'s Lessons
+  </ion-button>
+  <ion-text class='ion-text-center'><h2>Lesson {{this.lesson.id}}</h2></ion-text>
+  <ion-text class='ion-text-center'><h4>{{this.user.firstname + " " + this.user.lastname}} | {{this.lessonDate}}</h4></ion-text>
+  <div class='music-lines'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+  </div>
+  <div id='lesson-form'>
+    <br>
+    <ion-text><h4 class='no-bottom-margin'>Student Profile</h4></ion-text>
+    <ion-text class='info'><p class='no-bottom-margin'>General information about a person in a studio.</p></ion-text>
+    <ion-text class='info' *ngIf='this.lesson.profile.length === 0'><p class='no-bottom-margin'>Examples to add: grade level, major area of study, ongoing projects, etc. Feel free to add your own!</p></ion-text>
+    <br>
+    <ion-buttons>
+      <ion-button (click)='addProfileItem()'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add Item</ion-button>
+    </ion-buttons>
+    
+    <br>
+    <div class='music-lines'>
+      <hr class='music-line' [class.white]='isDarkMode'>
+    </div>
+    <br>
+
+    <ion-text><h4 class='no-bottom-margin'>Lesson Notes</h4></ion-text>
+    <ion-text class='info'><p class='no-bottom-margin'>General notes or comments about the lesson.</p></ion-text>
+    <br>
+    <ion-textarea placeholder='How did they do?' [(ngModel)]='this.lesson.notes' autoGrow id='note-area'></ion-textarea>
+
+    <br>
+    <div class='music-lines'>
+      <hr class='music-line' [class.white]='isDarkMode'>
+    </div>
+    <br>
+
+    <ion-text><h4 class='no-bottom-margin'>Modules</h4></ion-text>
+    <ion-text class='info'><p class='no-bottom-margin'>Specific and distinct sections of the lesson.</p></ion-text>
+    <ion-text class='info' *ngIf='this.lesson.sections.length === 0'><p class='no-bottom-margin'>Create modules for each piece, instrument, or learning objective for this student.</p></ion-text>
+
+    <br>
+    <div class='music-lines'>
+      <hr class='music-line' [class.white]='isDarkMode'>
+    </div>
+    <br>
+
+    <ion-text><h4 class='no-bottom-margin'>{{this.user.firstname}}'s Todos</h4></ion-text>
+    <ion-text class='info'><p class='no-bottom-margin'>Add todo items for the student and set their due dates.</p></ion-text>
+
+    <br>
+
+    <ion-button (click)='submit()'>Save</ion-button>
+  </div>
+</ion-content>
