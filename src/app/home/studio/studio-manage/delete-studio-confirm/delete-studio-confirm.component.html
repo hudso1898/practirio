@@ -1,0 +1,13 @@
+<ion-content id='popover-main'>
+  <ion-progress-bar *ngIf='isDeleting' color='danger' type='indeterminate'></ion-progress-bar>
+<ion-text class='ion-text-center'><h2>Delete {{studio.name}}</h2></ion-text>
+<br>
+<ion-text class='ion-text-center'><p>Are you <strong>absolutely</strong> sure you wish to delete this studio? </p></ion-text>
+<ion-text class='ion-text-center'><h4><strong>This action cannot be undone.</strong></h4></ion-text>
+<ion-text class='ion-text-center'><p>Type "delete me" in the box below to confirm.</p></ion-text>
+<ion-input [(ngModel)]='confirm' class='center' placeholder='delete me'></ion-input>
+<br>
+<div class='center'>
+<ion-button class='center' (click)='confirmDelete()' [disabled]='confirm !== "delete me" || isDeleting' color='danger'>Delete Studio</ion-button>
+</div>
+</ion-content>

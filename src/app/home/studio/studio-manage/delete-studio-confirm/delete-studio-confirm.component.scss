@@ -1,0 +1,13 @@
+.center {
+    margin: auto;
+    width: max-content;
+}
+ion-input {
+    border: 1px solid grey;
+    border-radius: 10px;
+    text-align: center;
+}
+#popover-main {
+    margin: 50px;
+}
+.delete-popover .popover-content{ min-width: 50vw; min-height: 50vh; }
