@@ -2,7 +2,7 @@
   <ion-card id='instructors-card'>
     <ion-card-header>
       <ion-card-title>Instructors
-        <ion-buttons>
+        <ion-buttons *ngIf='this.isInstructor()'>
           <ion-button *ngIf='!isAddingInstructor' (click)='addInstructor()'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add Instructor</ion-button>
           <ion-button *ngIf='isAddingInstructor' (click)='disableAddInstructor()'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
         </ion-buttons>
@@ -23,7 +23,7 @@
   <ion-card id='assistants-card'>
     <ion-card-header>
       <ion-card-title>Assistants
-        <ion-buttons>
+        <ion-buttons *ngIf='this.isInstructor()'>
           <ion-button *ngIf='!isAddingAssistant' (click)='addAssistant()'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add Assistant</ion-button>
           <ion-button *ngIf='isAddingAssistant' (click)='disableAddAssistant()'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button></ion-buttons>
       </ion-card-title>
@@ -46,7 +46,7 @@
   <ion-card id='students-card'>
     <ion-card-header>
       <ion-card-title>Students
-        <ion-buttons>
+        <ion-buttons *ngIf='this.isInstructor()'>
           <ion-button *ngIf='!isAddingStudent' (click)='addStudent()'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add Student</ion-button>
           <ion-button *ngIf='isAddingStudent' (click)='disableAddStudent()'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
         </ion-buttons>
