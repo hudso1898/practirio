@@ -15,6 +15,10 @@
           <span class='you-display' *ngIf='getUser(instructor.id).id === this.loginService.user.id'>(You)</span>
           {{ getUser(instructor.id).firstname + " " + getUser(instructor.id).lastname}}
           <span *ngIf='getUser(instructor.id).id !== ""' class='username-display'>({{getUser(instructor.id).username}})</span>
+          <ion-buttons slot='end' *ngIf='this.isInstructor() && getUser(instructor.id).id !== this.loginService.user.id'>
+            <ion-button (click)='changeRole(instructor)'><ion-icon name='pencil' color='warning' class='add-button'></ion-icon>Change Role</ion-button>
+            <ion-button (click)='removeUser(getUser(instructor.id).username, instructor.id)'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Remove</ion-button>
+          </ion-buttons>
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -35,6 +39,10 @@
           <span class='you-display' *ngIf='getUser(assistant.id).id === this.loginService.user.id'>(You)</span>
           {{ getUser(assistant.id).firstname + " " + getUser(assistant.id).lastname}}
           <span *ngIf='getUser(assistant.id).id !== ""' class='username-display'>({{getUser(assistant.id).username}})</span>
+          <ion-buttons slot='end' *ngIf='this.isInstructor()'>
+            <ion-button (click)='changeRole(assistant)'><ion-icon name='pencil' color='warning' class='add-button'></ion-icon>Change Role</ion-button>
+            <ion-button (click)='removeUser(getUser(assistant.id).username, assistant.id)'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Remove</ion-button>
+          </ion-buttons>
         </ion-item>
         <ion-item *ngIf='this.studio.assistants.length === 0'>
           There are no assistants enrolled in this studio.
@@ -58,6 +66,10 @@
         <span class='you-display' *ngIf='getUser(student.id).id === this.loginService.user.id'>(You)</span>
         {{ getUser(student.id).firstname + " " + getUser(student.id).lastname}}
         <span *ngIf='getUser(student.id).id !== ""' class='username-display'>({{getUser(student.id).username}})</span>
+        <ion-buttons slot='end' *ngIf='this.isInstructor()'>
+          <ion-button (click)='changeRole(student)'><ion-icon name='pencil' color='warning' class='add-button'></ion-icon>Change Role</ion-button>
+          <ion-button (click)='removeUser(getUser(student.id).username, student.id)'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Remove</ion-button>
+        </ion-buttons>
       </ion-item>
       <ion-item *ngIf='this.studio.students.length === 0'>
         There are no students enrolled in this studio.

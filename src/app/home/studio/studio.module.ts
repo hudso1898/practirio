@@ -13,6 +13,8 @@ import { StudioManageComponent } from './studio-manage/studio-manage.component';
 import { StudioApplicantsComponent } from './studio-applicants/studio-applicants.component';
 import { ApprovePopoverComponent } from './studio-applicants/approve-popover/approve-popover.component';
 import { NewMemberPopoverComponent } from './studio-members/new-member-popover/new-member-popover.component';
+import { DeleteStudioConfirmComponent } from './studio-manage/delete-studio-confirm/delete-studio-confirm.component';
+import { ChangeRolePopoverComponent } from './studio-members/change-role-popover/change-role-popover.component';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { NewMemberPopoverComponent } from './studio-members/new-member-popover/n
     IonicModule,
     StudioPageRoutingModule
   ],
-  declarations: [StudioPage, StudioHomeComponent, StudioMembersComponent, StudioManageComponent, StudioApplicantsComponent, ApprovePopoverComponent, NewMemberPopoverComponent]
+  declarations: [StudioPage, StudioHomeComponent, StudioMembersComponent, StudioManageComponent, StudioApplicantsComponent, ApprovePopoverComponent, NewMemberPopoverComponent,
+  DeleteStudioConfirmComponent, ChangeRolePopoverComponent]
 })
 export class StudioPageModule {}

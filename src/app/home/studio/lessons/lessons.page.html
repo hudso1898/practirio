@@ -7,11 +7,12 @@
     </ion-list-header>
     <ion-item-sliding *ngFor='let assistant of this.studio.assistants'>
       <ion-item>
-        <ion-label>Assistant</ion-label>
+      <ion-label>{{this.getUser(assistant.id).firstname + " " + this.getUser(assistant.id).lastname}}<span class='username-display'>({{this.getUser(assistant.id).username}})</span></ion-label>
+        <ion-button (click)='switchToUser(assistant.id)'>Lessons</ion-button>
       </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option>Option</ion-item-option>
-      </ion-item-options>
+        <ion-item-options side="end">
+          <ion-item-option (click)='switchToUser(assistant.id)'>View</ion-item-option>
+        </ion-item-options>
     </ion-item-sliding>
   </ion-list>
   <ion-list *ngIf='this.studio.assistants.length === 0'>

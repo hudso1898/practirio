@@ -7,11 +7,11 @@
       <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'>
         <div *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios && this.loginService.userStudios.length === 0' class='middle-message'>
           <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
-          <ion-buttons class='center'>
-            <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
-            <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
-          </ion-buttons>
         </div>
+        <ion-buttons class='center' *ngIf='this.loginService.hasFetchedUserInfo'>
+          <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
+          <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
+        </ion-buttons>
       <div *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios' class='card-flexbox'>
         <ion-card *ngFor='let studio of this.loginService.userStudios' class='card'>
           <img [src]='studio.imageUrl' [alt]='studio.name' class='card-image' *ngIf='this.isTallEnough()'>

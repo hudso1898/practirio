@@ -22,5 +22,5 @@
   <div *ngIf='!this.isLoading && this.studio'>
     <ion-router-outlet id='main-studio-content' (activate)='onActivate($event)'></ion-router-outlet>
   </div>
-  <ion-text *ngIf='this.loadError' class='ion-text-center message'><h4>There was an issue loading this studio.</h4></ion-text>
+  <ion-text *ngIf='this.userDataService.loadError' class='ion-text-center message'><h4>There was an issue loading this studio, or it does not exist.</h4></ion-text>
 </ion-content>

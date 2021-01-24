@@ -1,0 +1,11 @@
+<ion-buttons>
+  <ion-button (click)='this.dismiss()'><ion-icon color='danger' name='close-outline'></ion-icon></ion-button>
+</ion-buttons>
+<ion-text><p style='margin-left: 10px;'>Change to...</p></ion-text>
+<ion-buttons>
+  <ion-button (click)='confirm("student")' *ngIf='!(currentRole === "student")'>Student</ion-button></ion-buttons>
+  <ion-buttons>
+  <ion-button color='secondary' (click)='confirm("assistant")' *ngIf='!(currentRole === "assistant")'>Assistant</ion-button></ion-buttons>
+  <ion-buttons>
+  <ion-button color='tertiary' (click)='confirm("instructor")' *ngIf='!(currentRole === "instructor")'>Instructor</ion-button>
+</ion-buttons>

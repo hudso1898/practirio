@@ -53,6 +53,14 @@ export class UserDataService {
     });
   }
 
+  deleteStudio(uid: string, sid: string, studioId: string) {
+    return this.http.post(this.apiUrl + 'studio/delete', {
+      uid: uid,
+      sid: sid,
+      studioId: studioId
+    });
+  }
+
   addUser(user: User) {
     this.loadedUsers.push(user);
   }
@@ -110,5 +118,22 @@ export class UserDataService {
       return studio.students.find(s => s.id === user.id).profile;
     }
     else return {id: "", lessons: [], userId: "", todos: []};
+  }
+  changeStudioRole(uid: string, sid: string, studioId: string, newuid: string, newRole: string ) {
+    return this.http.post(this.apiUrl + 'studio/changeRole', {
+      uid: uid,
+      sid: sid,
+      studioId: studioId,
+      newuid: newuid,
+      newRole: newRole
+    });
+  }
+  removeUserFromStudio(uid: string, sid: string, studioId: string, removeId: string) {
+    return this.http.post(this.apiUrl + 'studio/removeMember', {
+      uid: uid,
+      sid: sid,
+      studioId: studioId,
+      removeId: removeId
+    });
   }
 }

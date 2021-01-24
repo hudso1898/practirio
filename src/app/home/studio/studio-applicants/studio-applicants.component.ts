@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { User } from 'src/app/interfaces/User';
 import { LoginService } from 'src/app/login.service';
@@ -16,6 +16,8 @@ export class StudioApplicantsComponent implements OnInit {
 
   ngOnInit() {}
 
+  @Output() update: EventEmitter<any> = new EventEmitter();
+
   getUser(id: string): User {
     return this.userDataService.getUser(id);
   }
@@ -24,7 +26,8 @@ export class StudioApplicantsComponent implements OnInit {
     let popover = await this.popoverController.create({
       component: ApprovePopoverComponent,
       componentProps: {
-        user: id
+        user: id,
+        emitter: this.update
       }
     });
     await popover.present();
