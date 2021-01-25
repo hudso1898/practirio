@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Lesson } from '../interfaces/Lesson';
 import { Profile } from '../interfaces/Profile';
 import { Studio } from '../interfaces/Studio';
 import { User } from '../interfaces/User';
-import { LoginService } from '../login.service';
+import { Storage} from '@ionic/storage';
+import { ToasterServiceService } from './toaster-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class UserDataService {
 
   loadedUsers: User[] = [];
   userIds = [];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toasterService: ToasterServiceService, private storage: Storage) { }
   
   searchStudio(name: string, tags: string[]) {
     return this.http.post(this.apiUrl + 'search/studio/' + name, {
@@ -135,5 +136,18 @@ export class UserDataService {
       studioId: studioId,
       removeId: removeId
     });
+  }
+  /**
+   * Save the given lesson notes to LocalStorage
+   * @param lesson The lesson data
+   * @param uid The user who this lesson is for
+   * @param id The id of the lesson
+   */
+  async localSaveLessonNotes(lesson: Lesson, uid: string, id: string) {
+    await this.storage.set('lesson' + id + '-' + uid, lesson);
+    await this.toasterService.toast('Notes for this lesson saved on this device!');
+  }
+  async localGetLessonNotes(uid: string, id: string): Promise<Lesson | undefined> {
+    return (await this.storage.get('lesson' + id + '-' + uid)) ? await this.storage.get('lesson' + id + '-' + uid) : undefined;
   }
 }

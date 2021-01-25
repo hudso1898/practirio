@@ -1,5 +1,9 @@
 <ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
 <ion-content *ngIf='!loading'>
+  <ion-toolbar color='light' id='controls'>
+    <ion-button color='dark' (click)='saveLessonNotes()' class='control-button'><ion-icon name='save' class='add-button'></ion-icon>Save Locally</ion-button>
+    <ion-button color='medium' (click)='clearLessonNotes()' class='control-button'><ion-icon name='trash-outline' class='add-button'></ion-icon>Clear</ion-button>
+  </ion-toolbar>
   <ion-button color='tertiary' (click)='back()' *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
     <ion-icon class='left-icon' name='chevron-back'></ion-icon>{{this.user.firstname}}'s Lessons
   </ion-button>
@@ -12,14 +16,48 @@
     <hr class='music-line' [class.white]='isDarkMode'>
     <hr class='music-line' [class.white]='isDarkMode'>
   </div>
+  <br>
   <div id='lesson-form'>
     <br>
     <ion-text><h4 class='no-bottom-margin'>Student Profile</h4></ion-text>
     <ion-text class='info'><p class='no-bottom-margin'>General information about a person in a studio.</p></ion-text>
     <ion-text class='info' *ngIf='this.lesson.profile.length === 0'><p class='no-bottom-margin'>Examples to add: grade level, major area of study, ongoing projects, etc. Feel free to add your own!</p></ion-text>
     <br>
+    <ion-list *ngIf='lesson.profile.length > 0'>
+      <ion-reorder-group disabled='false' (ionItemReorder)="doProfileReorder($event)">
+      <ion-item *ngFor='let profileItem of lesson.profile'>
+        <ion-reorder slot="start"></ion-reorder>
+        <ion-text><strong>{{profileItem.name}}</strong>: {{profileItem.content}}</ion-text>
+        <ion-buttons class='item-buttons'>
+          <ion-button (click)='modifyProfileItem(profileItem.name)'><ion-icon name='pencil' color='warning'></ion-icon></ion-button>
+          <ion-button (click)='removeProfileItem(profileItem.name)'><ion-icon name='close' color='danger'></ion-icon></ion-button>
+        </ion-buttons>
+      </ion-item>
+      </ion-reorder-group>
+    </ion-list>
+    <ion-item *ngIf='lesson.profile.length === 0'>
+      <ion-text><p>There are no profile items to display.</p></ion-text>
+    </ion-item>
+    <div *ngIf='isAddingProfileItem' class='add-div'>
+      <ion-buttons><ion-button (click)='closeNewProfileItem()'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button></ion-buttons>
+      <br>
+      <ion-item><ion-label position='stacked'>Label</ion-label><ion-input [(ngModel)]='newProfileItem.name' placeholder='Grade, Lesson Time, Vocal Part, ...'></ion-input></ion-item>
+      <ion-item><ion-label position='stacked'>Text</ion-label><ion-input [(ngModel)]='newProfileItem.content' placeholder='Freshman, Tuesdays @ 12:00pm, Alto, ...'></ion-input></ion-item>
+      <br>
+      <ion-text *ngIf='isProfileItemPresent()'><p>Profile label is already present!</p></ion-text>
+      <ion-buttons><ion-button (click)='submitNewProfileItem()' [disabled]='isProfileItemPresent() || newProfileItem.content === "" || newProfileItem.name === ""'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button></ion-buttons>
+    </div>
+    <div *ngIf='isEditingProfileItem' class='add-div'>
+      <ion-buttons><ion-button (click)='closeModifyProfileItem()'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button></ion-buttons>
+      <br>
+      <ion-item><ion-label position='stacked'>Label</ion-label><ion-input [(ngModel)]='modifiedProfileItem.name' readonly disabled></ion-input></ion-item>
+      <ion-item><ion-label position='stacked'>Text</ion-label><ion-input [(ngModel)]='modifiedProfileItem.content' placeholder='Freshman, Tuesdays @ 12:00pm, Alto, ...'></ion-input></ion-item>
+      <br>
+      <ion-buttons><ion-button (click)='submitModifyProfileItem()' [disabled]='modifiedProfileItem.name === ""'><ion-icon name='save' color='success' class='add-button'></ion-icon>Save</ion-button></ion-buttons>
+    </div>
+    <br *ngIf='isAddingProfileItem || isModifyingProfileItem'>
     <ion-buttons>
-      <ion-button (click)='addProfileItem()'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add Item</ion-button>
+      <ion-button (click)='addNewProfileItem()' *ngIf='!isAddingProfileItem && !isModifyingProfileItem'><ion-icon name='add' color='success' class='add-button'></ion-icon>New Item</ion-button>
     </ion-buttons>
     
     <br>
@@ -39,9 +77,9 @@
     </div>
     <br>
 
-    <ion-text><h4 class='no-bottom-margin'>Modules</h4></ion-text>
+    <ion-text><h4 class='no-bottom-margin'>Sections</h4></ion-text>
     <ion-text class='info'><p class='no-bottom-margin'>Specific and distinct sections of the lesson.</p></ion-text>
-    <ion-text class='info' *ngIf='this.lesson.sections.length === 0'><p class='no-bottom-margin'>Create modules for each piece, instrument, or learning objective for this student.</p></ion-text>
+    <ion-text class='info' *ngIf='this.lesson.sections.length === 0'><p class='no-bottom-margin'>Create a section for each piece, instrument, or learning objective covered in this lesson.</p></ion-text>
 
     <br>
     <div class='music-lines'>
