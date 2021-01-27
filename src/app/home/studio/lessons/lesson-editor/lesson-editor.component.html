@@ -88,10 +88,10 @@
     <ion-item *ngIf='lesson.sections.length === 0'>
       <ion-text><p>There are no sections to display.</p></ion-text>
     </ion-item>
-    <ion-list *ngIf='lesson.sections.length > 0'>
+    <ion-list *ngIf='lesson.sections.length > 0 && !this.isEditingSection'>
       <div *ngFor='let section of lesson.sections' class='section-display'>
         <ion-buttons>
-          <ion-button color='warning' (click)='modifySection(section.name)' class='margin-right'><ion-icon name='pencil' color='warning' class='add-button'></ion-icon> Modify</ion-button>
+          <ion-button color='warning' (click)='modifyExistingSection(section.name)' class='margin-right'><ion-icon name='pencil' color='warning' class='add-button'></ion-icon> Modify</ion-button>
           <ion-button color='danger' (click)='clearSection(section.name)'><ion-icon name='close' color='danger' class='add-button'></ion-icon> Delete</ion-button>
         </ion-buttons>
         <ion-text color='primary'><h5>{{section.name}}</h5></ion-text>
@@ -124,6 +124,8 @@
         <div class='divider'></div>
       </div>
     </ion-list>
+
+    <!-- Section Editor (add new) -->
     <div *ngIf='isAddingSection'>
       <ion-buttons><ion-button (click)='closeNewSection()'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button></ion-buttons>
       <br>
@@ -176,9 +178,11 @@
           <ion-text *ngIf='newSection.successes.length === 0'><p>There are no successes to display.</p></ion-text>
         </ion-item>
         <ion-buttons>
-          <ion-button (click)='addSectionSuccess()' *ngIf='!isAddingSectionSuccess'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='addSectionSuccess()' *ngIf='!isAddingSectionSuccess && !isModifyingSectionSuccess'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
           <ion-button (click)='closeSectionSuccess()' *ngIf='isAddingSectionSuccess'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
           <ion-button (click)='submitNewSectionSuccess()' *ngIf='isAddingSectionSuccess' [disabled]='isNewSectionSuccessPresent() || sectionSuccess.name === "" || sectionSuccess.desc.length > 500'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='closeModifyNewSectionSuccess()' *ngIf='isModifyingSectionSuccess'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
+          <ion-button (click)='submitModifyNewSectionSuccess()' *ngIf='isModifyingSectionSuccess'><ion-icon name='save' color='success' class='add-button'></ion-icon>Save Changes</ion-button>
         </ion-buttons>
       </div>
       <br>
@@ -187,6 +191,11 @@
       <ion-textarea maxlength=500 [(ngModel)]='sectionSuccess.desc' autoGrow placeholder='How did the student succeed in this area?'></ion-textarea>
       <ion-text [color]='characterCounterColor(sectionSuccess.desc, 500)' class='character-display'><p>{{sectionSuccess.desc.length}}/500</p></ion-text>
     </div>
+    <div *ngIf='isModifyingSectionSuccess' class='bordered-area' [class.dark-body]='isDarkMode'>
+      <ion-input readonly disabled color='primary' maxlength=50 [(ngModel)]='sectionSuccess.name' placeholder='What did the student succeed at?'></ion-input>
+    <ion-textarea maxlength=500 [(ngModel)]='sectionSuccess.desc' autoGrow placeholder='How did the student succeed in this area?'></ion-textarea>
+    <ion-text [color]='characterCounterColor(sectionSuccess.desc, 500)' class='character-display'><p>{{sectionSuccess.desc.length}}/500</p></ion-text>
+   </div>
 
       <div>
         <ion-text><p>Areas to Improve</p></ion-text>
@@ -209,9 +218,11 @@
           <ion-text *ngIf='newSection.improvements.length === 0'><p>There are no areas to improve to display.</p></ion-text>
         </ion-item>
         <ion-buttons>
-          <ion-button (click)='addSectionImprovement()' *ngIf='!isAddingSectionImprovement'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='addSectionImprovement()' *ngIf='!isAddingSectionImprovement && !isModifyingSectionImprovement'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
           <ion-button (click)='closeSectionImprovement()' *ngIf='isAddingSectionImprovement'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
           <ion-button (click)='submitNewSectionImprovement()' *ngIf='isAddingSectionImprovement' [disabled]='isNewSectionImprovementPresent() || sectionImprovement.name === "" || sectionImprovement.desc.length > 500'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='closeModifyNewSectionImprovement()' *ngIf='isModifyingSectionImprovement'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
+          <ion-button (click)='submitModifyNewSectionImprovement()' *ngIf='isModifyingSectionImprovement'><ion-icon name='save' color='success' class='add-button'></ion-icon>Save Changes</ion-button>
         </ion-buttons>
       </div>
       <br>
@@ -220,10 +231,135 @@
         <ion-textarea maxlength=500 [(ngModel)]='sectionImprovement.desc' autoGrow placeholder='Suggest how the student can improve in this area...'></ion-textarea>
         <ion-text [color]='characterCounterColor(sectionImprovement.desc, 500)' class='character-display'><p>{{sectionImprovement.desc.length}}/500</p></ion-text>
       </div>
+      <div *ngIf='isModifyingSectionImprovement' class='bordered-area' [class.dark-body]='isDarkMode'>
+        <ion-input readonly disabled color='primary' maxlength=50 [(ngModel)]='sectionImprovement.name' placeholder='What can the student work on?'></ion-input>
+      <ion-textarea maxlength=500 [(ngModel)]='sectionImprovement.desc' autoGrow placeholder='Suggest how the student can improve in this area...'></ion-textarea>
+      <ion-text [color]='characterCounterColor(sectionImprovement.desc, 500)' class='character-display'><p>{{sectionImprovement.desc.length}}/500</p></ion-text>
+      </div>
       </ion-item-group>
-      <ion-button (click)='submitNewSection()' expand=full [disabled]='isNewSectionPresent() || newSection.name === "" || isAddingSectionSuccess || isAddingSectionImprovement'>Add Section</ion-button>
+      <ion-button (click)='submitNewSection()' expand=full [disabled]='isNewSectionPresent() || newSection.name === "" || isAddingSectionSuccess || isAddingSectionImprovement || isModifyingSectionSuccess || isModifyingSectionImprovement'>
+        Add Section
+      </ion-button>
     </div>
-    <ion-buttons *ngIf='!isAddingSection'>
+
+    <!-- Section Editor (modify) -->
+    <div *ngIf='isEditingSection'>
+      <ion-buttons><ion-button (click)='closeModifySection()'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button></ion-buttons>
+      <br>
+      <ion-item-group>
+      <ion-item>
+        <ion-label position='floating'>Section Name</ion-label>
+        <ion-input maxlength=50 [(ngModel)]='modifySection.name' color='medium' readonly disabled></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position='floating'>Description (optional)</ion-label>
+        <ion-textarea [(ngModel)]='modifySection.desc' autoGrow maxlength=250></ion-textarea>
+        <ion-text [color]='characterCounterColor(modifySection.desc, 250)' class='character-display'><p>{{modifySection.desc.length}}/250</p></ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label position='floating'>Tags</ion-label>
+        <ion-input id='tag-input' [(ngModel)]='sectionTag' type='text' name='tag' placeholder='Add a tag...' (keyup)='addModifySectionTagKeyup($event)'> <ion-button color='tertiary' [disabled]='sectionTag === "" || newSection.tags.includes(sectionTag)' class='right-margin'
+          (click)='addModifySectionTag()'>Add</ion-button></ion-input>
+      </ion-item>
+      <ion-item *ngIf='modifySection.tags.length > 0'><div id='tag-display'>
+        <ion-chip class="tag-chip" *ngFor='let tag of modifySection.tags' color='secondary'>{{tag}} <ion-icon name='close' (click)='removeModifySectionTag(tag)'></ion-icon></ion-chip>
+      </div></ion-item>
+      <ion-item *ngIf='modifySection.tags.length === 0'>
+        <ion-text><p>No tags assigned to this section.</p></ion-text>
+      </ion-item>
+      <ion-text><p class='hint-message'>Use tags to connect similar sections over multiple lessons.</p></ion-text>
+
+      <ion-item>
+        <ion-label position='floating'>General Comments</ion-label>
+        <ion-textarea maxlength=1250 [(ngModel)]='modifySection.comments' autoGrow></ion-textarea>
+        <ion-text [color]='characterCounterColor(modifySection.comments, 1250)' class='character-display'><p>{{modifySection.comments.length}}/1250</p></ion-text>
+      </ion-item>
+
+      <div>
+        <ion-text><p>Successes</p></ion-text>
+        <ion-text><p class='hint-message'>Highlight specific areas of success in this section.</p></ion-text>
+        <ion-list *ngIf='modifySection.successes.length > 0'>
+          <ion-reorder-group disabled='false' (ionItemReorder)="doModifySectionSuccessReorder($event)">
+          <ion-item *ngFor='let success of modifySection.successes'>
+            <ion-reorder slot="start"></ion-reorder>
+            <ion-text color='primary'><strong>{{success.name}}</strong></ion-text>
+            <ion-text><p class='left-margin'>{{success.desc}}</p></ion-text>
+            <ion-buttons class='item-buttons' slot='end'>
+              <ion-button (click)='modifyModifySectionSuccess(success.name)'><ion-icon name='pencil' color='warning'></ion-icon></ion-button>
+              <ion-button (click)='removeModifySectionSuccess(success.name)'><ion-icon name='close' color='danger'></ion-icon></ion-button>
+            </ion-buttons>
+          </ion-item>
+          </ion-reorder-group>
+        </ion-list>
+        <ion-item lines='none'>
+          <ion-text *ngIf='modifySection.successes.length === 0'><p>There are no successes to display.</p></ion-text>
+        </ion-item>
+        <ion-buttons>
+          <ion-button (click)='addSectionSuccess()' *ngIf='!isAddingSectionSuccess && !isModifyingSectionSuccess'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='closeSectionSuccess()' *ngIf='isAddingSectionSuccess'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
+          <ion-button (click)='submitModifySectionSuccess()' *ngIf='isAddingSectionSuccess' [disabled]='isModifySectionSuccessPresent() || sectionSuccess.name === "" || sectionSuccess.desc.length > 500'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='closeModifyModifySectionSuccess()' *ngIf='isModifyingSectionSuccess'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
+          <ion-button (click)='submitModifyModifySectionSuccess()' *ngIf='isModifyingSectionSuccess'><ion-icon name='save' color='success' class='add-button'></ion-icon>Save Changes</ion-button>
+        </ion-buttons>
+      </div>
+      <br>
+      <div *ngIf='isAddingSectionSuccess' class='bordered-area' [class.dark-body]='isDarkMode'>
+        <ion-input color='primary' maxlength=50 [(ngModel)]='sectionSuccess.name' placeholder='What did the student succeed at?'></ion-input>
+      <ion-textarea maxlength=500 [(ngModel)]='sectionSuccess.desc' autoGrow placeholder='How did the student succeed in this area?'></ion-textarea>
+      <ion-text [color]='characterCounterColor(sectionSuccess.desc, 500)' class='character-display'><p>{{sectionSuccess.desc.length}}/500</p></ion-text>
+      </div>
+      <div *ngIf='isModifyingSectionSuccess' class='bordered-area' [class.dark-body]='isDarkMode'>
+        <ion-input readonly disabled color='primary' maxlength=50 [(ngModel)]='sectionSuccess.name' placeholder='What did the student succeed at?'></ion-input>
+      <ion-textarea maxlength=500 [(ngModel)]='sectionSuccess.desc' autoGrow placeholder='How did the student succeed in this area?'></ion-textarea>
+      <ion-text [color]='characterCounterColor(sectionSuccess.desc, 500)' class='character-display'><p>{{sectionSuccess.desc.length}}/500</p></ion-text>
+     </div>
+
+      <div>
+        <ion-text><p>Areas to Improve</p></ion-text>
+        <ion-text><p class='hint-message'>Call attention to specific areas the student can work on in this section.</p></ion-text>
+        <ion-list *ngIf='modifySection.improvements.length > 0'>
+          <ion-reorder-group disabled='false' (ionItemReorder)="doModifySectionImprovementReorder($event)">
+          <ion-item *ngFor='let improvement of modifySection.improvements'>
+            <ion-reorder slot="start"></ion-reorder>
+            <ion-text color='primary'><strong>{{improvement.name}}</strong></ion-text>
+            <ion-text><p class='left-margin'>{{improvement.desc}}</p></ion-text>
+            <ion-buttons class='item-buttons' slot='end'>
+              <ion-button (click)='modifyModifySectionImprovement(improvement.name)'><ion-icon name='pencil' color='warning'></ion-icon></ion-button>
+              <ion-button (click)='removeModifySectionImprovement(improvement.name)'><ion-icon name='close' color='danger'></ion-icon></ion-button>
+            </ion-buttons>
+          </ion-item>
+          </ion-reorder-group>
+        </ion-list>
+  
+        <ion-item lines='none'>
+          <ion-text *ngIf='modifySection.improvements.length === 0'><p>There are no areas to improve to display.</p></ion-text>
+        </ion-item>
+        <ion-buttons>
+          <ion-button (click)='addSectionImprovement()' *ngIf='!isAddingSectionImprovement  && !isModifyingSectionImprovement'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='closeSectionImprovement()' *ngIf='isAddingSectionImprovement'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
+          <ion-button (click)='submitModifySectionImprovement()' *ngIf='isAddingSectionImprovement' [disabled]='isModifySectionImprovementPresent() || sectionImprovement.name === "" || sectionImprovement.desc.length > 500'><ion-icon name='add' color='success' class='add-button'></ion-icon>Add</ion-button>
+          <ion-button (click)='closeModifyModifySectionImprovement()' *ngIf='isModifyingSectionImprovement'><ion-icon name='close' color='danger' class='add-button'></ion-icon>Cancel</ion-button>
+          <ion-button (click)='submitModifyModifySectionImprovement()' *ngIf='isModifyingSectionImprovement'><ion-icon name='save' color='success' class='add-button'></ion-icon>Save Changes</ion-button>
+        </ion-buttons>
+      </div>
+      <br>
+      <div *ngIf='isAddingSectionImprovement' class='bordered-area' [class.dark-body]='isDarkMode'>
+          <ion-input color='primary' maxlength=50 [(ngModel)]='sectionImprovement.name' placeholder='What can the student work on?'></ion-input>
+        <ion-textarea maxlength=500 [(ngModel)]='sectionImprovement.desc' autoGrow placeholder='Suggest how the student can improve in this area...'></ion-textarea>
+        <ion-text [color]='characterCounterColor(sectionImprovement.desc, 500)' class='character-display'><p>{{sectionImprovement.desc.length}}/500</p></ion-text>
+      </div>
+      <div *ngIf='isModifyingSectionImprovement' class='bordered-area' [class.dark-body]='isDarkMode'>
+        <ion-input readonly disabled color='primary' maxlength=50 [(ngModel)]='sectionImprovement.name' placeholder='What can the student work on?'></ion-input>
+      <ion-textarea maxlength=500 [(ngModel)]='sectionImprovement.desc' autoGrow placeholder='Suggest how the student can improve in this area...'></ion-textarea>
+      <ion-text [color]='characterCounterColor(sectionImprovement.desc, 500)' class='character-display'><p>{{sectionImprovement.desc.length}}/500</p></ion-text>
+      </div>
+      </ion-item-group>
+      <ion-button (click)='submitModifySection()' expand=full [disabled]='isAddingSectionSuccess || isAddingSectionImprovement'>Save Changes</ion-button>
+    </div>
+
+
+
+    <ion-buttons *ngIf='!isAddingSection && !isEditingSection'>
       <ion-button (click)='addSection()'><ion-icon name='add' color='success' class='add-button'></ion-icon>New Section</ion-button>
     </ion-buttons>
     <br>

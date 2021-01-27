@@ -31,7 +31,9 @@ export class LessonEditorComponent implements OnInit {
   sectionSuccess: {name: string, desc: string} = {name: '', desc: ''};
   sectionImprovement: {name: string, desc: string} = {name: '', desc: ''};
   isAddingSectionSuccess: boolean = false;
+  isModifyingSectionSuccess: boolean = false;
   isAddingSectionImprovement: boolean = false;
+  isModifyingSectionImprovement: boolean = false;
 
   lesson: Lesson = {
     id: '1',
@@ -57,6 +59,7 @@ export class LessonEditorComponent implements OnInit {
     }
   }
   newSection: {name: string, desc: string, tags: string[], comments: string, successes: {name: string, desc: string}[], improvements: {name: string, desc: string}[], sectionComments: Comment[]} = this.newSectionFactory();
+  modifySection: {name: string, desc: string, tags: string[], comments: string, successes: {name: string, desc: string}[], improvements: {name: string, desc: string}[], sectionComments: Comment[]} = this.newSectionFactory();
   modifiedProfileItem: {name: string, content: string} = {name: '', content: ''};
 
   constructor(private route: ActivatedRoute, private userDataService: UserDataService, private router: Router, private loginService: LoginService,
@@ -162,6 +165,92 @@ export class LessonEditorComponent implements OnInit {
     this.isEditingProfileItem = false;
   }
 
+  // section modifier methods
+  modifyExistingSection(name: string) {
+    if (this.lesson.sections.find(s => s.name === name)) {
+      this.modifySection = Object.assign({}, this.lesson.sections.find(s => s.name === name));
+      this.isEditingSection = true;
+    }
+  }
+  closeModifySection() {
+    this.modifySection = this.newSectionFactory();
+    this.isEditingSection = false;
+  }
+  addModifySectionTagKeyup(event) {
+    if (event.keyCode === 13) this.addModifySectionTag();
+  }
+  addModifySectionTag() {
+    if (!this.modifySection.tags.includes(this.sectionTag)) {
+      this.modifySection.tags.push(this.sectionTag);
+      this.sectionTag = '';
+    }
+  }
+  removeModifySectionTag(tag: string) {
+    if (this.modifySection.tags.includes(tag)) this.modifySection.tags.splice(this.modifySection.tags.indexOf(tag), 1);
+  }
+  submitModifySectionSuccess() {
+    if (!this.isModifySectionSuccessPresent() && this.sectionSuccess.name !== '' && this.sectionSuccess.desc.length <= 500) {
+      this.modifySection.successes.push(this.sectionSuccess);
+      this.closeSectionSuccess();
+    }
+  }
+  doModifySectionSuccessReorder(event: CustomEvent<ItemReorderEventDetail>) {
+    this.modifySection.successes = event.detail.complete(this.modifySection.successes);
+  }
+  isModifySectionSuccessPresent() {
+    return (this.modifySection.successes.find(s => s.name === this.sectionSuccess.name) !== undefined);
+  }
+  removeModifySectionSuccess(name: string) {
+    if (this.modifySection.successes.find(s => s.name === name)) this.modifySection.successes.splice(this.modifySection.successes.findIndex(s => s.name === name), 1);
+  }
+  modifyModifySectionSuccess(name: string) {
+    if (this.modifySection.successes.find(s => s.name === name)) {
+      this.sectionSuccess = Object.assign({}, this.modifySection.successes.find(s => s.name === name));
+      this.isModifyingSectionSuccess = true;
+    }
+  }
+  closeModifyModifySectionSuccess() {
+    this.sectionSuccess = {name: '', desc: ''};
+    this.isModifyingSectionSuccess = false;
+  }
+  submitModifyModifySectionSuccess() {
+    this.modifySection.successes[this.modifySection.successes.findIndex(s => s.name === this.sectionSuccess.name)] = this.sectionSuccess;
+    this.closeModifyModifySectionSuccess();
+  }
+  submitModifySectionImprovement() {
+    if (!this.isModifySectionImprovementPresent() && this.sectionImprovement.name !== '' && this.sectionImprovement.desc.length <= 500) {
+      this.modifySection.improvements.push(this.sectionImprovement);
+      this.closeSectionImprovement();
+    }
+  }
+  isModifySectionImprovementPresent() {
+    return (this.modifySection.improvements.find(i => i.name === this.sectionImprovement.name) !== undefined);
+  }
+  doModifySectionImprovementReorder(event: CustomEvent<ItemReorderEventDetail>) {
+    this.modifySection.improvements = event.detail.complete(this.modifySection.improvements);
+  }
+  removeModifySectionImprovement(name: string) {
+    if (this.modifySection.improvements.find(i => i.name === name)) this.modifySection.improvements.splice(this.modifySection.improvements.findIndex(i => i.name === name), 1);
+  }
+  modifyModifySectionImprovement(name: string) {
+    if (this.modifySection.improvements.find(s => s.name === name)) {
+      this.sectionImprovement = Object.assign({}, this.modifySection.improvements.find(s => s.name === name));
+      this.isModifyingSectionImprovement = true;
+    }
+  }
+  closeModifyModifySectionImprovement() {
+    this.sectionImprovement = {name: '', desc: ''};
+    this.isModifyingSectionImprovement = false;
+  }
+  submitModifyModifySectionImprovement() {
+    this.modifySection.improvements[this.modifySection.improvements.findIndex(s => s.name === this.sectionImprovement.name)] = this.sectionImprovement;
+    this.closeModifyModifySectionImprovement();
+  }
+  submitModifySection() {
+    this.lesson.sections[this.lesson.sections.findIndex(s => s.name === this.modifySection.name)] = this.modifySection;
+    this.closeModifySection();
+  }
+
   addSection() {
     this.newSection = this.newSectionFactory();
     this.isAddingSection = true;
@@ -203,6 +292,20 @@ export class LessonEditorComponent implements OnInit {
   removeNewSectionSuccess(name: string) {
     if (this.newSection.successes.find(s => s.name === name)) this.newSection.successes.splice(this.newSection.successes.findIndex(s => s.name === name), 1);
   }
+  modifyNewSectionSuccess(name: string) {
+    if (this.newSection.successes.find(s => s.name === name)) {
+      this.sectionSuccess = Object.assign({}, this.newSection.successes.find(s => s.name === name));
+      this.isModifyingSectionSuccess = true;
+    }
+  }
+  closeModifyNewSectionSuccess() {
+    this.sectionSuccess = {name: '', desc: ''};
+    this.isModifyingSectionSuccess = false;
+  }
+  submitModifyNewSectionSuccess() {
+    this.newSection.successes[this.newSection.successes.findIndex(s => s.name === this.sectionSuccess.name)] = this.sectionSuccess;
+    this.closeModifyNewSectionSuccess();
+  }
   addSectionImprovement() {
     this.isAddingSectionImprovement = true;
   }
@@ -224,6 +327,20 @@ export class LessonEditorComponent implements OnInit {
   }
   removeNewSectionImprovement(name: string) {
     if (this.newSection.improvements.find(i => i.name === name)) this.newSection.improvements.splice(this.newSection.improvements.findIndex(i => i.name === name), 1);
+  }
+  modifyNewSectionImprovement(name: string) {
+    if (this.newSection.improvements.find(s => s.name === name)) {
+      this.sectionImprovement = Object.assign({}, this.newSection.improvements.find(s => s.name === name));
+      this.isModifyingSectionImprovement = true;
+    }
+  }
+  closeModifyNewSectionImprovement() {
+    this.sectionImprovement = {name: '', desc: ''};
+    this.isModifyingSectionImprovement = false;
+  }
+  submitModifyNewSectionImprovement() {
+    this.newSection.improvements[this.newSection.improvements.findIndex(s => s.name === this.sectionImprovement.name)] = this.sectionImprovement;
+    this.closeModifyNewSectionImprovement();
   }
   isNewSectionPresent() {
     return (this.lesson.sections.find(s => s.name === this.newSection.name) !== undefined);
