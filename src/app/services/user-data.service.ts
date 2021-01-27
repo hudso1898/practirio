@@ -141,13 +141,14 @@ export class UserDataService {
    * Save the given lesson notes to LocalStorage
    * @param lesson The lesson data
    * @param uid The user who this lesson is for
+   * @param studioId The studio for this lesson
    * @param id The id of the lesson
    */
-  async localSaveLessonNotes(lesson: Lesson, uid: string, id: string) {
-    await this.storage.set('lesson' + id + '-' + uid, lesson);
+  async localSaveLessonNotes(lesson: Lesson, uid: string, studioId: string, id: string) {
+    await this.storage.set('studio-' + studioId + '-lesson' + id + '-' + uid, lesson);
     await this.toasterService.toast('Notes for this lesson saved on this device!');
   }
-  async localGetLessonNotes(uid: string, id: string): Promise<Lesson | undefined> {
-    return (await this.storage.get('lesson' + id + '-' + uid)) ? await this.storage.get('lesson' + id + '-' + uid) : undefined;
+  async localGetLessonNotes(uid: string, studioId: string, id: string): Promise<Lesson | undefined> {
+    return (await this.storage.get('studio-' + studioId + '-lesson' + id + '-' + uid)) ? await this.storage.get('studio-' + studioId + '-lesson' + id + '-' + uid) : undefined;
   }
 }

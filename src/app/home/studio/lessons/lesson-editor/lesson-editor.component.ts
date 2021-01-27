@@ -10,6 +10,7 @@ import { SettingsService } from 'src/app/settings.service';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { AlertController } from '@ionic/angular';
 import { ToasterServiceService } from 'src/app/services/toaster-service.service';
+import { Comment } from 'src/app/interfaces/Comment';
 
 @Component({
   selector: 'app-lesson-editor',
@@ -24,16 +25,38 @@ export class LessonEditorComponent implements OnInit {
   profile: Profile;
   isAddingProfileItem: boolean = false;
   isEditingProfileItem: boolean = false;
+  isAddingSection: boolean = false;
+  isEditingSection: boolean = false;
+  sectionTag: string = '';
+  sectionSuccess: {name: string, desc: string} = {name: '', desc: ''};
+  sectionImprovement: {name: string, desc: string} = {name: '', desc: ''};
+  isAddingSectionSuccess: boolean = false;
+  isAddingSectionImprovement: boolean = false;
+
   lesson: Lesson = {
     id: '1',
+    createdBy: this.loginService.user.id,
     date: new Date(),
     profile: [],
     notes: '',
+    notesComments: [],
     sections: [],
     newTodos: []
   };
   loading: boolean = true;
   newProfileItem: {name: string, content: string} = {name: '', content: ''};
+  newSectionFactory() {
+    return {
+      name: '',
+      desc: '', 
+      tags: [],
+      comments: '',
+      successes: [],
+      improvements: [],
+      sectionComments: []
+    }
+  }
+  newSection: {name: string, desc: string, tags: string[], comments: string, successes: {name: string, desc: string}[], improvements: {name: string, desc: string}[], sectionComments: Comment[]} = this.newSectionFactory();
   modifiedProfileItem: {name: string, content: string} = {name: '', content: ''};
 
   constructor(private route: ActivatedRoute, private userDataService: UserDataService, private router: Router, private loginService: LoginService,
@@ -59,9 +82,14 @@ export class LessonEditorComponent implements OnInit {
       }
       else this.setupLesson();
     }, 1000);
+    // autosave locally every 5 minutes
+    setInterval(async() => await this.saveLessonNotes(), (1000 * 60 * 5));
   }
 
   async setupLesson() {
+    if (!this.studio.instructors.find(i => i.id === this.loginService.user.id)) {
+      this.router.navigateByUrl('/home/studios/' + this.studio.id + '/lessons');
+    }
     this.lessonNumber = (this.profile.lessons.length > 0) ? (this.profile.lessons.length + 1) : 1;
     // import previous lesson data if found
     if (this.profile.lessons.length > 0) {
@@ -70,8 +98,8 @@ export class LessonEditorComponent implements OnInit {
       this.lesson.profile = prevLesson.profile;
       this.lesson.sections = prevLesson.sections;
     }
-    if (await this.userDataService.localGetLessonNotes(this.user.id, this.lesson.id)) {
-      this.lesson = await this.userDataService.localGetLessonNotes(this.user.id, this.lesson.id);
+    if (await this.userDataService.localGetLessonNotes(this.user.id, this.studio.id, this.lesson.id)) {
+      this.lesson = await this.userDataService.localGetLessonNotes(this.user.id, this.studio.id, this.lesson.id);
       this.lesson.date = new Date(this.lesson.date);
       this.loading = false;
     }
@@ -95,6 +123,9 @@ export class LessonEditorComponent implements OnInit {
     this.newProfileItem = {name: '', content: ''};
     this.isAddingProfileItem = false;
   }
+  keyUpNewProfileItem(event) {
+    if (event.keyCode === 13) this.submitNewProfileItem();
+  }
   submitNewProfileItem() {
     if (!this.isProfileItemPresent() && this.newProfileItem.name !== '' && this.newProfileItem.content !== '') {
       this.lesson.profile.push({name: this.newProfileItem.name, content: this.newProfileItem.content});
@@ -117,6 +148,9 @@ export class LessonEditorComponent implements OnInit {
       this.isEditingProfileItem = true;
     }
   }
+  keyUpModifyProfileItem(event) {
+    if (event.keyCode === 13) this.submitModifyProfileItem();
+  }
   submitModifyProfileItem() {
     if (this.modifiedProfileItem.content !== '') {
       this.lesson.profile[this.lesson.profile.findIndex(p => p.name === this.modifiedProfileItem.name)].content = this.modifiedProfileItem.content;
@@ -127,8 +161,82 @@ export class LessonEditorComponent implements OnInit {
     this.modifiedProfileItem = {name: '', content: ''};
     this.isEditingProfileItem = false;
   }
+
+  addSection() {
+    this.newSection = this.newSectionFactory();
+    this.isAddingSection = true;
+  }
+  closeNewSection() {
+    this.isAddingSection = false;
+  }
+  addSectionTagKeyup(event) {
+    if (event.keyCode === 13) this.addSectionTag();
+  }
+  addSectionTag() {
+    if (!this.newSection.tags.includes(this.sectionTag)) {
+      this.newSection.tags.push(this.sectionTag);
+      this.sectionTag = '';
+    }
+  }
+  removeSectionTag(tag: string) {
+    if (this.newSection.tags.includes(tag)) this.newSection.tags.splice(this.newSection.tags.indexOf(tag), 1);
+  }
+  addSectionSuccess() {
+    this.isAddingSectionSuccess = true;
+  }
+  closeSectionSuccess() {
+    this.sectionSuccess = {name: '', desc: ''};
+    this.isAddingSectionSuccess = false;
+  }
+  submitNewSectionSuccess() {
+    if (!this.isNewSectionSuccessPresent() && this.sectionSuccess.name !== '' && this.sectionSuccess.desc.length <= 500) {
+      this.newSection.successes.push(this.sectionSuccess);
+      this.closeSectionSuccess();
+    }
+  }
+  doNewSectionSuccessReorder(event: CustomEvent<ItemReorderEventDetail>) {
+    this.newSection.successes = event.detail.complete(this.newSection.successes);
+  }
+  isNewSectionSuccessPresent() {
+    return (this.newSection.successes.find(s => s.name === this.sectionSuccess.name) !== undefined);
+  }
+  removeNewSectionSuccess(name: string) {
+    if (this.newSection.successes.find(s => s.name === name)) this.newSection.successes.splice(this.newSection.successes.findIndex(s => s.name === name), 1);
+  }
+  addSectionImprovement() {
+    this.isAddingSectionImprovement = true;
+  }
+  closeSectionImprovement() {
+    this.sectionImprovement = {name: '', desc: ''};
+    this.isAddingSectionImprovement = false;
+  }
+  submitNewSectionImprovement() {
+    if (!this.isNewSectionImprovementPresent() && this.sectionImprovement.name !== '' && this.sectionImprovement.desc.length <= 500) {
+      this.newSection.improvements.push(this.sectionImprovement);
+      this.closeSectionImprovement();
+    }
+  }
+  isNewSectionImprovementPresent() {
+    return (this.newSection.improvements.find(i => i.name === this.sectionImprovement.name) !== undefined);
+  }
+  doNewSectionImprovementReorder(event: CustomEvent<ItemReorderEventDetail>) {
+    this.newSection.improvements = event.detail.complete(this.newSection.improvements);
+  }
+  removeNewSectionImprovement(name: string) {
+    if (this.newSection.improvements.find(i => i.name === name)) this.newSection.improvements.splice(this.newSection.improvements.findIndex(i => i.name === name), 1);
+  }
+  isNewSectionPresent() {
+    return (this.lesson.sections.find(s => s.name === this.newSection.name) !== undefined);
+  }
+  submitNewSection() {
+    if (!this.isNewSectionPresent() && this.newSection.name !== '') {
+      this.lesson.sections.push(this.newSection);
+      this.closeNewSection();
+    }
+  }
+
   async saveLessonNotes() {
-    await this.userDataService.localSaveLessonNotes(this.lesson, this.user.id, this.lesson.id);
+    await this.userDataService.localSaveLessonNotes(this.lesson, this.user.id, this.studio.id, this.lesson.id);
   }
   async clearLessonNotes() {
     const alert = await this.alertCtrl.create({
@@ -148,9 +256,11 @@ export class LessonEditorComponent implements OnInit {
           handler: async() => {
             this.lesson = {
               id: this.lesson.id,
+              createdBy: this.loginService.user.id,
               date: new Date(),
               profile: [],
               notes: '',
+              notesComments: [],
               sections: [],
               newTodos: []
             }
@@ -162,7 +272,38 @@ export class LessonEditorComponent implements OnInit {
     });
     await alert.present();
   }
-  isDarkMode() {
+  async clearSection(name: string) {
+    const alert = await this.alertCtrl.create({
+      cssClass: '',
+      header: 'Delete Section',
+      message: 'Are you sure you want to remove this section?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: '',
+          handler: (blah) => {
+            this.alertCtrl.dismiss();
+          }
+        }, {
+          text: 'Confirm',
+          handler: async() => {
+            if (this.lesson.sections.find(s => s.name === name)) {
+              this.lesson.sections.splice(this.lesson.sections.findIndex(s => s.name === name), 1);
+              await this.toaster.toast('Section cleared.');
+            }
+            this.alertCtrl.dismiss();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+  get isDarkMode() {
     return this.settingsService.isDarkMode();
+  }
+  characterCounterColor(str: string, maxlength: number){
+    return (str.length < (maxlength * 0.8)) ? "medium" :
+      (str.length === maxlength) ? "danger" : "warning";
   }
 }

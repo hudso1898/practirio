@@ -40,3 +40,76 @@ hr.music-line {
 .control-button {
     margin-left: 10px;
 }
+.control-button.submit {
+    margin-right: 15px;
+}
+.right-margin {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#tag-input {
+    margin-top: 10px;
+}
+#tag-display {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.tag-display {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.tag-item {
+    flex-basis: auto;
+}
+.hint-message {
+    font-size: 0.75em;
+    color: grey;
+}
+.bordered-area,.bordered-display-ro {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgba(235, 235, 235, 0.3);
+    transition: all 0.2s;
+}
+.bordered-area:hover {
+    box-shadow: 0 0 3px 2px #4c8dff;
+    transition: box-shadow 0.3s;
+}
+.bordered-area:focus-within {
+    box-shadow: 0 0 3px 2px #93bbff;
+    background-color: rgba(135, 179, 255, 0.1);
+    transition: all 0.3s;
+
+}
+.bordered-area.dark-body:focus-within {
+    box-shadow: 0 0 3px 2px #4c8dff;
+    background-color: rgba(135, 179, 255, 0.1);
+    transition: all 0.3s;
+}
+.bordered-area.dark-body,.bordered-display-ro.dark-body {
+    background-color: rgba(68, 68, 68, 0.3);
+}
+.left-margin {
+    margin-left: 10px;
+}
+.character-display {
+    text-align: end;
+}
+.section-display {
+    width: 90%;
+    margin: 3vh auto;
+}
+.divider {
+    width: 100%;
+    display: inline-block;
+    border-bottom: 2px solid grey;
+}
+.tag-label {
+    margin-right: 10px;
+}
+ion-text {
+    white-space: pre;
+}
