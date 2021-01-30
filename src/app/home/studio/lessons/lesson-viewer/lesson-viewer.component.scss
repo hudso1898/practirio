@@ -5,6 +5,9 @@ hr.music-line {
 .music-line.white {
     border-top: 1px solid white !important;
 }
+.pre-wrap {
+    white-space: pre-wrap;
+}
 .music-lines {
     opacity: 0.4;
 }
@@ -73,6 +76,7 @@ hr.music-line {
     padding: 10px;
     background-color: rgba(235, 235, 235, 0.3);
     transition: all 0.2s;
+    word-wrap: pre-wrap;
 }
 .bordered-area:hover {
     box-shadow: 0 0 3px 2px #4c8dff;
@@ -112,7 +116,4 @@ hr.music-line {
 }
 .bordered-display-ro ion-text {
     white-space: pre;
-}
-.pre-wrap {
-    white-space: pre-wrap;
 }

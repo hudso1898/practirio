@@ -35,15 +35,7 @@ const routes: Routes = [
       {
         path: 'lessons',
         loadChildren: () => import('./lessons/lessons.module').then( m => m.LessonsPageModule)
-      },
-    {
-      path: 'lessons/:id/new',
-      component: LessonEditorComponent
-    },
-    {
-      path: 'lessons/:id',
-      component: UserLessonsComponent
-    }
+      }
     ]
   }
 ];

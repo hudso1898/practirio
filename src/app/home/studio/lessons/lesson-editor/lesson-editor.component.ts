@@ -11,6 +11,7 @@ import { ItemReorderEventDetail } from '@ionic/core';
 import { AlertController } from '@ionic/angular';
 import { ToasterServiceService } from 'src/app/services/toaster-service.service';
 import { Comment } from 'src/app/interfaces/Comment';
+import { Todo } from 'src/app/interfaces/Todo';
 
 @Component({
   selector: 'app-lesson-editor',
@@ -25,6 +26,8 @@ export class LessonEditorComponent implements OnInit {
   profile: Profile;
   isAddingProfileItem: boolean = false;
   isEditingProfileItem: boolean = false;
+  updateInterval;
+
   isAddingSection: boolean = false;
   isEditingSection: boolean = false;
   sectionTag: string = '';
@@ -35,10 +38,16 @@ export class LessonEditorComponent implements OnInit {
   isAddingSectionImprovement: boolean = false;
   isModifyingSectionImprovement: boolean = false;
 
+  isAddingTodo: boolean = false;
+  isEditingTodo: boolean = false;
+  newTodo: Todo;
+  todos: Todo[] = [];
+  todayISO8601 = this.today();
+
   lesson: Lesson = {
     id: '1',
     createdBy: this.loginService.user.id,
-    date: new Date(),
+    date: new Date().toISOString(),
     profile: [],
     notes: '',
     notesComments: [],
@@ -57,6 +66,18 @@ export class LessonEditorComponent implements OnInit {
       improvements: [],
       sectionComments: []
     }
+  }
+  newTodoFactory(): Todo {
+    return {
+      id: this.userDataService.generateID(), 
+      name: '',
+      desc: '',
+      created: new Date().toISOString(),
+      due: undefined,
+      finished: false,
+      category: '',
+      comments: []
+    };
   }
   newSection: {name: string, desc: string, tags: string[], comments: string, successes: {name: string, desc: string}[], improvements: {name: string, desc: string}[], sectionComments: Comment[]} = this.newSectionFactory();
   modifySection: {name: string, desc: string, tags: string[], comments: string, successes: {name: string, desc: string}[], improvements: {name: string, desc: string}[], sectionComments: Comment[]} = this.newSectionFactory();
@@ -79,6 +100,10 @@ export class LessonEditorComponent implements OnInit {
           this.user = this.userDataService.getUser(this.route.snapshot.params['id']);
           this.studio = this.userDataService.studio;
           this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
+          this.userDataService.updateStudio.subscribe(e => {
+            this.studio = this.userDataService.studio;
+            this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
+          })
           console.dir(this.profile)
           this.setupLesson();
         }, 1000);
@@ -86,7 +111,12 @@ export class LessonEditorComponent implements OnInit {
       else this.setupLesson();
     }, 1000);
     // autosave locally every 5 minutes
-    setInterval(async() => await this.saveLessonNotes(), (1000 * 60 * 5));
+    this.updateInterval = setInterval(async() => await this.saveLessonNotes(), (1000 * 60 * 5));
+  }
+
+  ngOnDestroy() {
+    console.log('Leaving lesson editor');
+    clearInterval(this.updateInterval);
   }
 
   async setupLesson() {
@@ -100,10 +130,19 @@ export class LessonEditorComponent implements OnInit {
       this.lesson.id = (this.profile.lessons.length + 1).toString();
       this.lesson.profile = prevLesson.profile;
       this.lesson.sections = prevLesson.sections;
+      this.lesson.sections.forEach(section => {
+        section.comments = '';
+        section.successes = [];
+        section.improvements = [];
+      })
     }
     if (await this.userDataService.localGetLessonNotes(this.user.id, this.studio.id, this.lesson.id)) {
       this.lesson = await this.userDataService.localGetLessonNotes(this.user.id, this.studio.id, this.lesson.id);
-      this.lesson.date = new Date(this.lesson.date);
+      if (this.lesson.todos) {
+        this.todos = this.lesson.todos;
+        console.dir(this.todos)
+        delete this.lesson.todos;
+      }
       this.loading = false;
     }
     else this.loading = false;
@@ -112,11 +151,29 @@ export class LessonEditorComponent implements OnInit {
     if (this.studio.instructors.find(i => i.id === this.loginService.user.id)) this.router.navigateByUrl('/home/studios/' + this.studio.id + "/lessons/" + this.user.id);
     else this.router.navigateByUrl('/home/studios/' + this.studio.id + '/lessons');
   }
-  get lessonDate(): string {
-    return (this.lesson.date.getMonth() + 1) + "/" + this.lesson.date.getDate() + "/" + this.lesson.date.getFullYear();
-  }
-  submit() {
-    console.dir(this.lesson);
+  async submit() {
+    const alert = await this.alertCtrl.create({
+      cssClass: '',
+      header: 'Submit Lesson',
+      message: 'Are you sure you want to submit this lesson to Practirio?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: '',
+          handler: (blah) => {
+            this.alertCtrl.dismiss();
+          }
+        }, {
+          text: 'Confirm',
+          handler: async() => {
+            this.submitLesson();
+            this.alertCtrl.dismiss();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
   addNewProfileItem() {
     this.newProfileItem = {name: '', content: ''};
@@ -352,8 +409,56 @@ export class LessonEditorComponent implements OnInit {
     }
   }
 
+  // Todo handlers
+
+  addNewTodo() {
+    this.newTodo = this.newTodoFactory();
+    this.isAddingTodo = true;
+  }
+  closeNewTodo() {
+    this.isAddingTodo = false;
+  }
+  isNewTodoPresent() {
+    return (this.todos.find(t => t.name === this.newTodo.name) !== undefined);
+  }
+  submitNewTodo() {
+    if (this.newTodo.name !== '' && !this.isNewTodoPresent()) {
+      this.todos.push(this.newTodo);
+      this.lesson.newTodos.push(this.newTodo.id);
+      this.closeNewTodo();
+    }
+  }
+  editTodo(id: string) {
+    if (this.todos.find(t => t.id === id)) {
+      this.newTodo = Object.assign({}, this.todos.find(t => t.id === id));
+      this.isEditingTodo = true;
+    }
+  }
+  closeEditTodo() {
+    this.isEditingTodo = false;
+  }
+  submitEditTodo() {
+    this.todos[this.todos.findIndex(t => t.id === this.newTodo.id)] = this.newTodo;
+    this.closeEditTodo();
+  }
+  removeTodo(id: string) {
+    if (this.todos.find(t => t.id === id)) {
+      this.todos.splice(this.todos.findIndex(t => t.id === id), 1);
+      this.lesson.newTodos.splice(this.lesson.newTodos.indexOf(id), 1);
+    }
+  }
+
+  todo(id: string) {
+    return this.todos.find(t => t.id === id)
+  }
+  displayDate(date: string) {
+    let dateObj = new Date(date);
+    let month = (dateObj.getMonth() + 1);
+    let day = dateObj.getDate();
+    return (month + '/' + day + '/' + dateObj.getFullYear())
+  }
   async saveLessonNotes() {
-    await this.userDataService.localSaveLessonNotes(this.lesson, this.user.id, this.studio.id, this.lesson.id);
+    await this.userDataService.localSaveLessonNotes(Object.assign(this.lesson, {todos: this.todos}), this.user.id, this.studio.id, this.lesson.id);
   }
   async clearLessonNotes() {
     const alert = await this.alertCtrl.create({
@@ -374,13 +479,14 @@ export class LessonEditorComponent implements OnInit {
             this.lesson = {
               id: this.lesson.id,
               createdBy: this.loginService.user.id,
-              date: new Date(),
+              date: new Date().toISOString(),
               profile: [],
               notes: '',
               notesComments: [],
               sections: [],
               newTodos: []
             }
+            this.todos = [];
             await this.toaster.toast('Lesson editor cleared.');
             this.alertCtrl.dismiss();
           }
@@ -416,11 +522,40 @@ export class LessonEditorComponent implements OnInit {
     });
     await alert.present();
   }
+
+  submitLesson() {
+    console.dir(this.lesson);
+    console.dir(this.todos);
+    if (this.lesson.todos) delete this.lesson.todos;
+    this.userDataService.submitLesson(this.loginService.user.id, this.loginService.user.currentSessionId, this.studio.id, this.lesson, this.todos, this.user.id).subscribe((res: {ok: boolean}) => {
+      if (res.ok) {
+        this.userDataService.localRemoveLessonNotes(this.user.id, this.studio.id, this.lesson.id);
+        this.lesson = {
+          id: this.lesson.id + 1,
+          date: new Date().toISOString(),
+          createdBy: this.loginService.user.id,
+          profile: [],
+          notes: '',
+          sections: [],
+          newTodos: [],
+          notesComments: []
+        };
+        this.userDataService.triggerUpdateStudio.emit('');
+        this.router.navigateByUrl('/home/studios/' + this.studio.id + '/lessons/' + this.user.id);
+      }
+    });
+  }
   get isDarkMode() {
     return this.settingsService.isDarkMode();
   }
   characterCounterColor(str: string, maxlength: number){
     return (str.length < (maxlength * 0.8)) ? "medium" :
       (str.length === maxlength) ? "danger" : "warning";
+  }
+  // return the ISO 8601 date format of today
+  today() {
+    let now = new Date();
+    return now.getFullYear() + '-' + (((now.getMonth() + 1) < 10) ? '0' + (now.getMonth() + 1) : (now.getMonth() + 1)) + '-' 
+    + (((now.getDate() + 1) < 10) ? '0' + (now.getDate() + 1) : (now.getDate() + 1)); 
   }
 }

@@ -38,7 +38,5 @@
     <ion-item>There are no students currently in this studio.</ion-item>
   </ion-list>
 </div>
-<div *ngIf='!this.isInstructor() || this.uid !== ""'>
-  <app-user-lessons [uid]='this.uid'></app-user-lessons>
-</div>
+<app-user-lessons *ngIf='!this.isInstructor() || this.uid !== ""' id='user-lessons'></app-user-lessons>
 </ion-content>

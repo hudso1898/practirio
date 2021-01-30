@@ -1,0 +1,108 @@
+<ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
+<ion-content *ngIf='!loading'>
+  <ion-button color='tertiary' (click)='back()' class='control-button'>
+    <ion-icon class='left-icon' name='chevron-back'></ion-icon>{{this.user.firstname}}'s Lessons
+  </ion-button>
+  <ion-text class='ion-text-center'><h2>Lesson {{this.lesson.id}}</h2></ion-text>
+  <ion-text class='ion-text-center'><h4>{{this.user.firstname + " " + this.user.lastname}} | {{displayDate(lesson.date)}}</h4></ion-text>
+  <div class='music-lines'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+  </div>
+  <br>
+  <div id='lesson-form' *ngIf='this.lesson'>
+    <br>
+    <ion-text><h4 class='no-bottom-margin'>Student Profile</h4></ion-text>
+    <br>
+    <ion-list *ngIf='lesson.profile.length > 0'>
+      <ion-item *ngFor='let profileItem of lesson.profile'>
+        <ion-text><strong>{{profileItem.name}}</strong>: {{profileItem.content}}</ion-text>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngIf='lesson.profile.length === 0'>
+      <ion-text><p>There are no profile items to display.</p></ion-text>
+    </ion-item>
+    <br>
+    <div class='music-lines'>
+      <hr class='music-line' [class.white]='isDarkMode'>
+    </div>
+    <br>
+
+    <ion-text><h4 class='no-bottom-margin'>Lesson Notes</h4></ion-text>
+    <br>
+    <div class='bordered-display-ro' [class.dark-body]='isDarkMode'>
+    <ion-text><p class='pre-wrap'>{{lesson.notes}}</p></ion-text>
+    </div>
+
+    <br>
+    <div class='music-lines'>
+      <hr class='music-line' [class.white]='isDarkMode'>
+    </div>
+    <br>
+
+    <ion-text><h4 class='no-bottom-margin'>Sections</h4></ion-text>
+    <ion-text class='info'><p class='no-bottom-margin'>Specific and distinct sections of the lesson.</p></ion-text>
+
+    <ion-item *ngIf='lesson.sections.length === 0'>
+      <ion-text><p>There are no sections to display.</p></ion-text>
+    </ion-item>
+    <ion-list *ngIf='lesson.sections.length > 0 && !this.isEditingSection'>
+      <div *ngFor='let section of lesson.sections' class='section-display'>
+        <ion-text color='primary'><h5>{{section.name}}</h5></ion-text>
+        <ion-text><p class='pre-wrap'>{{section.desc}}</p></ion-text>
+        <br>
+        <div class='tag-display'>
+          <ion-text><h5 class='tag-label'>Tags</h5></ion-text><ion-chip class="tag-chip" *ngFor='let tag of section.tags' color='secondary'>{{tag}}</ion-chip>
+          <ion-text *ngIf='section.tags.length === 0'><p>There are no tags to display.</p></ion-text>
+        </div>
+        <ion-text><h5>General Comments</h5></ion-text>
+        <div class='bordered-display-ro' [class.dark-body]='isDarkMode'><ion-text><p class='pre-wrap'>{{section.comments}}</p></ion-text></div>
+        <br>
+        <ion-text><h5>Successes</h5></ion-text>
+        <ion-list *ngIf='section.successes.length > 0'>
+          <ion-item *ngFor='let success of section.successes'>
+            <ion-text color='primary' slot='start'><strong>{{success.name}}</strong></ion-text>
+            <ion-text><p class='left-margin'>{{success.desc}}</p></ion-text>
+          </ion-item>
+        </ion-list>
+        <ion-text *ngIf='section.successes.length === 0'><p>There are no successes to display.</p></ion-text>
+        <ion-text><h5>Areas to Improve</h5></ion-text>
+        <ion-list *ngIf='section.improvements.length > 0'>
+          <ion-item *ngFor='let improvement of section.improvements'>
+            <ion-text color='primary' slot='start'><strong>{{improvement.name}}</strong></ion-text>
+            <ion-text><p class='left-margin'>{{improvement.desc}}</p></ion-text>
+          </ion-item>
+        </ion-list>
+        <ion-text *ngIf='section.improvements.length === 0'><p>There are no areas to improve to display.</p></ion-text>
+        <br>
+        <div class='divider'></div>
+      </div>
+    </ion-list>
+
+    <br>
+    <div class='music-lines'>
+      <hr class='music-line' [class.white]='isDarkMode'>
+    </div>
+    <br>
+
+    <ion-text><h4 class='no-bottom-margin'>{{this.user.firstname}}'s Todos</h4></ion-text>
+    <ion-text class='info'><p class='no-bottom-margin'>Add todo items for the student and set their due dates.</p></ion-text>
+    <br>
+    <ion-item *ngIf='lesson.newTodos.length === 0'>
+      <ion-text><p>There are no new Todos to display.</p></ion-text>
+    </ion-item>
+    <ion-list *ngIf='lesson.newTodos.length > 0'>
+      <ion-item *ngFor='let t of lesson.newTodos'>
+        <ion-text slot='start' ><h5>{{todo(t).name}}</h5></ion-text>
+        <ion-text><p class='left-margin'>{{todo(t).desc}}</p></ion-text>
+        <ion-text slot='end'><p class='left-margin'>Due {{displayDate(todo(t).due)}}</p></ion-text>
+      </ion-item>
+    </ion-list>
+    <br>
+    <br>
+    <br>
+  </div>
+</ion-content>

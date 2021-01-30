@@ -1,9 +1,10 @@
 import {Comment} from './Comment';
+import {Todo} from './Todo';
 export interface Lesson {
     id: string,
     createdBy: string, // uid of the instructor who created this lesson
-    date: Date,
-    modDate?: Date, // if lesson is ever modified, this gets added
+    date: string,
+    modDate?: string, // if lesson is ever modified, this gets added
     modBy?: string, // if lesson is ever modified, shows who modified it
     // profile: general info, user adds/removes. (list of profile items basically)
     profile: {
@@ -22,7 +23,9 @@ export interface Lesson {
         successes: {name: string, desc: string}[],
         improvements: {name: string, desc: string}[],
         sectionComments: Comment[]
-    }[],
+    }[];
     // list of the todos added for this lesson (ids, get data from user's studio profile)
-    newTodos: string[]
+    newTodos: string[],
+    // used in the lesson editor for saving/loading
+    todos?: Todo[]
 }

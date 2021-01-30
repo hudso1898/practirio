@@ -23,6 +23,9 @@ export class LessonsPage implements OnInit {
   }
   public init() {
     this.studio = this.userDataService.studio;
+    this.userDataService.updateStudio.subscribe(e => {
+      this.studio = this.userDataService.studio;
+    });
     if(!this.isInstructor()) this.uid = this.loginService.user.id;
   }
 

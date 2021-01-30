@@ -9,6 +9,7 @@ import { LessonsPageRoutingModule } from './lessons-routing.module';
 import { LessonsPage } from './lessons.page';
 import { UserLessonsComponent } from './user-lessons/user-lessons.component';
 import { LessonEditorComponent } from './lesson-editor/lesson-editor.component';
+import { LessonViewerComponent } from './lesson-viewer/lesson-viewer.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { LessonEditorComponent } from './lesson-editor/lesson-editor.component';
     IonicModule,
     LessonsPageRoutingModule
   ],
-  declarations: [LessonsPage, UserLessonsComponent, LessonEditorComponent]
+  declarations: [LessonsPage, UserLessonsComponent, LessonEditorComponent, LessonViewerComponent]
 })
 export class LessonsPageModule {}

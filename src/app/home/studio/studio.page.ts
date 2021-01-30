@@ -21,6 +21,7 @@ export class StudioPage implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    this.userDataService.triggerUpdateStudio.subscribe(e => this.init());
     this.init();
   }
   ngAfterViewChecked() {
@@ -35,6 +36,7 @@ export class StudioPage implements OnInit {
       || res.studio.students.findIndex(s => s.id === this.loginService.user.id) !== -1)) {
         this.studio = res.studio;
         this.userDataService.studio = this.studio;
+        this.userDataService.updateStudio.emit('update');
         this.loginService.updateStudioUsers(this.studio);
       }
       else this.userDataService.loadError = true;

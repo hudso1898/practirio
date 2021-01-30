@@ -4,7 +4,7 @@
 #lesson-view {
     margin-left: 10vw;
     margin-right: 10vw;
-    margin-top: 20vh;
+    margin-top: 10vh;
     overflow-x: scroll;
 }
 .double-bar {
@@ -12,9 +12,20 @@
     border-right: 12px double black;
     height: 20vh;
 }
+.single-bar {
+    display: inline-block;
+    border-right: 4px solid black;
+    height: 20vh;
+}
 .connector {
     display: inline-block;
-    width: 6vw;
+    width: 8vw;
+    border-top: 3px solid black;
+    margin-bottom: 10vh;
+}
+.connector-long {
+    display: inline-block;
+    width: calc(8vw + 4px);
     border-top: 3px solid black;
     margin-bottom: 10vh;
 }
@@ -27,14 +38,27 @@
     border-radius: 100px;
     transition: all 0.3s;
 }
-.double-bar.darkcolor {
+.filled-note {
+    display: inline-block;
+    width: calc(2.5vh + 40px);
+    height: calc(2.5vh + 40px);
+    margin-bottom: calc(10vh - (1.25vh + 20px));
+    border: 2px solid black;
+    border-radius: 100px;
+    transition: all 0.3s;
+    background-color: rgba(95, 159, 255, 0.8);
+}
+.double-bar.darkcolor,.single-bar.darkcolor {
     border-right-color: white;
 }
-.connector.darkcolor {
+.connector.darkcolor,.connector-long.darkcolor {
     border-top-color: white;
 }
-.empty-note.darkcolor {
+.empty-note.darkcolor,.filled-note.darkcolor {
     border-color: white;
+}
+.filled-note.darkcolor {
+    background-color: rgba(55, 113, 199, 0.8);
 }
 .empty-note:hover {
     box-shadow: 0 0 3px 2px #3880FF;
@@ -42,15 +66,21 @@
     transition: all 0.4s;
     cursor: pointer;
 }
+.filled-note:hover {
+    box-shadow: 0 0 3px 2px #ffffff;
+    background-color: rgba(95, 159, 255, 0.4);
+    transition: all 0.4s;
+    cursor: pointer;
+}
+.filled-note.darkcolor:hover {
+    background-color: rgba(55, 113, 199, 0.4);
+}
 .note-wrapper {
     position: absolute;
 }
 .note-title {
-    position: absolute;
-    text-align: center;
     width: max-content;
-    top: 50px;
 }
 .note-title>p {
-    margin-left: -10px;
+    margin-top: calc(2.5vh + 40px); 
 }

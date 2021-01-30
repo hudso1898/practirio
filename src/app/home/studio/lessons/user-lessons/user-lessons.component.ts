@@ -28,15 +28,20 @@ export class UserLessonsComponent implements OnInit {
     setTimeout(() => {
       this.user = this.userDataService.getUser(this.route.snapshot.params['id']);
       if (!this.user.id) this.user = this.loginService.user;
+      console.dir(this.user)
       this.studio = this.userDataService.studio;
       this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
-      console.dir(this.profile)
+      this.userDataService.updateStudio.subscribe(e => {
+        this.studio = this.userDataService.studio;
+        this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
+      });
       if (this.user.id === "" || this.profile === {}) {
         setTimeout(() => {
           this.user = this.userDataService.getUser(this.route.snapshot.params['id']);
+          if (!this.user.id) this.user = this.loginService.user;
           this.studio = this.userDataService.studio;
           this.profile = this.userDataService.getStudioProfile(this.studio, this.user);
-          console.dir(this.profile)
+          console.dir(this.user)
           this.loading = false;
         }, 1000);
       }
@@ -50,6 +55,15 @@ export class UserLessonsComponent implements OnInit {
   }
   newLesson() {
     if (this.studio.instructors.find(i => i.id === this.loginService.user.id)) this.router.navigateByUrl('/home/studios/' + this.studio.id + "/lessons/" + this.user.id + "/new");
+  }
+  viewLesson(lessonId: string) {
+    this.router.navigateByUrl('/home/studios/' + this.studio.id + '/lessons/' + this.user.id + '/view/' + lessonId);
+  }
+  formatDate(datestr: string) {
+    let date = new Date(datestr);
+    let month = (date.getMonth() + 1);
+    let day = date.getDate();
+    return (month + '/' + day + '/' + date.getFullYear())
   }
 
 }
