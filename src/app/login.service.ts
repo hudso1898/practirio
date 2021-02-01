@@ -238,7 +238,7 @@ export class LoginService {
      this.userEnsembles = [];
      this.userProfiles = [];
      this.userDataService.studio = undefined;
-     this.router.navigate(["/"]);
+     this.router.navigateByUrl('/');
    }
    searchUser(username: String) {
      return this.http.get(this.apiUrl + 'get/user/' + username);

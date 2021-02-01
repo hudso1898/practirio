@@ -14,6 +14,8 @@ import { PracticeComponent } from './practice/practice.component';
 import { StudiosComponent } from './studios/studios.component';
 import { CreateStudioComponent } from './create-studio/create-studio.component';
 import { JoinStudioComponent } from './join-studio/join-studio.component';
+import { CreateEnsembleComponent } from './create-ensemble/create-ensemble.component';
+import { JoinEnsembleComponent } from './join-ensemble/join-ensemble.component';
 
 @NgModule({
   imports: [
@@ -23,6 +25,7 @@ import { JoinStudioComponent } from './join-studio/join-studio.component';
     ReactiveFormsModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, DefaultComponent, EnsemblesComponent, EventsComponent, PracticeComponent, StudiosComponent, CreateStudioComponent, JoinStudioComponent]
+  declarations: [HomePage, DefaultComponent, EnsemblesComponent, EventsComponent, PracticeComponent, StudiosComponent, CreateStudioComponent, JoinStudioComponent,
+  CreateEnsembleComponent, JoinEnsembleComponent]
 })
 export class HomePageModule {}

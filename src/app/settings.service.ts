@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class SettingsService {
 
   pracSettings;
-  constructor() {
+  constructor(private platform: Platform) {
     if(localStorage.getItem('pracSettings') !== null) {
       this.pracSettings = JSON.parse(localStorage.getItem('pracSettings'));
     }
@@ -29,5 +30,8 @@ export class SettingsService {
 
   isDarkMode() {
     return this.pracSettings.darkMode;
+  }
+  isMobile() {
+    return (this.platform.width() < 768);
   }
 }

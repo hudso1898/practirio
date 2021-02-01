@@ -8,6 +8,7 @@ import { Profile } from '../interfaces/Profile';
 import { Ensemble } from '../interfaces/Ensemble';
 import { StudiosComponent } from './studios/studios.component';
 import { UserDataService } from '../services/user-data.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-home',
@@ -78,6 +79,7 @@ export class HomePage implements OnInit {
     }
   }
   logout() {
+    this.menuToggle();
     this.loginService.logout();
   }
   menuToggle() {

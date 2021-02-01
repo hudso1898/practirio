@@ -8,7 +8,7 @@
         <div *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios && this.loginService.userStudios.length === 0' class='middle-message'>
           <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
         </div>
-        <ion-buttons class='center' *ngIf='this.loginService.hasFetchedUserInfo'>
+        <ion-buttons class='center buttons' *ngIf='this.loginService.hasFetchedUserInfo'>
           <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
           <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
         </ion-buttons>
@@ -47,7 +47,7 @@
         </ion-card>
         <div *ngIf='this.loginService.userEnsembles.length === 0' class='middle-message'>
           <ion-text class='ion-text-center'><h4>You are not currently a member of any ensembles.</h4></ion-text>
-          <ion-buttons class='center'>
+          <ion-buttons class='center buttons'>
             <ion-button routerLink='/home/ensembles/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
             <ion-button routerLink='/home/ensembles/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
           </ion-buttons>

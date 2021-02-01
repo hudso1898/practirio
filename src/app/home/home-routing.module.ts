@@ -9,6 +9,8 @@ import { EventsComponent } from './events/events.component';
 import { PracticeComponent } from './practice/practice.component';
 import { CreateStudioComponent } from './create-studio/create-studio.component';
 import { JoinStudioComponent } from './join-studio/join-studio.component';
+import { CreateEnsembleComponent } from './create-ensemble/create-ensemble.component';
+import { JoinEnsembleComponent } from './join-ensemble/join-ensemble.component';
 
 const routes: Routes = [
   {
@@ -43,7 +45,16 @@ const routes: Routes = [
         pathMatch: 'full',
         component: EnsemblesComponent
       },
-
+      {
+        path: 'ensembles/create',
+        pathMatch: 'full',
+        component: CreateEnsembleComponent
+      },
+      {
+        path: 'ensembles/join',
+        pathMatch: 'full',
+        component: JoinEnsembleComponent
+      },
       {
         path: 'events',
         component: EventsComponent

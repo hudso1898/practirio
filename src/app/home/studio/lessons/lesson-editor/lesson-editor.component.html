@@ -62,6 +62,8 @@
     </ion-buttons>
     
     <br>
+    <ion-text class='ion-text-center info'><p>Student profile information is saved and automatically imported into the next lesson.</p></ion-text>
+    <br>
     <div class='music-lines'>
       <hr class='music-line' [class.white]='isDarkMode'>
     </div>
@@ -362,6 +364,8 @@
     <ion-buttons *ngIf='!isAddingSection && !isEditingSection'>
       <ion-button (click)='addSection()'><ion-icon name='add' color='success' class='add-button'></ion-icon>New Section</ion-button>
     </ion-buttons>
+    <br>
+    <ion-text class='ion-text-center info'><p>Saved sections (name and description) are automatically imported into the next lesson.</p></ion-text>
     <br>
     <div class='music-lines'>
       <hr class='music-line' [class.white]='isDarkMode'>

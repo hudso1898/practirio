@@ -7,17 +7,17 @@
   <h2 class="title">Making Musicians <span id='adj'>{{currentAdj}}.</span></h2>
 </ion-text>
 <div class='bordered-flex'>
-  <div class='img-column' [class.invisible]='!this.hasPitchAppeared'>
+  <div class='img-column' [class.invisible]='!this.hasPitchAppeared' *ngIf='!isMobile'>
     <img id='treble-image-light' [class.hidden]='settingsService.isDarkMode()' src="../../assets/treble-light.png">
     <img id='treble-image-dark' [class.hidden]='!settingsService.isDarkMode()' src="../../assets/treble-dark.png">
   </div>
-<div id="prac-info">
+<div id="prac-info" [class.mobile]='isMobile'>
   <div class="quote">
     <ion-text><i>"The difference between ordinary and extraordinary is <strong>practice</strong>."</i>
       <span class="quote-author">-Vladimir Horowitz</span>
     </ion-text>
   </div>
-  <ion-card class="pitch" [class.invisible]='!this.hasPitchAppeared'>
+  <ion-card class="pitch" [class.invisible]='!this.hasPitchAppeared' [class.mobile]='isMobile'>
     <ion-card-header>
     <ion-card-title>
       Being a musician in the 21st century takes a lot of work.
@@ -34,7 +34,7 @@
     </ion-card-content>
    </ion-card>
    <div class='info-flexbox'>
-   <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+   <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared' [class.mobile]='isMobile'>
      <img src='../../assets/frontpage-1.jpg' class='info-card-img'>
     <ion-card-header>
     <ion-card-title>
@@ -48,7 +48,7 @@
     </ion-card-content>
    </ion-card>
 
-   <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+   <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared' [class.mobile]='isMobile'>
     <img src='../../assets/frontpage-2.jpg' class='info-card-img'>
     <ion-card-header>
     <ion-card-title>
@@ -65,7 +65,7 @@
    </div>
    <br><br>
    <div class='info-flexbox'>
-    <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+    <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared' [class.mobile]='isMobile'>
       <img src='../../assets/frontpage-3.jpg' class='info-card-img'>
      <ion-card-header>
      <ion-card-title>
@@ -80,7 +80,7 @@
      </ion-card-content>
     </ion-card>
  
-    <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared'>
+    <ion-card class="info-card" [class.invisible]='!this.hasPitchAppeared' [class.mobile]='isMobile'>
       <img src='../../assets/frontpage-4.jpeg' class='info-card-img'>
      <ion-card-header>
      <ion-card-title>
@@ -95,20 +95,36 @@
     </ion-card>
     </div>
     <br><br>
+    <div class='bordered-flex' *ngIf='isMobile'>
+      <div class='img-column' [class.invisible]='!this.hasPitchAppeared' *ngIf='isMobile'>
+        <img id='treble-image-light' [class.hidden]='settingsService.isDarkMode()' src="../../assets/treble-light.png">
+        <img id='treble-image-dark' [class.hidden]='!settingsService.isDarkMode()' src="../../assets/treble-dark.png">
+      </div>
+      <div id='bottom-info-mobile'>
     <div class='center'>
-      <img class='store-image' src='../../assets/app-store-placeholder.png'>
+      <img class='store-image mobile' src='../../assets/app-store-placeholder.png'>
     </div>
     <br>
+    </div>
+    <div class="img-column" [class.invisible]='!this.hasPitchAppeared' *ngIf='isMobile'>
+      <img id='eigth-image-light' [class.hidden]='settingsService.isDarkMode()' src="../../assets/eigthnotes-light.png">
+      <img id='eigth-image-dark' [class.hidden]='!settingsService.isDarkMode()' src="../../assets/eigthnotes-dark.png">
+    </div>
+    </div>
+    <div class='center' *ngIf='!isMobile'>
+      <img class='store-image' src='../../assets/app-store-placeholder.png'>
+    </div>
     <div class='center'>
       <ion-text><h5><a [class]='(settingsService.isDarkMode()) ? "fb-link-dark" : "fb-link"'  href="https://www.facebook.com/Practirio-105753078082979" target='_blank'>Like us on Facebook!</a></h5></ion-text>
       <div class="fb-like center" data-href="https://www.facebook.com/Practirio-105753078082979" data-width="" data-layout="box_count" data-action="like" data-size="large" data-share="true"></div>
     </div>
+    <br *ngIf='isMobile'>
 </div>
-<div class="img-column" [class.invisible]='!this.hasPitchAppeared'>
+<div class="img-column" [class.invisible]='!this.hasPitchAppeared' *ngIf='!isMobile'>
   <img id='eigth-image-light' [class.hidden]='settingsService.isDarkMode()' src="../../assets/eigthnotes-light.png">
   <img id='eigth-image-dark' [class.hidden]='!settingsService.isDarkMode()' src="../../assets/eigthnotes-dark.png">
 </div>
-</div>
+</div> <!-- end bordered flexbox -->
 <ion-footer>
   <ion-toolbar class="footer" color="light">
     Made by a musician, for musicians.<br>
