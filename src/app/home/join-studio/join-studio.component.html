@@ -28,6 +28,9 @@
       <ion-item *ngIf='this.tags.length > 0'><div id='tag-display'>
         <ion-chip class="tag-chip" *ngFor='let tag of tags' color='secondary'>{{tag}} <ion-icon name='close' (click)='removeTag(tag)'></ion-icon></ion-chip>
       </div></ion-item>
+      <ion-item lines='none'>
+        <ion-button size='medium' class='center search-button' (click)='buttonSearch()' [disabled]='studioForm.value["name"] === "" && tags.length === 0'>Search</ion-button>
+      </ion-item>
       </ion-item-group>
   </form>
 
@@ -43,14 +46,15 @@
             <img class='avatar-image' [src]='studio.imageUrl' alt='img'>
           </ion-avatar>
 
-          <ion-label>{{studio.name}}
+          <ion-label class='result-label' slot='start' [class.mobile]='this.settingsService.isMobile()'>
+            <ion-text><h5 class='studio-name'>{{studio.name}}</h5></ion-text>
             <div *ngIf='studio.tags.length > 0' class='tag-display'>
               <ion-chip size='small' class="tag-chip" *ngFor='let tag of studio.tags' [color]='isSearched(tag)'>{{tag}}</ion-chip>
             </div>
           </ion-label>
           <div slot='end'>
-            <ion-text *ngIf='studio.size === 1'>{{studio.size}} member</ion-text>
-            <ion-text *ngIf='studio.size !== 1'>{{studio.size}} members</ion-text>
+            <ion-text *ngIf='studio.size === 1 && !this.settingsService.isMobile()'>{{studio.size}} member</ion-text>
+            <ion-text *ngIf='studio.size !== 1 && !this.settingsService.isMobile()'>{{studio.size}} members</ion-text>
             <ion-button class='left-margin' (click)='requestJoin(studio)' *ngIf='!loginService.user.studios.includes(studio.id) && !studio.applicants'>Join</ion-button>
             <ion-button class='left-margin' (click)='requestJoin(studio)' *ngIf='!loginService.user.studios.includes(studio.id) && (studio.applicants && !studio.applicants.includes(loginService.user.id))'>Join</ion-button>
             <ion-button class='left-margin' (click)='requestJoin(studio)' *ngIf='!loginService.user.studios.includes(studio.id) && (studio.applicants && studio.applicants.includes(loginService.user.id))' disabled>Pending</ion-button>

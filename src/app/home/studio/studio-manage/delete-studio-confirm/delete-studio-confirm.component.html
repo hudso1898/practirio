@@ -8,6 +8,10 @@
 <ion-input [(ngModel)]='confirm' class='center' placeholder='delete me'></ion-input>
 <br>
 <div class='center'>
+  <ion-button class='center' (click)='modalCtrl.dismiss()'>Cancel</ion-button>
+<br>
+<br>
 <ion-button class='center' (click)='confirmDelete()' [disabled]='confirm !== "delete me" || isDeleting' color='danger'>Delete Studio</ion-button>
+
 </div>
 </ion-content>

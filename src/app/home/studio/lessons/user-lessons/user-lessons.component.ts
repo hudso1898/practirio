@@ -65,5 +65,11 @@ export class UserLessonsComponent implements OnInit {
     let day = date.getDate();
     return (month + '/' + day + '/' + date.getFullYear())
   }
+  formatDateWithoutYear(datestr: string) {
+    let date = new Date(datestr);
+    let month = (date.getMonth() + 1);
+    let day = date.getDate();
+    return (month + '/' + day);
+  }
 
 }

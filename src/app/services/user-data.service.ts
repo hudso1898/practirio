@@ -7,6 +7,7 @@ import { User } from '../interfaces/User';
 import { Storage} from '@ionic/storage';
 import { ToasterServiceService } from './toaster-service.service';
 import { Todo } from '../interfaces/Todo';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,12 @@ export class UserDataService {
   triggerUpdateStudio: EventEmitter<any> = new EventEmitter();
 
   loadedUsers: User[] = [];
+  headerMessage: string = "";
   userIds = [];
   idSize = 32;
   chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // characters to use to generate the id
-  constructor(private http: HttpClient, private toasterService: ToasterServiceService, private storage: Storage) { }
-  
+  constructor(private http: HttpClient, private toasterService: ToasterServiceService, private storage: Storage, private route: ActivatedRoute) { }
+
   generateID() {
     let id = '';
     // 1/4: seeded on time plus a random number multiplier (0 to 1)

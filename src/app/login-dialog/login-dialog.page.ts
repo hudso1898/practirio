@@ -4,6 +4,7 @@ import { LoginService } from '../login.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { User } from '../interfaces/User';
 import { Router } from '@angular/router';
+import { UserDataService } from '../services/user-data.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -17,7 +18,8 @@ export class LoginDialogPage implements OnInit {
   constructor(private modalCtrl: ModalController,
     private loginService: LoginService,
     private formBuilder: FormBuilder,
-    private router: Router) {
+    private router: Router,
+    private userDataService: UserDataService) {
       if(loginService.isTokenPresent()) {
         this.router.navigate(['/home']);
       }
@@ -29,6 +31,7 @@ export class LoginDialogPage implements OnInit {
      }
 
   ngOnInit() {
+    this.userDataService.headerMessage = '';
   }
 
   get isLoggingIn(): boolean {

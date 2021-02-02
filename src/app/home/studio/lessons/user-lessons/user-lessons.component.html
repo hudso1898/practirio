@@ -3,13 +3,14 @@
   <ion-button color='tertiary' (click)='back()' *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
     <ion-icon class='left-icon' name='chevron-back'></ion-icon>Lesson Home
   </ion-button>
-  <ion-text class='ion-text-center' *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
-    <h2>{{this.user.firstname + " " + this.user.lastname}}'s Lessons</h2>
-  </ion-text>
-  <ion-text class='ion-text-center' *ngIf='!this.userDataService.isInstructor(this.studio, this.loginService.user)'>
-    <h2>{{this.user.firstname + " " + this.user.lastname}}'s Lesson History</h2>
-  </ion-text>
   <div id='lesson-view'>
+    <ion-text *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
+      <h2>{{this.user.firstname + " " + this.user.lastname}}'s Lessons</h2>
+    </ion-text>
+    <ion-text *ngIf='!this.userDataService.isInstructor(this.studio, this.loginService.user)'>
+      <h2>{{this.user.firstname + " " + this.user.lastname}}'s Lesson History</h2>
+    </ion-text>
+    <br>
     <span class='double-bar' [class.darkcolor]='this.settingsService.isDarkMode()'></span>
     <!-- build the barline from here -->
     <span *ngFor='let lesson of this.profile.lessons; let i = index' [attr.data-index]="i">
@@ -20,7 +21,11 @@
       <span class='connector-long' [class.darkcolor]='this.settingsService.isDarkMode()' *ngIf='i / 4 !== 0 && i % 4 === 0'></span>
       <div class='filled-note' [class.darkcolor]='this.settingsService.isDarkMode()' (click)='viewLesson(lesson.id)'>
         <div class='note-wrapper'>
-          <ion-text class='note-title'><p>Lesson {{lesson.id}}<br>{{formatDate(lesson.date)}}</p></ion-text>
+          <ion-text class='note-title'><p>#{{lesson.id}}</p></ion-text>
+          <ion-text class='note-subtitle'>
+            <p *ngIf='!this.settingsService.isMobile()'>{{formatDate(lesson.date)}}</p>
+            <p *ngIf='this.settingsService.isMobile()'>{{formatDateWithoutYear(lesson.date)}}</p>
+          </ion-text>
         </div>
       </div>
       <span class='connector' [class.darkcolor]='this.settingsService.isDarkMode()' *ngIf='i % 4 === 3 && i / 4 < 1'></span>
@@ -28,6 +33,9 @@
       <span class='single-bar' [class.darkcolor]='this.settingsService.isDarkMode()' *ngIf='i % 4 === 3'></span>
     </span>
     <span *ngIf='this.userDataService.isInstructor(this.studio, this.loginService.user)'>
+      <br *ngIf='this.profile.lessons.length !== 0 && this.profile.lessons.length % 4 === 0'>
+      <br *ngIf='this.profile.lessons.length !== 0 && this.profile.lessons.length % 4 === 0'>
+      <span class='single-bar' [class.darkcolor]='this.settingsService.isDarkMode()' *ngIf='this.profile.lessons.length !== 0 && this.profile.lessons.length % 4 === 0'></span>
     <span class='connector' [class.darkcolor]='this.settingsService.isDarkMode()'></span>
     <div class='empty-note' [class.darkcolor]='this.settingsService.isDarkMode()' (click)='newLesson()'>
       <div class='note-wrapper'>

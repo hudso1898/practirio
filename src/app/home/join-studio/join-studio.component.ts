@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Studio } from 'src/app/interfaces/Studio';
 import { LoginService } from 'src/app/login.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { SettingsService } from 'src/app/settings.service';
 
 @Component({
   selector: 'app-join-studio',
@@ -20,7 +21,7 @@ export class JoinStudioComponent implements OnInit {
   shouldRefresh: boolean = false;
   oldTags: string[] = [];
   
-  constructor(private formBuilder: FormBuilder, private userDataService: UserDataService, private loginService: LoginService) {
+  constructor(private formBuilder: FormBuilder, private userDataService: UserDataService, private loginService: LoginService, private settingsService: SettingsService) {
     this.studioForm = formBuilder.group({
       name: [''],
       description: [''],
@@ -29,6 +30,7 @@ export class JoinStudioComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userDataService.headerMessage = '';
   }
   addTag(tag) {
     if (this.tags.includes(tag)) return;
@@ -47,6 +49,10 @@ export class JoinStudioComponent implements OnInit {
   }
   nameKeyup(event) {
     if (event.keyCode === 13) this.search();
+  }
+  buttonSearch() {
+    this.shouldRefresh = true;
+    this.search();
   }
   search() {
     if(this.shouldRefresh || (this.results !== [] && (this.studioForm.value["name"] !== this.oldSearchTerm || this.tags !== this.oldTags))) {

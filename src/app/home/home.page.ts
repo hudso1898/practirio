@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
     return this.loginService.user;
   }
   ngOnInit() {
+    this.userDataService.headerMessage = '';
     this.init();
   }
 

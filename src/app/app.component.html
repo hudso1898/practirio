@@ -12,6 +12,7 @@
           <ion-icon *ngIf='!isDarkMode' name="sunny-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
+      <ion-text slot='start' class='header-message' *ngIf='userDataService.headerMessage !== ""'><h5>{{userDataService.headerMessage}}</h5></ion-text>
       <ion-text slot='end' class='user-info' *ngIf='this.platform.width() >= 768'>
         <h5>{{firstname}} {{lastname}} <h6 class='username'>{{username}}</h6></h5>
       </ion-text>

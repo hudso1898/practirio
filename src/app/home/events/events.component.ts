@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-events',
@@ -7,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userDataService: UserDataService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userDataService.headerMessage = '';
+  }
 
 }

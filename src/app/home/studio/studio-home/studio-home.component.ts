@@ -14,7 +14,7 @@ export class StudioHomeComponent implements OnInit {
   ngOnInit() {}
 
   get studio() {
-    return (this.userDataService.isLoadingStudio) ? {} : this.userDataService.studio;
+    return (this.userDataService.isLoadingStudio) ? undefined : this.userDataService.studio;
   }
 
 }

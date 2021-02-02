@@ -9,7 +9,7 @@
 }
 img.avatar {
     height: 48px;
-    width: 48px;
+    min-width: 48px;
 }
 .description {
     white-space: pre-wrap;
@@ -18,7 +18,7 @@ img.avatar {
     margin-right: 12px;
 }
 .active-route {
-    color: rgb(0, 220, 26);
+    color: rgb(0, 95, 220);
 }
 #main-studio-content {
     overflow-y:scroll;

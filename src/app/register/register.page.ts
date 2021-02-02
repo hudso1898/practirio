@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from
 import { LoginService } from '../login.service';
 import { User } from '../interfaces/User';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserDataService } from '../services/user-data.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -24,7 +25,7 @@ export class RegisterPage implements OnInit {
       }
     });
   }
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private route: ActivatedRoute, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private route: ActivatedRoute, private router: Router, private userDataService: UserDataService) {
     if(loginService.isTokenPresent()) {
       this.router.navigate(['/home']);
     }
@@ -76,6 +77,7 @@ export class RegisterPage implements OnInit {
     return (this.registerForm.get(formControlName) !== undefined && (this.registerForm.get(formControlName).touched || this.registerForm.get(formControlName).dirty) && !this.registerForm.get(formControlName).valid) ? "danger" : "dark";
   }
   ngOnInit() {
+    this.userDataService.headerMessage = '';
   }
   fieldMissing(): boolean {
     let missing = false;

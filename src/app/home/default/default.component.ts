@@ -14,6 +14,7 @@ export class DefaultComponent implements OnInit {
   constructor(private platform: Platform, private loginService: LoginService, private userDataService: UserDataService, private settingsService: SettingsService) { }
 
   ngOnInit() {
+    this.userDataService.headerMessage = '';
   }
   isMobile() {
     return (this.platform.width() < 768);

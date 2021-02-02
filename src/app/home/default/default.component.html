@@ -4,11 +4,11 @@
       <ion-card-title class='ion-text-center'>My Studios</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'  [class.short]='!this.isTallEnough()'>
         <div *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios && this.loginService.userStudios.length === 0' class='middle-message'>
           <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
         </div>
-        <ion-buttons class='center buttons' *ngIf='this.loginService.hasFetchedUserInfo'>
+        <ion-buttons class='center buttons' *ngIf='this.loginService.hasFetchedUserInfo' [class.dark]='isDarkMode'>
           <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
           <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
         </ion-buttons>
@@ -41,13 +41,13 @@
       <ion-card-title class='ion-text-center'>My Ensembles</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'  [class.short]='!this.isTallEnough()'>
       <div *ngIf='this.loginService.hasFetchedUserInfo'>
         <ion-card *ngFor='let ensemble of this.loginService.userEnsembles'>
         </ion-card>
         <div *ngIf='this.loginService.userEnsembles.length === 0' class='middle-message'>
           <ion-text class='ion-text-center'><h4>You are not currently a member of any ensembles.</h4></ion-text>
-          <ion-buttons class='center buttons'>
+          <ion-buttons class='center buttons' [class.dark]='isDarkMode'>
             <ion-button routerLink='/home/ensembles/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
             <ion-button routerLink='/home/ensembles/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
           </ion-buttons>
@@ -59,9 +59,64 @@
   </ion-card>
 </ion-content>
 <ion-content class='mobile-subpage' *ngIf='this.isMobile()'>
-  <ion-text class='ion-text-center'>
-    <h3>Studios</h3>
-  </ion-text>
+  <ion-card class='mobile-item'>
+    <ion-card-header>
+      <ion-card-title class='ion-text-center'>My Studios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0' [class.short]='!this.isTallEnough()'>
+        <div *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios && this.loginService.userStudios.length === 0' class='middle-message'>
+          <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
+        </div>
+        <ion-buttons class='center buttons' *ngIf='this.loginService.hasFetchedUserInfo' [class.dark]='isDarkMode'>
+          <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
+          <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
+        </ion-buttons>
+      <div *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios' class='card-flexbox'>
+        <ion-card *ngFor='let studio of this.loginService.userStudios' class='card mobile'>
+          <img [src]='studio.imageUrl' [alt]='studio.name' class='card-image' *ngIf='this.isTallEnough()'>
+          <ion-card-content class='card-header'>
+            <ion-text color='dark' class='card-title'><h2 class='card-title-interior'>{{studio.name}}</h2></ion-text>
+            <ion-buttons class='margin-left inline-buttons'>
+              <ion-button [routerLink]='"/home/studios/" + studio.id'>Go To
+                <ion-icon size='large' class='margin-left' color='success' name="arrow-forward-circle-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      </div>
+    </ion-card-content>
+    <ion-progress-bar type="indeterminate" *ngIf='!this.loginService.hasFetchedUserInfo || this.userDataService.isLoadingStudios'></ion-progress-bar>
+  </ion-card>
+  <div id='music-lines-1'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+    <hr class='music-line' [class.white]='isDarkMode'>
+  </div>
+  <ion-card class='mobile-item'>
+    <ion-card-header>
+      <ion-card-title class='ion-text-center'>My Ensembles</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class='viewer-box' [class.loaded]='this.loginService.hasFetchedUserInfo' [class.empty]='this.loginService.userStudios.length === 0'  [class.short]='!this.isTallEnough()'>
+      <div *ngIf='this.loginService.hasFetchedUserInfo'>
+        <ion-card *ngFor='let ensemble of this.loginService.userEnsembles'>
+        </ion-card>
+        <div *ngIf='this.loginService.userEnsembles.length === 0' class='middle-message'>
+          <ion-text class='ion-text-center'><h4>You are not currently a member of any ensembles.</h4></ion-text>
+          <ion-buttons class='center buttons' [class.dark]='isDarkMode'>
+            <ion-button routerLink='/home/ensembles/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
+            <ion-button routerLink='/home/ensembles/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
+          </ion-buttons>
+        </div>
+      </div>
+      </div>
+    </ion-card-content>
+    <ion-progress-bar type="indeterminate" color='secondary' *ngIf='!this.loginService.hasFetchedUserInfo'></ion-progress-bar>
+  </ion-card>
 </ion-content>
 <!-- studios: card for each studio, scroll horizontally -->
 <!-- ensembles, same as studios -->

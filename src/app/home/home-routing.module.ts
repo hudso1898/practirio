@@ -68,10 +68,6 @@ const routes: Routes = [
         redirectTo: ''
       }
     ]
-  },
-  {
-    path: 'studio',
-    loadChildren: () => import('./studio/studio.module').then( m => m.StudioPageModule)
   }
 ];
 

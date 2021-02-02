@@ -4,6 +4,7 @@ import { Studio } from 'src/app/interfaces/Studio';
 import { User } from 'src/app/interfaces/User';
 import { LoginService } from 'src/app/login.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { SettingsService } from 'src/app/settings.service';
 
 @Component({
   selector: 'app-new-member-popover',
@@ -29,7 +30,7 @@ export class NewMemberPopoverComponent implements OnInit {
   newMembers: string[] = []; // list of new ids to add
 
   constructor(private loginService: LoginService, private userDataService: UserDataService,
-    private route: ActivatedRoute, private router: Router) { }
+    private route: ActivatedRoute, private router: Router, private settingsService: SettingsService) { }
 
   ngOnInit() {}
   get role(): string {

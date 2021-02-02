@@ -3,6 +3,7 @@ import { LoginService } from '../login.service';
 import { SettingsService } from '../settings.service';
 import { Animation, AnimationController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UserDataService } from '../services/user-data.service';
 
 @Component({
   selector: 'app-frontpage',
@@ -30,13 +31,15 @@ export class FrontpagePage implements OnInit {
   constructor(private loginService: LoginService,
     private settingsService: SettingsService,
     private animationCtrl: AnimationController,
-    private router: Router) {
+    private router: Router,
+    private userDataService: UserDataService) {
       if(loginService.isTokenPresent()) {
         this.router.navigate(['/home']);
       }
     }
 
   ngOnInit() {
+    this.userDataService.headerMessage = '';
     setTimeout(() => {
     this.fadeAnimation = this.animationCtrl.create()
       .addElement(document.querySelector('#adj'))

@@ -23,6 +23,9 @@ export class StudioPage implements OnInit {
   ngOnInit() {
     this.userDataService.triggerUpdateStudio.subscribe(e => this.init());
     this.init();
+    setTimeout(() => {
+      if (!this.studio) this.init();
+    }, 1500);
   }
   ngAfterViewChecked() {
     if (this.userDataService.studio && this.userDataService.studio.id !== this.route.snapshot.params['id']) this.init();
@@ -35,6 +38,7 @@ export class StudioPage implements OnInit {
       || res.studio.assistants.findIndex(a => a.id === this.loginService.user.id) !== -1
       || res.studio.students.findIndex(s => s.id === this.loginService.user.id) !== -1)) {
         this.studio = res.studio;
+        this.userDataService.headerMessage = this.studio.name;
         this.userDataService.studio = this.studio;
         this.userDataService.updateStudio.emit('update');
         this.loginService.updateStudioUsers(this.studio);

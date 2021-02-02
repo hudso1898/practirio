@@ -19,7 +19,7 @@
     <br>
     <ion-list *ngIf='lesson.profile.length > 0'>
       <ion-item *ngFor='let profileItem of lesson.profile'>
-        <ion-text><strong>{{profileItem.name}}</strong>: {{profileItem.content}}</ion-text>
+        <ion-text><strong>{{profileItem.name}}</strong><br>{{profileItem.content}}</ion-text>
       </ion-item>
     </ion-list>
     <ion-item *ngIf='lesson.profile.length === 0'>
@@ -64,16 +64,14 @@
         <ion-text><h5>Successes</h5></ion-text>
         <ion-list *ngIf='section.successes.length > 0'>
           <ion-item *ngFor='let success of section.successes'>
-            <ion-text color='primary' slot='start'><strong>{{success.name}}</strong></ion-text>
-            <ion-text><p class='left-margin'>{{success.desc}}</p></ion-text>
+            <ion-text color='primary' slot='start'><strong>{{success.name}}</strong><br><span><ion-text color='dark'><p>{{success.desc}}</p></ion-text></span></ion-text>
           </ion-item>
         </ion-list>
         <ion-text *ngIf='section.successes.length === 0'><p>There are no successes to display.</p></ion-text>
         <ion-text><h5>Areas to Improve</h5></ion-text>
         <ion-list *ngIf='section.improvements.length > 0'>
           <ion-item *ngFor='let improvement of section.improvements'>
-            <ion-text color='primary' slot='start'><strong>{{improvement.name}}</strong></ion-text>
-            <ion-text><p class='left-margin'>{{improvement.desc}}</p></ion-text>
+            <ion-text color='primary' slot='start'><strong>{{improvement.name}}</strong><br><span><ion-text color='dark'><p>{{improvement.desc}}</p></ion-text></span></ion-text>
           </ion-item>
         </ion-list>
         <ion-text *ngIf='section.improvements.length === 0'><p>There are no areas to improve to display.</p></ion-text>
@@ -96,9 +94,8 @@
     </ion-item>
     <ion-list *ngIf='lesson.newTodos.length > 0'>
       <ion-item *ngFor='let t of lesson.newTodos'>
-        <ion-text slot='start' ><h5>{{todo(t).name}}</h5></ion-text>
+        <ion-text slot='start' class='todo-title'><h5>{{todo(t).name}}<br><span class='info small'>Due {{displayDate(todo(t).due)}}</span></h5></ion-text>
         <ion-text><p class='left-margin'>{{todo(t).desc}}</p></ion-text>
-        <ion-text slot='end'><p class='left-margin'>Due {{displayDate(todo(t).due)}}</p></ion-text>
       </ion-item>
     </ion-list>
     <br>

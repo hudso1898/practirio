@@ -1,21 +1,17 @@
 <ion-header>
-  <ion-toolbar [color]='(this.settingsService.isDarkMode()) ? "tertiary" : "primary"'>
-    <ion-avatar class='bar-avatar' slot='start' *ngIf='this.studio !== undefined && this.studio.imageUrl !== undefined'>
-      <img class='avatar' [src]='this.studio.imageUrl' [alt]='this.studio.name'>
-    </ion-avatar>
-    <ion-buttons slot='start'>
-      <ion-button routerLink='/home/studios'><ion-icon class='back-icon' name='arrow-back-outline'></ion-icon>My Studios</ion-button>
-      <ion-button (click)='this.init()'><ion-icon class='refresh-icon' name='refresh-outline'></ion-icon></ion-button>
-       </ion-buttons>
-    <ion-title class='ion-text-center'>{{this.studioName}}</ion-title>
-    <ion-buttons *ngIf='!this.isLoading && !this.loadError && this.studio !== undefined' slot='end'>
-      <ion-button [routerLink]='"/home/studios/" + this.studioId' routerLinkActive='active-route' [routerLinkActiveOptions]="{exact:
-        true}">Home</ion-button>
-      <ion-button [routerLink]='"/home/studios/" + this.studioId + "/lessons"' routerLinkActive='active-route'>Lessons</ion-button>
-      <ion-button [routerLink]='"/home/studios/" + this.studioId + "/members"' routerLinkActive='active-route'>Members</ion-button>
-      <ion-button [routerLink]='"/home/studios/" + this.studioId + "/manage"' *ngIf='this.isInstructor()' routerLinkActive='active-route'>Manage</ion-button>
-    </ion-buttons>
+  <ion-toolbar color='light' *ngIf='!this.isLoading && !this.loadError && this.studio !== undefined '>
   </ion-toolbar>
+  <ion-tabs *ngIf='!this.isLoading && !this.loadError && this.studio !== undefined '>
+  <ion-tab-bar>
+        <ion-tab-button [routerLink]='"/home/studios/" + this.studioId' routerLinkActive='active-route' [routerLinkActiveOptions]="{exact:
+          true}"><ion-icon name='home'></ion-icon><ion-label>Home</ion-label></ion-tab-button>
+        <ion-tab-button [routerLink]='"/home/studios/" + this.studioId + "/lessons"' routerLinkActive='active-route'>
+          <ion-icon name='document-text'>
+          </ion-icon><ion-label>Lessons</ion-label></ion-tab-button>
+        <ion-tab-button [routerLink]='"/home/studios/" + this.studioId + "/members"' routerLinkActive='active-route'><ion-icon name='people'></ion-icon><ion-label>Members</ion-label></ion-tab-button>
+        <ion-tab-button [routerLink]='"/home/studios/" + this.studioId + "/manage"' *ngIf='this.isInstructor()' routerLinkActive='active-route'><ion-icon name='list'></ion-icon><ion-label>Manage</ion-label></ion-tab-button>
+  </ion-tab-bar>
+  </ion-tabs>
 </ion-header>
 <ion-progress-bar *ngIf='this.isLoading'></ion-progress-bar>
 <ion-content>

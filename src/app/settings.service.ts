@@ -34,4 +34,7 @@ export class SettingsService {
   isMobile() {
     return (this.platform.width() < 768);
   }
+  isWide() {
+    return (this.platform.width() >= 1200);
+  }
 }

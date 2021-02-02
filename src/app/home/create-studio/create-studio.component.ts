@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login.service';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-create-studio',
@@ -24,7 +25,7 @@ export class CreateStudioComponent implements OnInit {
     const file = event && event.item(0);
     this.file = file;
   }
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) { 
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, private userDataService: UserDataService) { 
     this.studioForm = formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -83,6 +84,8 @@ export class CreateStudioComponent implements OnInit {
     })
   }
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.userDataService.headerMessage = '';
+  }
 
 }

@@ -2,12 +2,20 @@
     margin: 2%;
     background-color: rgba(200,200,200,0.1);
 }
+.mobile-item {
+    margin: 2%;
+    background-color: rgba(200,200,200,0.1);
+}
 .viewer-box {
     height: 0vh;
 }
+.viewer-box.loaded.short {
+    height: 200px;
+    transition: all 1s;
+}
 .viewer-box.loaded {
-    height: 35vh;
-    transition: height 1s;
+    height: 350px;
+    transition: all 1s;
 }
 .viewer-box.loaded.empty {
     height: 10vh;
@@ -39,10 +47,15 @@
     height: 35vh;
 }
 .card {
-    flex-basis: 25%;
-    min-width: 20%;
+    flex-basis: 40%;
+    min-width: 300px;
+    max-width: 5vw;
     text-align: center;
     height: max-content;
+}
+.card.mobile {
+    flex-basis: 70%;
+    min-width: 60%;
 }
 .card-title {
     white-space: nowrap;
@@ -74,4 +87,7 @@ hr.music-line {
 }
 .buttons {
     color: black;
+}
+.buttons.dark {
+    color: white;
 }

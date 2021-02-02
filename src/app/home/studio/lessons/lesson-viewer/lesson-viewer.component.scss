@@ -105,6 +105,7 @@ hr.music-line {
 .section-display {
     width: 90%;
     margin: 3vh auto;
+    min-width: 300px;
 }
 .divider {
     width: 100%;
@@ -116,4 +117,28 @@ hr.music-line {
 }
 .bordered-display-ro ion-text {
     white-space: pre;
+}
+ion-item {
+    word-break: break-all;
+}
+ion-item ion-text {
+    min-width: 50px;
+}
+.small {
+    font-size: 0.7em;
+}
+.no-ml {
+    margin-left: 0;
+}
+.todo-title {
+    max-width: 50%;
+}
+.todo-description {
+    max-width: 50%;
+}
+.si-description {
+    max-width: 30vw;
+}
+.si-description.mobile {
+    max-width: 40vw;
 }

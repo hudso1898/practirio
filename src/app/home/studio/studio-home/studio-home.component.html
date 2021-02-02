@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content *ngIf='!userDataService.isLoadingStudio && studio'>
   <ion-text class='ion-text-center'><h2>{{studio.name}}</h2></ion-text>
 <ion-text class='ion-text-center description'><p>{{studio.description}}</p></ion-text>
 </ion-content>

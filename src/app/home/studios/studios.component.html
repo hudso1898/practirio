@@ -21,15 +21,32 @@
       </ion-card>
       <div *ngIf='this.loginService.userStudios.length === 0' class='middle-message'>
         <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
-        <ion-buttons class='center'>
-          <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
-          <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
-        </ion-buttons>
       </div>
   </div>
 </ion-content>
 <ion-content class='mobile-subpage' *ngIf='this.isMobile()'>
-  <ion-text class='ion-text-center'>
-    <h3>Studios</h3>
-  </ion-text>
+  <div class='sticky'>
+    <ion-progress-bar type="indeterminate" *ngIf='!this.loginService.hasFetchedUserInfo || this.userDataService.isLoadingStudios'></ion-progress-bar>
+  <ion-text class='ion-text-center'><h3>Studios</h3></ion-text>
+  <ion-buttons class='center'>
+    <ion-button routerLink='/home/studios/join'><ion-icon color='primary' name='add' class='icon-mr'></ion-icon>Join</ion-button>
+    <ion-button routerLink='/home/studios/create'><ion-icon color='success' name='create' class='icon-mr'></ion-icon>Create</ion-button>
+  </ion-buttons>
+  </div>
+  <div class='desktop-subpage' *ngIf='this.loginService.hasFetchedUserInfo && !this.userDataService.isLoadingStudios'>
+      <ion-card *ngFor='let studio of this.loginService.userStudios' class='mobile-item'>
+        <img [src]='studio.imageUrl' [alt]='studio.name' class='card-image' *ngIf='this.isTallEnough()'>
+        <ion-card-header class='card-header'><ion-card-title class='ion-text-center'>{{studio.name}}</ion-card-title></ion-card-header>
+        <ion-card-content>
+          <p class='description'>{{truncateDesc(studio.description)}}</p>
+          <ion-text *ngIf='isInstructor(studio)' color='primary'>Instructor</ion-text>
+          <ion-text *ngIf='isAssistant(studio)' color='secondary'>Assistant</ion-text>
+          <ion-text *ngIf='isStudent(studio)' color='tertiary'>Student</ion-text>
+          <ion-buttons class='buttons'><ion-button class='button' [routerLink]='"/home/studios/" + studio.id'>Studio Page</ion-button></ion-buttons>
+        </ion-card-content>
+      </ion-card>
+      <div *ngIf='this.loginService.userStudios.length === 0' class='middle-message'>
+        <ion-text class='ion-text-center'><h4>You are not currently a member of any studios.</h4></ion-text>
+      </div>
+  </div>
 </ion-content>
