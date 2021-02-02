@@ -33,7 +33,7 @@ export class JoinStudioComponent implements OnInit {
     this.userDataService.headerMessage = '';
   }
   addTag(tag) {
-    if (this.tags.includes(tag)) return;
+    if (this.tags.includes(tag) || tag === "" || tag.length < 2) return;
     this.tags.push(tag);
     this.studioForm.get("tag").setValue("");
     this.shouldRefresh = true;

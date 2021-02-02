@@ -75,6 +75,8 @@
 }
 .store-image.mobile {
     width: 100%;
+    height: fit-content;
+    max-height: 20vh;
 }
 .fb-link {
     color: black !important;

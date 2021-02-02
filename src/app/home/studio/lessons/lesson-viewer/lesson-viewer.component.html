@@ -1,5 +1,6 @@
 <ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
-<ion-content *ngIf='!loading'>
+<ion-content>
+  <div *ngIf='!loading'>
   <ion-button color='tertiary' (click)='back()' class='control-button'>
     <ion-icon class='left-icon' name='chevron-back'></ion-icon>{{this.user.firstname}}'s Lessons
   </ion-button>
@@ -101,5 +102,6 @@
     <br>
     <br>
     <br>
+  </div>
   </div>
 </ion-content>

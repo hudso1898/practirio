@@ -16,7 +16,7 @@
           <ion-text *ngIf='isInstructor(studio)' color='primary'>Instructor</ion-text>
           <ion-text *ngIf='isAssistant(studio)' color='secondary'>Assistant</ion-text>
           <ion-text *ngIf='isStudent(studio)' color='tertiary'>Student</ion-text>
-          <ion-buttons class='buttons'><ion-button class='button' [routerLink]='"/home/studios/" + studio.id'>Studio Page</ion-button></ion-buttons>
+          <ion-buttons class='buttons'><ion-button class='button' [routerLink]='"/home/studios/" + studio.id + "/home"'>Studio Page</ion-button></ion-buttons>
         </ion-card-content>
       </ion-card>
       <div *ngIf='this.loginService.userStudios.length === 0' class='middle-message'>
@@ -42,7 +42,7 @@
           <ion-text *ngIf='isInstructor(studio)' color='primary'>Instructor</ion-text>
           <ion-text *ngIf='isAssistant(studio)' color='secondary'>Assistant</ion-text>
           <ion-text *ngIf='isStudent(studio)' color='tertiary'>Student</ion-text>
-          <ion-buttons class='buttons'><ion-button class='button' [routerLink]='"/home/studios/" + studio.id'>Studio Page</ion-button></ion-buttons>
+          <ion-buttons class='buttons'><ion-button class='button' [routerLink]='"/home/studios/" + studio.id + "/home"'>Studio Page</ion-button></ion-buttons>
         </ion-card-content>
       </ion-card>
       <div *ngIf='this.loginService.userStudios.length === 0' class='middle-message'>

@@ -27,7 +27,7 @@
       </ion-item>
       <ion-item>
         <ion-label position='floating' color='medium'>Tags</ion-label>
-        <ion-input id='tag-input' formControlName='tag' type='text' name='tag' placeholder='Add a tag...' (keyup)='addTagKeyup($event)'> <ion-button color='tertiary' [disabled]='studioForm.value["tag"] === "" || tags.includes(studioForm.value["tag"])' class='right-margin'
+        <ion-input id='tag-input' formControlName='tag' type='text' name='tag' placeholder='Add a tag...' (keyup)='addTagKeyup($event)'> <ion-button color='tertiary' [disabled]='studioForm.value["tag"] === "" || tags.includes(studioForm.value["tag"]) || studioForm.value["tag"].length < 2' class='right-margin'
           (click)='addTag(studioForm.value["tag"])'>Add</ion-button></ion-input>
       </ion-item>
       <ion-item><div id='tag-display'>

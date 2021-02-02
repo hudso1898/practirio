@@ -51,7 +51,7 @@ export class CreateStudioComponent implements OnInit {
     return (this.studioForm.get(formControlName) !== undefined && (this.studioForm.get(formControlName).touched || this.studioForm.get(formControlName).dirty) && !this.studioForm.get(formControlName).valid) ? "danger" : "medium";
   }
   addTag(tag) {
-    if (this.tags.includes(tag)) return;
+    if (this.tags.includes(tag) || tag === "" || tag.length < 2) return;
     this.tags.push(tag);
     this.studioForm.get("tag").setValue("");
   }

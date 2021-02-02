@@ -1,17 +1,20 @@
-<ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
-<ion-content *ngIf='!loading'>
-  <ion-toolbar color='light' id='controls' *ngIf='!settingsService.isMobile()' transparent>
+<ion-header>
+  <ion-toolbar color='light' id='controls' *ngIf='!settingsService.isMobile()'>
     <ion-button slot='end' color='dark' (click)='clearLessonNotes()' class='control-button'><ion-icon color='warning' name='trash-outline' class='add-button'></ion-icon>Clear</ion-button>
     <ion-button slot='end' color='dark' (click)='saveLessonNotes()' class='control-button'><ion-icon name='save' class='add-button'></ion-icon>Save Locally</ion-button>
     <ion-button slot='end' color='dark' (click)='submit()' class='control-button submit'><ion-icon name='arrow-up' color='success' class='add-button'></ion-icon>Submit</ion-button>
   </ion-toolbar>
-  <ion-toolbar color='light' id='controls' *ngIf='settingsService.isMobile()' transparent>
+  <ion-toolbar id='controls' *ngIf='settingsService.isMobile()'>
     <ion-buttons slot='end'>
     <ion-button slot='end' color='dark' (click)='clearLessonNotes()' class='control-button'><ion-icon color='warning' name='trash-outline' class='add-button'></ion-icon></ion-button>
     <ion-button slot='end' color='dark' (click)='saveLessonNotes()' class='control-button'><ion-icon name='save' class='add-button'></ion-icon>Save</ion-button>
     <ion-button slot='end' color='dark' (click)='submit()' class='control-button submit'><ion-icon name='arrow-up' color='success' class='add-button'></ion-icon>Submit</ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
+</ion-header>
+<ion-content>
+  <div ngIf='!loading'>
   <ion-text class='ion-text-center'><h2>Lesson {{this.lesson.id}}</h2></ion-text>
   <ion-text class='ion-text-center'><h4>{{this.user.firstname + " " + this.user.lastname}} | {{displayDate(lesson.date)}}</h4></ion-text>
   <div class='music-lines'>
@@ -433,5 +436,6 @@
     <br>
     <br>
     <br>
+  </div>
   </div>
 </ion-content>

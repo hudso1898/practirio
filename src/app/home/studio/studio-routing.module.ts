@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LessonEditorComponent } from './lessons/lesson-editor/lesson-editor.component';
-import { UserLessonsComponent } from './lessons/user-lessons/user-lessons.component';
 import { StudioApplicantsComponent } from './studio-applicants/studio-applicants.component';
 import { StudioHomeComponent } from './studio-home/studio-home.component';
 import { StudioManageComponent } from './studio-manage/studio-manage.component';
@@ -15,7 +13,7 @@ const routes: Routes = [
     component: StudioPage,
     children: [
       {
-        path: '',
+        path: 'home',
         component: StudioHomeComponent
       },
       {
