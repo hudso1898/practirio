@@ -14,7 +14,7 @@
   <ion-progress-bar type='indeterminate' *ngIf='loading'></ion-progress-bar>
 </ion-header>
 <ion-content>
-  <div ngIf='!loading'>
+  <div *ngIf='!loading'>
   <ion-text class='ion-text-center'><h2>Lesson {{this.lesson.id}}</h2></ion-text>
   <ion-text class='ion-text-center'><h4>{{this.user.firstname + " " + this.user.lastname}} | {{displayDate(lesson.date)}}</h4></ion-text>
   <div class='music-lines'>

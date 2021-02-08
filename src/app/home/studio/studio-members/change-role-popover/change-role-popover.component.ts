@@ -22,7 +22,7 @@ export class ChangeRolePopoverComponent implements OnInit {
 
   confirm(type: string) {
     this.userDataService.changeStudioRole(this.loginService.user.id, this.loginService.user.currentSessionId, this.studio.id, this.user.id, type).subscribe(res => {
-      this.emitter.emit('init');
+      this.userDataService.triggerUpdateStudio.emit();
       this.popoverController.dismiss();
     });
     

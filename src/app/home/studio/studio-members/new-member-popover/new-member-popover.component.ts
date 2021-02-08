@@ -78,7 +78,7 @@ export class NewMemberPopoverComponent implements OnInit {
           if (completed === this.newMembers.length) {
             this.apiComplete = true;
             this.apiRunning = false;
-            this.done.emit('init');
+            this.userDataService.triggerUpdateStudio.emit();
             setTimeout(() => {
               this.done.emit(this.newMemberRole);
             }, 4000);

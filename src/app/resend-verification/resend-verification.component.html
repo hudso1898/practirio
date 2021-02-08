@@ -1,0 +1,18 @@
+<ion-content>
+  <br>
+  <ion-buttons>
+<ion-button id='back' routerLink='/register'><ion-icon class='margin-r' name='chevron-back'></ion-icon>Register</ion-button>
+</ion-buttons>
+<ion-text class='ion-text-center'><h2>Resend Verification Email</h2></ion-text>
+
+<br>
+
+<ion-text class='ion-text-center'><p>Enter the email you created an account with to resend the verification email.</p></ion-text>
+
+<ion-input [(ngModel)]='email' (keyup)='emailKeyup($event)' placeholder='Account Email'></ion-input>
+
+<ion-item>
+<ion-button (click)='resendVerification()' class='middle-button' [disabled]='this.email === ""'>Resend</ion-button>
+</ion-item>
+<ion-text class='ion-text-center' *ngIf='this.text'><p>{{this.text}}</p></ion-text>
+</ion-content>

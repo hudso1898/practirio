@@ -56,6 +56,9 @@
   <ion-item id="register-spinner-item" lines="none" *ngIf='isRegistering'>
     <ion-spinner id="register-spinner" name="dots"></ion-spinner>
   </ion-item>
+  <ion-item>
+  <ion-button routerLink='/resendVerification' class='middle-button'>Resend Verification Email</ion-button>
+  </ion-item>
     <ion-item-group class="error-field-group">
       <ion-item *ngIf='regError' lines="none" class='error-field'>
         <ion-icon class='alert-icon' name="alert-circle-outline" color="danger"></ion-icon><ion-text>{{regErrorMessage}}</ion-text>

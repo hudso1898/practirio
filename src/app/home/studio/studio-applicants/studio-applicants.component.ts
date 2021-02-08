@@ -51,6 +51,7 @@ export class StudioApplicantsComponent implements OnInit {
           handler: () => {
             this.userDataService.denyStudioApplication(this.loginService.user.id, this.loginService.user.currentSessionId, this.userDataService.studio.id, id).subscribe((res: {ok: boolean}) => {
               if (res.ok) this.userDataService.studio.applicants.splice(this.userDataService.studio.applicants.indexOf(id), 1);
+              this.userDataService.triggerUpdateStudio.emit();
               this.alertController.dismiss();
             });
           }

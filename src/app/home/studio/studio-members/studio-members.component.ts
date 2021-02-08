@@ -54,7 +54,7 @@ export class StudioMembersComponent implements OnInit {
     .fromTo('opacity', 0, 1);
     animation.play();
     if (this.instructorPopover) this.instructorPopover.done.subscribe(ev => {
-      if (ev === 'init') this.update.emit('init');
+      if (ev === 'init') this.userDataService.triggerUpdateStudio.emit();
       else this.disableAddInstructor()
     });
     }, 100);
@@ -69,7 +69,7 @@ export class StudioMembersComponent implements OnInit {
     .fromTo('opacity', 0, 1);
     animation.play();
     if (this.assistantPopover) this.assistantPopover.done.subscribe(ev => {
-      if (ev === 'init') this.update.emit('init');
+      if (ev === 'init') this.userDataService.triggerUpdateStudio.emit();
       else this.disableAddAssistant()
     });
     }, 100);
@@ -85,7 +85,7 @@ export class StudioMembersComponent implements OnInit {
     .fromTo('opacity', 0, 1);
     animation.play();
     if (this.studentPopover) this.studentPopover.done.subscribe(ev => {
-      if (ev === 'init') this.update.emit('init');
+      if (ev === 'init') this.userDataService.triggerUpdateStudio.emit();
       else this.disableAddStudent()
     });
     }, 100);
@@ -161,7 +161,7 @@ export class StudioMembersComponent implements OnInit {
           handler: () => {
             this.userDataService.removeUserFromStudio(this.loginService.user.id, this.loginService.user.currentSessionId, this.studio.id, id).subscribe((res: {ok: boolean}) => {
               if (res.ok) {
-                this.update.emit('init');
+                this.userDataService.triggerUpdateStudio.emit();
                 this.alertController.dismiss();
               }
             });

@@ -282,6 +282,9 @@ export class LoginService {
    verifyAccount(verifyId: string) {
      return this.http.post(this.apiUrl + 'verifyUser', { verifyId: verifyId});
    }
+   resendVerification(email: string) {
+     return this.http.post(this.apiUrl + 'resendVerification', {email: email});
+   }
    isTokenPresent(): boolean {
      return this.tokenPresent;
    }

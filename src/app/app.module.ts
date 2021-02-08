@@ -12,9 +12,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { ResendVerificationComponent } from './resend-verification/resend-verification.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ResendVerificationComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
